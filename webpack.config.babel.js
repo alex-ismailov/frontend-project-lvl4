@@ -17,6 +17,7 @@ module.exports = {
     path: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
   },
+  devtool: process.env.NODE_ENV === 'production' ? false : 'source-map',
   devServer: {
     host: 'localhost',
     port: 8080,
