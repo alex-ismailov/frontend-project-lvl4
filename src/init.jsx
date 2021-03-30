@@ -7,6 +7,7 @@ import currentChannelIdReducer from './slices/currentChannelId.js';
 import App from './App.jsx';
 
 
+
 export default (gon) => {
   const preloadedState = { ...gon };
   const store = configureStore({
