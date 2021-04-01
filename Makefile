@@ -22,7 +22,7 @@ test-watch:
 	npm run test-watch
 
 test-coverage:
-	npm test -- --coverage
+	npm test -- --coverage --coverageProvider=v8
 
 lint:
 	npx eslint --ext .jsx,.js ./src/
