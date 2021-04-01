@@ -10,6 +10,9 @@
 
 // import { render, screen } from '@testing-library/react';
 
+// STUB
+test.skip('stub test', () => {});
+
 // const gon = {
 //   channels: [
 //     { id: 1, name: 'general', removable: false },
