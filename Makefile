@@ -25,10 +25,10 @@ test-coverage:
 	npm test -- --coverage
 
 lint:
-	npx eslint ./src/ --ext js,jsx
+	npx eslint --ext .jsx,.js ./src/
 
 lint-fix:
-	npx eslint ./src/ --fix --ext js,jsx
+	npx eslint --fix --ext .jsx,.js ./src/ 
 
 publish:
 	npm publish
