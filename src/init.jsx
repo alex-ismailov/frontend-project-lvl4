@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import textReducer from './slices/text.js';
 import channelsReducer from './slices/channels.js';
 import messagesReducer from './slices/messages.js';
 import currentChannelIdReducer from './slices/currentChannelId.js';
@@ -10,6 +11,7 @@ export default (gon) => {
   const preloadedState = { ...gon };
   const store = configureStore({
     reducer: {
+      text: textReducer,
       channels: channelsReducer,
       messages: messagesReducer,
       currentChannelId: currentChannelIdReducer,
