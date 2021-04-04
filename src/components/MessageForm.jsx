@@ -27,15 +27,15 @@ const MessageForm = () => (
   >
     {({ isValid }) => {
       const inputContainerClasses = cn('input-group', {
-        'has-validation': !isValid, // bool ГДе храниить это состояние ???
+        'has-validation': !isValid,
       });
       const inputClasses = cn('form-control', {
-        'is-invalid': !isValid, // bool ГДе храниить это состояние ???
+        'is-invalid': !isValid,
       });
 
       return (
         <div className="mt-auto">
-          <Form noValidate class>
+          <Form noValidate>
             <div className={inputContainerClasses}>
               <Field
                 type="text"
