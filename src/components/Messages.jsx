@@ -1,12 +1,14 @@
 import React from 'react';
 
-/* there will be rendered component messages-box */
-const Messages = () => (
+const buildMessage = ({ id, nickname, body }) => (
+  <div key={id} className="text-break">
+    <b>{nickname}</b>: {body}
+  </div>
+);
+
+const Messages = ({ messages }) => (
   <div id="messages-box" className="chat-messages overflow-auto mb-3">
-    {/* text-break это TextItem компонент */}
-    <div className="text-break">
-      <b>Keith.Wolff43</b>: dfasdssdfa
-    </div>
+    {messages && messages.map(buildMessage)}
   </div>
 );
 
