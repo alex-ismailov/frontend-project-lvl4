@@ -2,14 +2,27 @@
 
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addNewMessage } from './slices/messages.js';
 
 import Channels from './components/Channels.jsx';
-import Chat from './components/Chat.jsx';
+import MessageForm from './components/MessageForm.jsx';
+import Messages from './components/Messages.jsx';
 
-const App = () => {
-  const channels = useSelector((state) => state.channels);
-  const currentChannelId = useSelector((state) => state.currentChannelId);
+const App = ({ socket }) => {
+  const { channels } = useSelector((state) => state.channels);
+  const { currentChannelId } = useSelector((state) => state.currentChannelId);
+  const { messages } = useSelector((state) => state.messages);
+  const dispatch = useDispatch();
+
+  socket.on('connect', () => {
+    socket.on('newMessage', (arg) => {
+      const {
+        data: { attributes: message },
+      } = arg;
+      dispatch(addNewMessage({ message }));
+    });
+  });
 
   return (
     <Row className="h-100 pb-3">
@@ -17,7 +30,10 @@ const App = () => {
         <Channels channels={channels} currentChannelId={currentChannelId} />
       </Col>
       <Col className="h-100">
-        <Chat />
+        <div className="d-flex flex-column h-100">
+          <Messages messages={messages} />
+          <MessageForm currentChannelId={currentChannelId} />
+        </div>
       </Col>
     </Row>
   );
