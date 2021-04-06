@@ -8,12 +8,13 @@ const slice = createSlice({
     messages: [],
   },
   reducers: {
-    addMessage: (state, { payload: { message } }) => { // eslint-disable-line
-      // TODO: logic
+    addNewMessage: (state, { payload: { message } }) => {
+      // @ts-ignore
+      state.messages.push(message);
     },
   },
 });
 
-export const { addMessage } = slice.actions;
+export const { addNewMessage } = slice.actions;
 
 export default slice.reducer;
