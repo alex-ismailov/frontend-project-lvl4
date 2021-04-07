@@ -9,7 +9,8 @@ import ReactDOM from 'react-dom';
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
 import faker from 'faker';
-import init from './init.jsx';
+import createStore from './app/store.js';
+import init from './app/init.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -23,9 +24,11 @@ if (!Cookies.get('userName')) {
   Cookies.set('userName', fakeName, { expires: 30 });
 }
 
-const userName = Cookies.get('userName');
+const store = createStore(gon);
 const socket = io();
+const userName = Cookies.get('userName');
 const container = document.querySelector('#chat');
 
-const vdom = init(gon, socket, userName);
+const vdom = init(store, socket, userName);
+
 ReactDOM.render(vdom, container);

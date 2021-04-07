@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
 import axios from 'axios';
-import UserNameContext from '../context/UserNameContext.js';
-import routes from '../routes.js';
+import UserNameContext from '../../context/UserNameContext.js';
+import routes from '../../common/routes.js';
 
 const sendMessage = async (currentChannelId, messageData) => {
   const url = routes.channelMessagesPath(currentChannelId);
@@ -26,8 +27,9 @@ const sendMessage = async (currentChannelId, messageData) => {
   }
 };
 
-const MessageForm = ({ currentChannelId }) => {
+const MessageForm = () => {
   const userName = useContext(UserNameContext);
+  const { currentChannelId } = useSelector((state) => state.currentChannelId);
 
   return (
     <Formik

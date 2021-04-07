@@ -1,9 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import cn from 'classnames';
 import { Nav } from 'react-bootstrap';
 
-const Channels = (props) => {
-  const { channels, currentChannelId } = props;
+const Channels = () => {
+  const { channels } = useSelector((state) => state.channels);
+  const { currentChannelId } = useSelector((state) => state.currentChannelId);
 
   const buildChannelItem = ({ id, name }) => {
     const classes = cn('nav-link btn-block mb-2 text-left btn', {
