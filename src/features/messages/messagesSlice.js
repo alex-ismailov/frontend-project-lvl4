@@ -4,13 +4,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'messages',
-  initialState: {
-    messages: [],
-  },
+  initialState: [],
   reducers: {
     addNewMessage: (state, { payload: { message } }) => {
       // @ts-ignore
-      state.messages.push(message);
+      state.push(message);
     },
   },
 });
