@@ -57,7 +57,6 @@ const MessageForm = () => {
       }}
     >
       {({ isValid }) => {
-        console.log(`user name from MessageForm component: ${userName}`);
         const inputContainerClasses = cn('input-group', {
           'has-validation': !isValid,
         });
