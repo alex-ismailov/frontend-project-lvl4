@@ -9,7 +9,7 @@ const buildMessage = ({ id, nickname, body }) => (
 );
 
 const Messages = ({ socket }) => {
-  const { messages } = useSelector((state) => state.messages);
+  const messages = useSelector((state) => state.messages);
   const dispatch = useDispatch();
 
   socket.on('connect', () => {
