@@ -4,8 +4,8 @@ import cn from 'classnames';
 import { Nav } from 'react-bootstrap';
 
 const Channels = () => {
-  const { channels } = useSelector((state) => state.channels);
-  const { currentChannelId } = useSelector((state) => state.currentChannelId);
+  const channels = useSelector((state) => state.channels);
+  const currentChannelId = useSelector((state) => state.currentChannelId);
 
   const buildChannelItem = ({ id, name }) => {
     const classes = cn('nav-link btn-block mb-2 text-left btn', {
