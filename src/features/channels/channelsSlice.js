@@ -4,9 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'channels',
-  initialState: {
-    channels: [],
-  },
+  initialState: [],
   reducers: {
     addChannel: (state, { payload: { channel } }) => { // eslint-disable-line
       // TODO: logic
