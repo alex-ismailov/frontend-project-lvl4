@@ -7,7 +7,7 @@ import axios from 'axios';
 import UserNameContext from '../../context/UserNameContext.js';
 import routes from '../../common/routes.js';
 
-const sendMessage = async (currentChannelId, messageData) => {
+const sendMessage = async (currentChannelId, messageData, resetForm) => {
   const url = routes.channelMessagesPath(currentChannelId);
   const postData = {
     data: {
@@ -18,12 +18,11 @@ const sendMessage = async (currentChannelId, messageData) => {
   };
   try {
     await axios.post(url, postData);
-    // вместо тела нового сообщения из response лучше воспользоваться
-    // websocketom
+    resetForm();
   } catch (error) {
-    // если что пошло не так надо как то сообщить об этом
-    // через feedback под инпутом
-    console.log(error);
+    setTimeout(() => {
+      sendMessage(currentChannelId, messageData, resetForm);
+    }, 3000);
   }
 };
 
@@ -40,20 +39,13 @@ const MessageForm = () => {
         body: yup.string().required('Required'),
       })}
       validateOnBlur={false}
-      onSubmit={({ body }, actions) => {
-        // alert(JSON.stringify(values, null, 2));
-        actions.setSubmitting(false);
-        actions.resetForm();
-        // это функция еще меняет состояние приложения
-        // loading: {
-        //   processState: loadingStateMap.idle, // см. 3 проект
-        //   error: null,
-        // },
+      onSubmit={async ({ body }, { setSubmitting, resetForm }) => {
+        setSubmitting(false);
         const messageData = {
           nickname: userName,
           body,
         };
-        sendMessage(currentChannelId, messageData);
+        sendMessage(currentChannelId, messageData, resetForm);
       }}
     >
       {({ isValid }) => {
