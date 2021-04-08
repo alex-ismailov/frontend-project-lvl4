@@ -29,7 +29,7 @@ const sendMessage = async (currentChannelId, messageData) => {
 
 const MessageForm = () => {
   const userName = useContext(UserNameContext);
-  const { currentChannelId } = useSelector((state) => state.currentChannelId);
+  const currentChannelId = useSelector((state) => state.currentChannelId);
 
   return (
     <Formik
