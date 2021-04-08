@@ -8,6 +8,7 @@ plugins:
 extends:
   - airbnb
   - plugin:jsx-a11y/recommended
+  - 'plugin:react-hooks/recommended'
   - prettier
   - "plugin:jest/recommended"
   - "plugin:functional/external-recommended"
