@@ -6,10 +6,8 @@ import '../assets/application.scss';
 // @ts-ignore
 import gon from 'gon';
 import ReactDOM from 'react-dom';
-import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
 import faker from 'faker';
-import createStore from './app/store.js';
 import init from './app/init.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -24,11 +22,9 @@ if (!Cookies.get('userName')) {
   Cookies.set('userName', fakeName, { expires: 30 });
 }
 
-const store = createStore(gon);
-const socket = io();
 const userName = Cookies.get('userName');
 const container = document.querySelector('#chat');
 
-const vdom = init(store, socket, userName);
+const vdom = init(gon, userName);
 
 ReactDOM.render(vdom, container);
