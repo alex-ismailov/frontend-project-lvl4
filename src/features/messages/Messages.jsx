@@ -8,11 +8,15 @@ const buildMessage = ({ id, nickname, body }) => (
 );
 
 const Messages = () => {
+  const currentChannelId = useSelector((state) => state.currentChannelId);
   const messages = useSelector((state) => state.messages);
+  const currentChannelMessages = messages.filter(
+    ({ channelId }) => channelId === currentChannelId
+  );
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
-      {messages && messages.map(buildMessage)}
+      {currentChannelMessages && currentChannelMessages.map(buildMessage)}
     </div>
   );
 };
