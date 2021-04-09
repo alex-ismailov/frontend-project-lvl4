@@ -1,4 +1,5 @@
 // @ts-check
+/* eslint no-param-reassign: 0 */
 
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -6,12 +7,13 @@ const slice = createSlice({
   name: 'currentChannelId',
   initialState: null,
   reducers: {
-    addCurrentChannelId: (state, { payload: { currentChannelId } }) => { // eslint-disable-line
-      // TODO: logic
+    setCurrentChannelId: (state, { payload: { channelId } }) => {
+      state = channelId;
+      return state;
     },
   },
 });
 
-export const { addCurrentChannelId } = slice.actions;
+export const { setCurrentChannelId } = slice.actions;
 
 export default slice.reducer;
