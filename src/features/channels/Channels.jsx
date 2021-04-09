@@ -1,26 +1,30 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { Nav } from 'react-bootstrap';
+import { setCurrentChannelId } from './currentChannelIdSlice.js';
+
+const buildNavItem = (id, name, currentChannelId, handleChannel) => {
+  const classes = cn('nav-link btn-block mb-2 text-left btn', {
+    'btn-primary': id === currentChannelId,
+    'btn-light': id !== currentChannelId,
+  });
+  return (
+    <Nav.Item key={id}>
+      <button type="button" className={classes} onClick={handleChannel}>
+        {name}
+      </button>
+    </Nav.Item>
+  );
+};
 
 const Channels = () => {
   const channels = useSelector((state) => state.channels);
   const currentChannelId = useSelector((state) => state.currentChannelId);
+  const dispatch = useDispatch();
 
-  const buildChannelItem = ({ id, name }) => {
-    const classes = cn('nav-link btn-block mb-2 text-left btn', {
-      'btn-primary': id === currentChannelId,
-      'btn-light': id !== currentChannelId,
-    });
-
-    return (
-      <Nav.Item key={id}>
-        <button type="button" className={classes}>
-          {name}
-        </button>
-      </Nav.Item>
-    );
-  };
+  const handleChannel = (channelId) => () =>
+    dispatch(setCurrentChannelId({ channelId }));
 
   return (
     <>
@@ -31,7 +35,10 @@ const Channels = () => {
         </button>
       </div>
       <Nav className="flex-column nav-pills nav-fill">
-        {channels.length > 0 && channels.map(buildChannelItem)}
+        {channels.length > 0 &&
+          channels.map(({ id, name }) =>
+            buildNavItem(id, name, currentChannelId, handleChannel(id))
+          )}
       </Nav>
     </>
   );
