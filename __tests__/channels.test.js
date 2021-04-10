@@ -1,9 +1,9 @@
 // @ts-check
 
-import path from 'path';
+// TODO rewrite tests
 import buildApp from '../server/index.js';
 
-const buildUrl = (url) => path.join('/api/v1/', url);
+const buildUrl = (url) => `/api/v1/${url}`;
 
 test('get /channels', async () => {
   const app = buildApp({ port: 5000 });
@@ -17,21 +17,25 @@ test('get /channels', async () => {
       type: 'channels',
       id: expect.any(Number),
       attributes: {
-        id: expect.any(Number), name: 'general', removable: false,
+        id: expect.any(Number),
+        name: 'general',
+        removable: false,
       },
     },
     {
       type: 'channels',
       id: expect.any(Number),
       attributes: {
-        id: expect.any(Number), name: 'random', removable: false,
+        id: expect.any(Number),
+        name: 'random',
+        removable: false,
       },
     },
   ];
   expect(JSON.parse(response.payload)).toEqual(
     expect.objectContaining({
       data: expect.arrayContaining(channels),
-    }),
+    })
   );
 });
 
@@ -66,9 +70,7 @@ test('post /channels', async () => {
 
 test('delete /channels/:id', async () => {
   const state = {
-    channels: [
-      { id: 100, name: 'custom', removable: true },
-    ],
+    channels: [{ id: 100, name: 'custom', removable: true }],
   };
   const app = buildApp({ state });
   const response = await app.inject({
@@ -80,9 +82,7 @@ test('delete /channels/:id', async () => {
 
 test('patch /channels/:id', async () => {
   const state = {
-    channels: [
-      { id: 100, name: 'custom', removable: true },
-    ],
+    channels: [{ id: 100, name: 'custom', removable: true }],
   };
 
   const app = buildApp({ state });

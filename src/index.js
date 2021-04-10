@@ -1,10 +1,10 @@
 // @ts-check
 
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
 // @ts-ignore
-import gon from 'gon';
+// import gon from 'gon';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
 import faker from 'faker';
@@ -21,6 +21,8 @@ if (!Cookies.get('userName')) {
   const fakeName = `${firstName}.${lastName}${randomNumber}`;
   Cookies.set('userName', fakeName, { expires: 30 });
 }
+
+const gon = {};
 
 const userName = Cookies.get('userName');
 const container = document.querySelector('#chat');
