@@ -4,6 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Chat from '../features/chat/Chat.jsx';
 import LoginForm from '../features/loginForm/LoginForm.jsx';
+import NoMatch from '../features/noMatch/NoMatch.jsx';
 
 const App = () => (
   <div className="d-flex flex-column h-100">
@@ -21,22 +22,12 @@ const App = () => (
         <Route path="/login">
           <LoginForm />
         </Route>
+        <Route path="*">
+          <NoMatch />
+        </Route>
       </Switch>
     </Router>
   </div>
 );
 
 export default App;
-
-// Раньше Легаси код стартовал с этого
-// <Row className="h-100 pb-3">
-//     <Col xs={3} className="border-right">
-//       <Channels />
-//     </Col>
-//     <Col className="h-100">
-//       <div className="d-flex flex-column h-100">
-//         <Messages />
-//         <MessageForm />
-//       </div>
-//     </Col>
-//   </Row>
