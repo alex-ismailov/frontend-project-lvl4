@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import channelsReducer from '../features/channels/channelsSlice.js';
-import messagesReducer from '../features/messages/messagesSlice.js';
-import currentChannelIdReducer from '../features/channels/currentChannelIdSlice.js';
+import channelsReducer from '../features/chat/channels/channelsSlice.js';
+import messagesReducer from '../features/chat/messages/messagesSlice.js';
+import currentChannelIdReducer from '../features/chat/channels/currentChannelIdSlice.js';
 
 export default (preloadedState = null) => {
   const store = configureStore({

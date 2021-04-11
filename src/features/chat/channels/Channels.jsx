@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
-import { Nav } from 'react-bootstrap';
+import { Nav, Button } from 'react-bootstrap';
 import { setCurrentChannelId } from './currentChannelIdSlice.js';
 
 const buildNavItem = (id, name, currentChannelId, handleChannel) => {
@@ -11,7 +11,7 @@ const buildNavItem = (id, name, currentChannelId, handleChannel) => {
   });
   return (
     <Nav.Item key={id}>
-      <button type="button" className={classes} onClick={handleChannel}>
+      <button type="button" className={classes} onClick={handleChannel(id)}>
         {name}
       </button>
     </Nav.Item>
@@ -30,14 +30,14 @@ const Channels = () => {
     <>
       <div className="d-flex mb-2">
         <span>Channels</span>
-        <button type="button" className="ml-auto p-0 btn btn-link">
+        <Button variant="link" className="ml-auto p-0">
           +
-        </button>
+        </Button>
       </div>
       <Nav className="flex-column nav-pills nav-fill">
         {channels.length > 0 &&
           channels.map(({ id, name }) =>
-            buildNavItem(id, name, currentChannelId, handleChannel(id))
+            buildNavItem(id, name, currentChannelId, handleChannel)
           )}
       </Nav>
     </>

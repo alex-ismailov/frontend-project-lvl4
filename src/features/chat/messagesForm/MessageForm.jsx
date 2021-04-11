@@ -1,34 +1,35 @@
 import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
-import axios from 'axios';
-import UserNameContext from '../../context/UserNameContext.js';
-import routes from '../../common/routes.js';
+// import axios from 'axios';
+import UserNameContext from '../../../context/UserNameContext.js';
+// import routes from '../../../common/routes.js';
 
-const sendMessage = async (currentChannelId, messageData, resetForm) => {
-  const url = routes.channelMessagesPath(currentChannelId);
-  const postData = {
-    data: {
-      attributes: {
-        ...messageData,
-      },
-    },
-  };
-  try {
-    await axios.post(url, postData);
-    resetForm();
-  } catch (error) {
-    setTimeout(() => {
-      sendMessage(currentChannelId, messageData, resetForm);
-    }, 3000);
-  }
-};
+// Это надо фиксить так как изменилась сервеная часть !!!
+// const sendMessage = async (currentChannelId, messageData, resetForm) => {
+//   const url = routes.channelMessagesPath(currentChannelId);
+//   const postData = {
+//     data: {
+//       attributes: {
+//         ...messageData,
+//       },
+//     },
+//   };
+//   try {
+//     await axios.post(url, postData);
+//     resetForm();
+//   } catch (error) {
+//     setTimeout(() => {
+//       sendMessage(currentChannelId, messageData, resetForm);
+//     }, 3000);
+//   }
+// };
 
 const MessageForm = () => {
   const userName = useContext(UserNameContext);
-  const currentChannelId = useSelector((state) => state.currentChannelId);
+  // const currentChannelId = useSelector((state) => state.currentChannelId);
 
   return (
     <Formik
@@ -45,7 +46,10 @@ const MessageForm = () => {
           nickname: userName,
           body,
         };
-        sendMessage(currentChannelId, messageData, resetForm);
+        alert(JSON.stringify(messageData, null, '  '));
+        resetForm();
+        // Это надо фиксить так как изменилась сервеная часть !!!
+        // sendMessage(currentChannelId, messageData, resetForm);
       }}
     >
       {({ isValid }) => {

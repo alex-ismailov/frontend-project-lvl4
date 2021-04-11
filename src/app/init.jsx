@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import { UserNameProvider } from '../context/UserNameContext.js';
 import createStore from './store.js';
-import { addNewMessage } from '../features/messages/messagesSlice.js';
+import { addNewMessage } from '../features/chat/messages/messagesSlice.js';
 import App from './App.jsx';
 
 export default (preloadedState, userName) => {
