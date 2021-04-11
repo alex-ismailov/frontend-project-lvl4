@@ -20,9 +20,9 @@ const LoginForm = () => (
           }}
           onSubmit={async (values, actions) => {
             actions.setSubmitting(false);
-            console.log(values);
-            console.log(actions);
+            alert(JSON.stringify(values, null, '  '));
             // const isValidUser = await validateLoginPassword();
+            actions.resetForm();
           }}
         >
           {({ isValid }) => (
