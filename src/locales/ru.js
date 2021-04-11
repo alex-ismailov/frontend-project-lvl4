@@ -10,5 +10,6 @@ export default {
     send: 'Отправить',
     minMaxCharacters: 'От 3 до 20 символов',
     minCharacters: 'Не менее 6 символов',
+    haveNoAccount: 'Нет аккаунта?',
   },
 };
