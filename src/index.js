@@ -8,7 +8,6 @@ import '../assets/application.scss';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
 import faker from 'faker';
-import './i18n.js';
 import init from './app/init.jsx';
 
 if (process.env.NODE_ENV !== 'production') {

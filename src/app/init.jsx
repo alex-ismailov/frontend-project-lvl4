@@ -1,4 +1,5 @@
 import React from 'react';
+import '../i18n.js';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import { UserNameProvider } from '../context/UserNameContext.js';
