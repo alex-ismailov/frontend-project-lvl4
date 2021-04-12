@@ -1,10 +1,25 @@
 // @ts-check
 
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import Chat from '../features/chat/Chat.jsx';
 import LoginForm from '../features/loginForm/LoginForm.jsx';
 import NoMatch from '../features/noMatch/NoMatch.jsx';
+
+const isLoggedIn = () => {
+  const res = !!localStorage.getItem('token');
+  console.log(res);
+  return res;
+};
+// const isLoggedIn = () => {
+//   console.log('isLoggedIn works');
+//   return false;
+// };
 
 const App = () => (
   <div className="d-flex flex-column h-100">
@@ -17,10 +32,11 @@ const App = () => (
     <Router>
       <Switch>
         <Route exact path="/">
-          <Chat />
+          {isLoggedIn() ? <Chat /> : <Redirect to="/login" />}
         </Route>
         <Route path="/login">
           <LoginForm />
+          {/* {isLoggedIn() ? <Redirect to="/"/> : <LoginForm /> } */}
         </Route>
         <Route path="*">
           <NoMatch />

@@ -17,8 +17,10 @@ import routes from '../../common/routes.js';
 const login = async (loginData, actions, history) => {
   actions.setSubmitting(false);
   try {
+    console.log('success');
     const response = await axios.post(routes.loginPath(), loginData);
     const { token } = response.data; // здесь надо еще достать username чтбы прокинуть его в контекст
+    // localStorage.clear();
     localStorage.setItem('token', token);
     // надо сохранить username в контекст
     history.push('/');
@@ -31,6 +33,7 @@ const login = async (loginData, actions, history) => {
 const LoginForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  console.log(history);
 
   return (
     <div className="container-fluid">
@@ -41,9 +44,9 @@ const LoginForm = () => {
               username: '',
               password: '',
             }}
-            onSubmit={(loginData, actions) =>
-              login(loginData, actions, history)
-            }
+            onSubmit={(loginData, actions) => {
+              login(loginData, actions, history);
+            }}
             validateOnBlur={false}
             validateOnChange={false}
           >
