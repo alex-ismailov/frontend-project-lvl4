@@ -3,12 +3,11 @@ import '../i18n.js';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import { BrowserRouter } from 'react-router-dom';
-import { UserNameProvider } from '../context/UserNameContext.js';
 import createStore from './store.js';
 import { addNewMessage } from '../features/chat/messages/messagesSlice.js';
 import App from './App.jsx';
 
-export default (preloadedState, userName) => {
+export default (preloadedState = {}) => {
   const store = createStore(preloadedState);
 
   const socket = io();
@@ -21,11 +20,9 @@ export default (preloadedState, userName) => {
 
   return (
     <Provider store={store}>
-      <UserNameProvider value={userName}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </UserNameProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   );
 };
