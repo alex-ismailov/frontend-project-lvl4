@@ -28,7 +28,7 @@ import UserNameContext from '../../../context/UserNameContext.js';
 // };
 
 const MessageForm = () => {
-  const userName = useContext(UserNameContext);
+  const username = useContext(UserNameContext);
   // const currentChannelId = useSelector((state) => state.currentChannelId);
 
   return (
@@ -43,7 +43,7 @@ const MessageForm = () => {
       onSubmit={async ({ body }, { setSubmitting, resetForm }) => {
         setSubmitting(false);
         const messageData = {
-          nickname: userName,
+          nickname: username,
           body,
         };
         alert(JSON.stringify(messageData, null, '  '));
