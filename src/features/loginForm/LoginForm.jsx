@@ -18,13 +18,12 @@ const login = async (loginData, actions, history) => {
   actions.setSubmitting(false);
   try {
     const response = await axios.post(routes.loginPath(), loginData);
-    const { token } = response.data; // здесь надо еще достать username чтбы прокинуть его в контекст // <= TODO
+    const { token, username } = response.data;
     localStorage.setItem('token', token);
-    // надо сохранить username в контекст // <= TODO
+    localStorage.setItem('username', username);
     history.push('/');
   } catch (error) {
     console.log(error);
-    console.log('CATCH BLOCK');
     actions.setErrors('invalidUsernameOrPassword');
     // надо еще что-то сделать на случай Network error
   }
