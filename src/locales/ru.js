@@ -1,5 +1,6 @@
 export default {
   translation: {
+    hexletChat: 'Hexlet чат',
     yourNickname: 'Ваш ник',
     password: 'Пароль',
     login: 'Войти',
@@ -11,5 +12,6 @@ export default {
     minMaxCharacters: 'От 3 до 20 символов',
     minCharacters: 'Не менее 6 символов',
     haveNoAccount: 'Нет аккаунта?',
+    exit: 'Выйти',
   },
 };
