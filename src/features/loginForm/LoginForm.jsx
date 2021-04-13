@@ -6,6 +6,7 @@ import { Formik, Form, Field } from 'formik';
 import { Row, Col, Button, FormGroup, FormLabel } from 'react-bootstrap';
 import cn from 'classnames';
 import axios from 'axios';
+import _ from 'lodash';
 import Feedback from '../../common/Feedback.jsx';
 import routes from '../../common/routes.js';
 
@@ -22,7 +23,10 @@ const login = async (loginData, actions, history) => {
     localStorage.setItem('token', token);
     // надо сохранить username в контекст
     history.push('/');
+    // history.location('/');
   } catch (error) {
+    console.log(error);
+    console.log('CATCH BLOCK');
     actions.setErrors('invalidUsernameOrPassword'); // good
     // надо еще что-то сделать на случай Network error
   }
@@ -31,6 +35,25 @@ const login = async (loginData, actions, history) => {
 const LoginForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
+
+  // if (localStorage.token) {
+  //   return (
+  //     <Redirect to="/" />
+  //   );
+  // }
+
+  console.log(`rendering of LoginForm: ${_.uniqueId()}`);
+  // console.log(history.length);
+  // console.log(`history.location: ${JSON.stringify(history.location, null, '  ')}`);
+  // console.log(history.action);
+  // console.log(`The current URL is ${location.pathname}`);
+
+  // history.listen((location, action) => {
+  //   console.log(
+  //     `The current URL is ${location.pathname}${location.search}${location.hash}`
+  //   );
+  //   console.log(`The last navigation action was ${action}`);
+  // });
 
   return (
     <div className="container-fluid">
