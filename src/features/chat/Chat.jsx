@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import _ from 'lodash';
+import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import routes from '../../common/routes.js';
 import Channels from './channels/Channels.jsx';
 import Messages from './messages/Messages.jsx';
 import MessageForm from './messagesForm/MessageForm.jsx';
 import Header from '../../common/Header.jsx';
+import { setCurrentChannelId } from './channels/currentChannelIdSlice.js';
+import { initChannels } from './channels/channelsSlice.js';
+import { initMessages } from './messages/messagesSlice.js';
+// import { addChannel } from '../chat/channels/channelsSlice.js'
+// import { addNewMessage } from '../chat/messages/messagesSlice.js'
 
 const ExitButton = () => {
   const { t } = useTranslation();
@@ -24,8 +32,41 @@ const ExitButton = () => {
   );
 };
 
+const fetchData = async (dispatch) => {
+  const token = localStorage.getItem('token');
+
+  try {
+    const res = await axios.get(routes.data(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const { channels, messages, currentChannelId } = res.data;
+    // задиспатчить currentChannelId
+    dispatch(setCurrentChannelId({ channelId: currentChannelId }));
+    // задиспатчить каналы
+    // channels.forEach((channel) => {
+    //   dispatch(addChannel({ channel }));
+    // });
+    dispatch(initChannels({ channels }));
+    // задиспатчить сообщения
+    // messages.forEach((message) => {
+    //   dispatch(addNewMessage({ message }));
+    // })
+    dispatch(initMessages({ messages }));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const Chat = () => {
   console.log(`rendering of <Chat/>: ${_.uniqueId()}`);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchData(dispatch);
+  }, []);
+
   return (
     <>
       <Header render={() => <ExitButton />} />

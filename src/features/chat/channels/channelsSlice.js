@@ -7,11 +7,15 @@ const slice = createSlice({
   initialState: [],
   reducers: {
     addChannel: (state, { payload: { channel } }) => { // eslint-disable-line
-      // TODO: logic
+      state.push(channel);
+    },
+    initChannels: (state, { payload: { channels } }) => {
+      // return state.concat(channels);
+      state.push(...channels);
     },
   },
 });
 
-export const { addChannel } = slice.actions;
+export const { addChannel, initChannels } = slice.actions;
 
 export default slice.reducer;
