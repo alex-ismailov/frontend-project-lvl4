@@ -6,13 +6,14 @@ const slice = createSlice({
   name: 'messages',
   initialState: [],
   reducers: {
-    addNewMessage: (state, { payload: { message } }) => {
+    addNewMessage: (state, { payload: { messages } }) => {
       // @ts-ignore
-      state.push(message);
+      state.push(...messages);
     },
+    initMessages: (state, { payload: { messages } }) => state.concat(messages),
   },
 });
 
-export const { addNewMessage } = slice.actions;
+export const { addNewMessage, initMessages } = slice.actions;
 
 export default slice.reducer;
