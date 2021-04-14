@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { Nav, Button } from 'react-bootstrap';
-import _ from 'lodash';
+// import _ from 'lodash';
 import { setCurrentChannelId } from './currentChannelIdSlice.js';
 
 const buildNavItem = (id, name, currentChannelId, handleChannel) => {
@@ -20,7 +20,7 @@ const buildNavItem = (id, name, currentChannelId, handleChannel) => {
 };
 
 const Channels = () => {
-  console.log(`rendering of <Channels/>: ${_.uniqueId()}`);
+  // console.log(`rendering of <Channels/>: ${_.uniqueId()}`);
   const channels = useSelector((state) => state.channels);
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const dispatch = useDispatch();
