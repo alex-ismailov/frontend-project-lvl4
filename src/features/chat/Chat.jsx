@@ -13,8 +13,6 @@ import Header from '../../common/Header.jsx';
 import { setCurrentChannelId } from './channels/currentChannelIdSlice.js';
 import { initChannels } from './channels/channelsSlice.js';
 import { initMessages } from './messages/messagesSlice.js';
-// import { addChannel } from '../chat/channels/channelsSlice.js'
-// import { addNewMessage } from '../chat/messages/messagesSlice.js'
 
 const ExitButton = () => {
   const { t } = useTranslation();
@@ -34,7 +32,6 @@ const ExitButton = () => {
 
 const fetchData = async (dispatch) => {
   const token = localStorage.getItem('token');
-
   try {
     const res = await axios.get(routes.data(), {
       headers: {
@@ -42,17 +39,8 @@ const fetchData = async (dispatch) => {
       },
     });
     const { channels, messages, currentChannelId } = res.data;
-    // задиспатчить currentChannelId
     dispatch(setCurrentChannelId({ channelId: currentChannelId }));
-    // задиспатчить каналы
-    // channels.forEach((channel) => {
-    //   dispatch(addChannel({ channel }));
-    // });
     dispatch(initChannels({ channels }));
-    // задиспатчить сообщения
-    // messages.forEach((message) => {
-    //   dispatch(addNewMessage({ message }));
-    // })
     dispatch(initMessages({ messages }));
   } catch (error) {
     console.log(error);
@@ -87,4 +75,4 @@ const Chat = () => {
 
 export default Chat;
 
-console.log(`rendering of LoginForm: ${_.uniqueId()}`);
+// console.log(`rendering of LoginForm: ${_.uniqueId()}`);
