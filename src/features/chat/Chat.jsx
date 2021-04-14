@@ -1,3 +1,5 @@
+// @ts-check
+
 import React, { useEffect } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import _ from 'lodash';
@@ -53,7 +55,7 @@ const Chat = () => {
 
   useEffect(() => {
     fetchData(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
