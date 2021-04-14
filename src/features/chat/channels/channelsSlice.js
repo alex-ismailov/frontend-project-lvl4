@@ -9,10 +9,7 @@ const slice = createSlice({
     addChannel: (state, { payload: { channel } }) => { // eslint-disable-line
       state.push(channel);
     },
-    initChannels: (state, { payload: { channels } }) => {
-      // return state.concat(channels);
-      state.push(...channels);
-    },
+    initChannels: (state, { payload: { channels } }) => channels,
   },
 });
 
