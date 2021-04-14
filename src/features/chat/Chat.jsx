@@ -35,12 +35,12 @@ const ExitButton = () => {
 const fetchData = async (dispatch) => {
   const token = localStorage.getItem('token');
   try {
-    const res = await axios.get(routes.data(), {
+    const response = await axios.get(routes.data(), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    const { channels, messages, currentChannelId } = res.data;
+    const { channels, messages, currentChannelId } = response.data;
     dispatch(setCurrentChannelId({ channelId: currentChannelId }));
     dispatch(initChannels({ channels }));
     dispatch(initMessages({ messages }));
