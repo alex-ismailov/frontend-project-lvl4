@@ -1,35 +1,31 @@
 import React, { useContext } from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
-// import axios from 'axios';
 import UserNameContext from '../../../context/UserNameContext.js';
-// import routes from '../../../common/routes.js';
+import SocketContext from '../../../context/SocketContext.js';
 
-// Это надо фиксить так как изменилась сервеная часть !!!
-// const sendMessage = async (currentChannelId, messageData, resetForm) => {
-//   const url = routes.channelMessagesPath(currentChannelId);
-//   const postData = {
-//     data: {
-//       attributes: {
-//         ...messageData,
-//       },
-//     },
-//   };
-//   try {
-//     await axios.post(url, postData);
-//     resetForm();
-//   } catch (error) {
-//     setTimeout(() => {
-//       sendMessage(currentChannelId, messageData, resetForm);
-//     }, 3000);
-//   }
-// };
+const sendMessage = async (message, socket) => {
+  try {
+    // Магический сокет, я отключил инет в браузере, но сообщения
+    // все равно отправляются и приходят новые
+    // поэтому пока не понятно как увидеть в работе блок catch ?
+    socket.emit('newMessage', message, (response) => {
+      console.log(`Message sending status: ${response.status}`);
+    });
+  } catch (error) {
+    console.log(error);
+    setTimeout(() => {
+      sendMessage(message, socket);
+    }, 3000);
+  }
+};
 
 const MessageForm = () => {
   const username = useContext(UserNameContext);
-  // const currentChannelId = useSelector((state) => state.currentChannelId);
+  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const socket = useContext(SocketContext);
 
   return (
     <Formik
@@ -42,14 +38,13 @@ const MessageForm = () => {
       validateOnBlur={false}
       onSubmit={async ({ body }, { setSubmitting, resetForm }) => {
         setSubmitting(false);
-        const messageData = {
+        const message = {
           nickname: username,
           body,
+          channelId: currentChannelId,
         };
-        alert(JSON.stringify(messageData, null, '  '));
+        await sendMessage(message, socket);
         resetForm();
-        // Это надо фиксить так как изменилась сервеная часть !!!
-        // sendMessage(currentChannelId, messageData, resetForm);
       }}
     >
       {({ isValid }) => {
