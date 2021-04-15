@@ -6,22 +6,22 @@ import { BrowserRouter } from 'react-router-dom';
 import createStore from './store.js';
 import { addNewMessage } from '../features/chat/messages/messagesSlice.js';
 import App from './App.jsx';
+import { SocketProvider } from '../context/SocketContext.js';
 
 export default (preloadedState = {}) => {
   const store = createStore(preloadedState);
 
   const socket = io();
-  socket.on('newMessage', (arg) => {
-    const {
-      data: { attributes: message },
-    } = arg;
+  socket.on('newMessage', (message) => {
     store.dispatch(addNewMessage({ message }));
   });
 
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <SocketProvider value={socket}>
+          <App />
+        </SocketProvider>
       </BrowserRouter>
     </Provider>
   );
