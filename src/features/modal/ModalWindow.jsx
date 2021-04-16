@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { handleModal, modalTypesMap } from './ModalWindowSlice.js';
 import Feedback from '../../common/Feedback.jsx';
+import SocketContext from '../../context/SocketContext.js';
 
 const RemovingPanel = () => <h2>Removing Panel STUB !!!</h2>;
 
@@ -39,7 +40,6 @@ const SubmitPanel = ({ handleClosing, handleSubmit }) => {
                 aria-label="add channel"
                 className={inputClasses}
               />
-              {/* {!isValid && <Feedback message={t(errorKey)} />} */}
               <ErrorMessage
                 name="name"
                 render={(message) => <Feedback message={message} />}
@@ -65,32 +65,32 @@ const SubmitPanel = ({ handleClosing, handleSubmit }) => {
   );
 };
 
-const buildSubmitHandler = (type) => {
-  switch (type) {
-    case 'adding':
-      // eslint-disable-next-line
-      return (value, actions) => {
-        console.log('ADD NEW CHANNEL');
-        // TODO: handle adding channel
-      };
-    case 'renaming':
-      // eslint-disable-next-line
-      return (value, actions) => {
-        console.log('RENAME CHANNEL');
-        // TODO: handle renaming channel
-      };
-    case 'removing':
-      return () => {
-        console.log('REMOVE CHANNEL');
-        // TODO: handle removing channel
-      };
-    default:
-      throw new Error(`Unknown submit handler type: ${type}`);
+const submitActionsMap = {
+  adding: 'newChannel',
+  removing: 'removeChannel',
+  renaming: 'renameChannel',
+};
+
+const buildSubmitHandler = (type, socket, closeModal) => (channel, actions) => {
+  const { setSubmitting, resetForm } = actions;
+  setSubmitting(false);
+  const action = submitActionsMap[type];
+
+  try {
+    socket.emit(action, channel, (response) => {
+      console.log(`${action} status: ${response.status}`);
+    });
+    resetForm();
+    closeModal();
+  } catch (error) {
+    console.log(error);
   }
 };
 
 const ControlPanel = ({ type, handleClosing }) => {
-  const handleSubmit = buildSubmitHandler(type);
+  const socket = useContext(SocketContext);
+  const handleSubmit = buildSubmitHandler(type, socket, handleClosing);
+
   switch (type) {
     case 'adding':
     case 'renaming':
