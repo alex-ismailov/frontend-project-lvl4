@@ -1,10 +1,12 @@
 import React from 'react';
+import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormGroup, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 import { handleModal, modalTypesMap } from './ModalWindowSlice.js';
-// import Feedback from '../../common/Feedback.jsx';
+import Feedback from '../../common/Feedback.jsx';
 
 const RemovingPanel = () => <h2>Removing Panel STUB !!!</h2>;
 
@@ -15,35 +17,50 @@ const SubmitPanel = ({ handleClosing, handleSubmit }) => {
       initialValues={{
         name: '',
       }}
+      validationSchema={yup.object().shape({
+        name: yup.string().required(t('required')),
+      })}
+      validateOnBlur={false}
+      validateOnChange={false}
       onSubmit={handleSubmit}
     >
-      {() => (
-        <Form>
-          <FormGroup>
-            <Field
-              autoFocus
-              type="text"
-              name="name"
-              aria-label="add channel"
-              className="mb-2 form-control"
-            />
-            {/* {!isValid && <Feedback message={t(errorKey)} />} */}
-            <div className="d-flex justify-content-end">
-              <Button
-                onClick={handleClosing}
-                type="button"
-                variant="secondary"
-                className="mr-2"
-              >
-                {t('cancel')}
-              </Button>
-              <Button type="submit" variant="primary">
-                {t('send')}
-              </Button>
-            </div>
-          </FormGroup>
-        </Form>
-      )}
+      {({ isValid }) => {
+        const inputClasses = cn('mb-2', 'form-control', {
+          'is-invalid': !isValid,
+        });
+
+        return (
+          <Form>
+            <FormGroup>
+              <Field
+                autoFocus
+                type="text"
+                name="name"
+                aria-label="add channel"
+                className={inputClasses}
+              />
+              {/* {!isValid && <Feedback message={t(errorKey)} />} */}
+              <ErrorMessage
+                name="name"
+                render={(message) => <Feedback message={message} />}
+              />
+              <div className="d-flex justify-content-end">
+                <Button
+                  onClick={handleClosing}
+                  type="button"
+                  variant="secondary"
+                  className="mr-2"
+                >
+                  {t('cancel')}
+                </Button>
+                <Button type="submit" variant="primary">
+                  {t('send')}
+                </Button>
+              </div>
+            </FormGroup>
+          </Form>
+        );
+      }}
     </Formik>
   );
 };
