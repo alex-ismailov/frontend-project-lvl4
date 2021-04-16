@@ -35,7 +35,7 @@ const SubmitPanel = ({ handleClosing, handleSubmit }) => {
                 variant="secondary"
                 className="mr-2"
               >
-                {t('undo')}
+                {t('cancel')}
               </Button>
               <Button type="submit" variant="primary">
                 {t('send')}
