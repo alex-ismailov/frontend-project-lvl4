@@ -13,5 +13,7 @@ export default {
     minCharacters: 'Не менее 6 символов',
     haveNoAccount: 'Нет аккаунта?',
     exit: 'Выйти',
+    cancel: 'Отменить',
+    addChannel: 'Добавить канал',
   },
 };
