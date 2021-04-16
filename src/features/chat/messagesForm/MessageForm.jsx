@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import UserNameContext from '../../../context/UserNameContext.js';
 import SocketContext from '../../../context/SocketContext.js';
+import Feedback from '../../../common/Feedback.jsx';
 
 const sendMessage = async (message, socket) => {
   try {
@@ -26,6 +28,7 @@ const MessageForm = () => {
   const username = useContext(UserNameContext);
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const socket = useContext(SocketContext);
+  const { t } = useTranslation();
 
   return (
     <Formik
@@ -33,7 +36,7 @@ const MessageForm = () => {
         body: '',
       }}
       validationSchema={yup.object().shape({
-        body: yup.string().required('Required'),
+        body: yup.string().required(t('required')),
       })}
       validateOnBlur={false}
       onSubmit={async ({ body }, { setSubmitting, resetForm }) => {
@@ -74,11 +77,15 @@ const MessageForm = () => {
                     Submit
                   </button>
                 </div>
-                <ErrorMessage
+                {/* <ErrorMessage
                   name="body"
                   render={(msg) => (
                     <div className="invalid-feedback">{msg}</div>
                   )}
+                /> */}
+                <ErrorMessage
+                  name="name"
+                  render={(message) => <Feedback message={message} />}
                 />
               </div>
             </Form>
