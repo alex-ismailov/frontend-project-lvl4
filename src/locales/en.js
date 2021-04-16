@@ -12,5 +12,7 @@ export default {
     minMaxCharacters: '3 to 20 characters',
     minCharacters: 'At least 6 characters',
     exit: 'Exit',
+    cancel: 'Cancel',
+    addChannel: 'Добавить канал',
   },
 };
