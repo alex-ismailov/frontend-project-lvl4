@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import channelsReducer from '../features/chat/channels/channelsSlice.js';
 import messagesReducer from '../features/chat/messages/messagesSlice.js';
 import currentChannelIdReducer from '../features/chat/channels/currentChannelIdSlice.js';
+import modalReducer from '../features/modal/ModalWindowSlice.js';
 
 export default (preloadedState = {}) => {
   const store = configureStore({
@@ -9,6 +10,7 @@ export default (preloadedState = {}) => {
       channels: channelsReducer,
       messages: messagesReducer,
       currentChannelId: currentChannelIdReducer,
+      modal: modalReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     preloadedState,
