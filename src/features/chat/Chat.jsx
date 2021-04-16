@@ -2,7 +2,6 @@
 
 import React, { useEffect } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import _ from 'lodash';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +14,7 @@ import Header from '../../common/Header.jsx';
 import { setCurrentChannelId } from './channels/currentChannelIdSlice.js';
 import { initChannels } from './channels/channelsSlice.js';
 import { initMessages } from './messages/messagesSlice.js';
+import ModalWindow from '../modal/ModalWindow.jsx';
 
 const ExitButton = () => {
   const { t } = useTranslation();
@@ -50,7 +50,6 @@ const fetchData = async (dispatch) => {
 };
 
 const Chat = () => {
-  console.log(`rendering of <Chat/>: ${_.uniqueId()}`);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -71,10 +70,9 @@ const Chat = () => {
           </div>
         </Col>
       </Row>
+      <ModalWindow />
     </>
   );
 };
 
 export default Chat;
-
-// console.log(`rendering of LoginForm: ${_.uniqueId()}`);
