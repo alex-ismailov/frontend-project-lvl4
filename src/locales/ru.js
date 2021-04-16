@@ -15,5 +15,6 @@ export default {
     exit: 'Выйти',
     cancel: 'Отменить',
     addChannel: 'Добавить канал',
+    required: 'Обязательное поле',
   },
 };
