@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { handleModal, modalTypesMap } from './ModalWindowSlice.js';
 import Feedback from '../../common/Feedback.jsx';
 import SocketContext from '../../context/SocketContext.js';
+import { loadingStatesMap, setLoadingState } from '../../app/loadingSlice.js';
 
 const RemovingPanel = () => <h2>Removing Panel STUB !!!</h2>;
 
@@ -15,6 +16,10 @@ const SubmitPanel = ({ handleClosing, handleSubmit }) => {
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
   const channelsNames = channels.map(({ name }) => name);
+
+  const loadingState = useSelector((state) => state.loading);
+  const isDisabled = loadingState === loadingStatesMap.loading;
+
   return (
     <Formik
       initialValues={{
@@ -55,7 +60,7 @@ const SubmitPanel = ({ handleClosing, handleSubmit }) => {
                 >
                   {t('cancel')}
                 </Button>
-                <Button type="submit" variant="primary">
+                <Button type="submit" variant="primary" disabled={isDisabled}>
                   {t('send')}
                 </Button>
               </div>
@@ -73,7 +78,11 @@ const submitActionsMap = {
   renaming: 'renameChannel',
 };
 
-const buildSubmitHandler = (type, socket, closeModal) => (channel, actions) => {
+const buildSubmitHandler = (type, socket, closeModal, dispatch) => (
+  channel,
+  actions
+) => {
+  dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
   const { setSubmitting, resetForm } = actions;
   setSubmitting(false);
   const action = submitActionsMap[type];
@@ -82,16 +91,24 @@ const buildSubmitHandler = (type, socket, closeModal) => (channel, actions) => {
     socket.emit(action, channel, (response) => {
       console.log(`${action} status: ${response.status}`);
     });
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
     resetForm();
     closeModal();
   } catch (error) {
     console.log(error);
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
   }
 };
 
 const ControlPanel = ({ type, handleClosing }) => {
   const socket = useContext(SocketContext);
-  const handleSubmit = buildSubmitHandler(type, socket, handleClosing);
+  const dispatch = useDispatch();
+  const handleSubmit = buildSubmitHandler(
+    type,
+    socket,
+    handleClosing,
+    dispatch
+  );
 
   switch (type) {
     case 'adding':
