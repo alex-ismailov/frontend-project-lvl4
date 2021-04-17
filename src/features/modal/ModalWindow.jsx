@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormGroup, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import { handleModal, modalTypesMap } from './ModalWindowSlice.js';
+import { toggleModal, modalTypesMap } from './ModalWindowSlice.js';
 import Feedback from '../../common/Feedback.jsx';
 import SocketContext from '../../context/SocketContext.js';
 import { loadingStatesMap, setLoadingState } from '../../app/loadingSlice.js';
@@ -161,7 +161,7 @@ const ModalWindow = () => {
       isVisible: false,
       type: modalTypesMap.idle,
     };
-    dispatch(handleModal({ modalConfig }));
+    dispatch(toggleModal({ modalConfig }));
   };
 
   return (
