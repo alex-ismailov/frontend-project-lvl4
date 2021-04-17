@@ -1,37 +1,46 @@
 // @ts-check
 
 import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import UserNameContext from '../../../context/UserNameContext.js';
 import SocketContext from '../../../context/SocketContext.js';
 import Feedback from '../../../common/Feedback.jsx';
+import {
+  loadingStatesMap,
+  setLoadingState,
+} from '../../../app/loadingSlice.js';
 
-const sendMessage = async (message, socket) => {
+const sendMessage = async (message, socket, dispatch) => {
+  console.log(message);
+  dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
   try {
-    // Магический сокет, я отключил инет в браузере, но сообщения
-    // все равно отправляются и приходят новые
-    // поэтому пока не понятно как увидеть в работе блок catch ?
     socket.emit('newMessage', message, (response) => {
       console.log(`Message sending status: ${response.status}`);
     });
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
   } catch (error) {
     console.log(error);
-    setTimeout(() => {
-      sendMessage(message, socket);
-    }, 3000);
+    // setTimeout(() => {
+    //   sendMessage(message, socket);
+    // }, 3000); // Это пока под вопросом
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
   }
 };
 
 const MessageForm = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
   const username = useContext(UserNameContext);
   // @ts-ignore
   const currentChannelId = useSelector((state) => state.currentChannelId);
-  const socket = useContext(SocketContext);
-  const { t } = useTranslation();
+  const loadingState = useSelector((state) => state.loading);
+  const isDisabled = loadingState === loadingStatesMap.loading;
 
   return (
     <Formik
@@ -49,7 +58,7 @@ const MessageForm = () => {
           body,
           channelId: currentChannelId,
         };
-        await sendMessage(message, socket);
+        await sendMessage(message, socket, dispatch);
         resetForm();
       }}
     >
@@ -72,13 +81,9 @@ const MessageForm = () => {
                   className={inputClasses}
                 />
                 <div className="input-group-append">
-                  <button
-                    type="submit"
-                    aria-label="submit"
-                    className="btn btn-primary"
-                  >
+                  <Button type="submit" variant="primary" disabled={isDisabled}>
                     {t('send')}
-                  </button>
+                  </Button>
                 </div>
                 <ErrorMessage
                   name="body"
