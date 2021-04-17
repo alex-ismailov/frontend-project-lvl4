@@ -1,3 +1,5 @@
+// @ts-check
+
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -26,6 +28,7 @@ const sendMessage = async (message, socket) => {
 
 const MessageForm = () => {
   const username = useContext(UserNameContext);
+  // @ts-ignore
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const socket = useContext(SocketContext);
   const { t } = useTranslation();
@@ -36,7 +39,7 @@ const MessageForm = () => {
         body: '',
       }}
       validationSchema={yup.object().shape({
-        body: yup.string().required(t('required')),
+        body: yup.string().required(),
       })}
       validateOnBlur={false}
       onSubmit={async ({ body }, { setSubmitting, resetForm }) => {
@@ -74,17 +77,11 @@ const MessageForm = () => {
                     aria-label="submit"
                     className="btn btn-primary"
                   >
-                    Submit
+                    {t('send')}
                   </button>
                 </div>
-                {/* <ErrorMessage
-                  name="body"
-                  render={(msg) => (
-                    <div className="invalid-feedback">{msg}</div>
-                  )}
-                /> */}
                 <ErrorMessage
-                  name="name"
+                  name="body"
                   render={(message) => <Feedback message={message} />}
                 />
               </div>
