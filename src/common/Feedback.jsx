@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-const Feedback = ({ message }) => (
-  <div className="invalid-feedback">{message}</div>
-);
+const Feedback = ({ message }) => {
+  const { t } = useTranslation();
+
+  return <div className="invalid-feedback">{t(message)}</div>;
+};
 
 export default Feedback;
