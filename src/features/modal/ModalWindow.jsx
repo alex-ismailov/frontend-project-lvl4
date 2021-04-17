@@ -13,13 +13,15 @@ const RemovingPanel = () => <h2>Removing Panel STUB !!!</h2>;
 
 const SubmitPanel = ({ handleClosing, handleSubmit }) => {
   const { t } = useTranslation();
+  const channels = useSelector((state) => state.channels);
+  const channelsNames = channels.map(({ name }) => name);
   return (
     <Formik
       initialValues={{
         name: '',
       }}
       validationSchema={yup.object().shape({
-        name: yup.string().required(t('required')),
+        name: yup.string().required().notOneOf(channelsNames),
       })}
       validateOnBlur={false}
       validateOnChange={false}
