@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Nav, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { setCurrentChannelId } from './currentChannelIdSlice.js';
-import { toggleModal } from '../../modal/ModalWindowSlice.js';
+import { toggleModal, modalTypesMap } from '../../modal/ModalWindowSlice.js';
 
-const buildDefaultChannel = (id, name, btnVariant, handleActiveChannel) => (
-  <Nav.Item key={id}>
+const DefaultChannel = ({ name, btnVariant, handleActiveChannel }) => (
+  <Nav.Item>
     <Button
       variant={btnVariant}
       onClick={handleActiveChannel}
@@ -16,8 +16,8 @@ const buildDefaultChannel = (id, name, btnVariant, handleActiveChannel) => (
   </Nav.Item>
 );
 
-const buildControlledChannel = (id, name, btnVariant, handleActiveChannel) => (
-  <Nav.Item key={id}>
+const ControlledChannel = ({ name, btnVariant, handleActiveChannel }) => (
+  <Nav.Item>
     <Dropdown as={ButtonGroup} className="d-flex mb-2">
       <Button
         onClick={handleActiveChannel}
@@ -40,14 +40,10 @@ const buildControlledChannel = (id, name, btnVariant, handleActiveChannel) => (
   </Nav.Item>
 );
 
-const buildNavItem = (channel, currentChannelId, handleActiveChannel) => {
-  const { id, name, removable } = channel;
-  const btnVariant = id === currentChannelId ? 'primary' : 'light';
-
-  return removable
-    ? buildControlledChannel(id, name, btnVariant, handleActiveChannel)
-    : buildDefaultChannel(id, name, btnVariant, handleActiveChannel);
-};
+const buildModalConfig = (isVisible, type) => ({
+  isVisible,
+  type,
+});
 
 const Channels = () => {
   const channels = useSelector((state) => state.channels);
@@ -58,10 +54,17 @@ const Channels = () => {
     dispatch(setCurrentChannelId({ channelId }));
 
   const addChannel = () => {
-    const modalConfig = {
-      isVisible: true,
-      type: 'adding',
-    };
+    const modalConfig = buildModalConfig(true, modalTypesMap.adding);
+    dispatch(toggleModal({ modalConfig }));
+  };
+
+  const removeChannel = () => () => {
+    const modalConfig = buildModalConfig(true, modalTypesMap.removing);
+    dispatch(toggleModal({ modalConfig }));
+  };
+
+  const renameChannel = () => () => {
+    const modalConfig = buildModalConfig(true, modalTypesMap.renaming);
     dispatch(toggleModal({ modalConfig }));
   };
 
@@ -75,13 +78,26 @@ const Channels = () => {
       </div>
       <Nav className="flex-column nav-pills nav-fill">
         {channels.length > 0 &&
-          channels.map((channel) =>
-            buildNavItem(
-              channel,
-              currentChannelId,
-              handleActiveChannel(channel.id)
-            )
-          )}
+          channels.map(({ id, name, removable }) => {
+            const btnVariant = id === currentChannelId ? 'primary' : 'light';
+            return removable ? (
+              <ControlledChannel
+                key={id}
+                name={name}
+                btnVariant={btnVariant}
+                removeChannel={removeChannel(id)}
+                renameChannel={renameChannel(id)}
+                handleActiveChannel={handleActiveChannel(id)}
+              />
+            ) : (
+              <DefaultChannel
+                key={id}
+                name={name}
+                btnVariant={btnVariant}
+                handleActiveChannel={handleActiveChannel(id)}
+              />
+            );
+          })}
       </Nav>
     </>
   );
