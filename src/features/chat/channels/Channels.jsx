@@ -1,22 +1,52 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import cn from 'classnames';
-import { Nav, Button } from 'react-bootstrap';
+import { Nav, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { setCurrentChannelId } from './currentChannelIdSlice.js';
-import { handleModal } from '../../modal/ModalWindowSlice.js';
+import { toggleModal } from '../../modal/ModalWindowSlice.js';
 
-const buildNavItem = (id, name, currentChannelId, handleChannel) => {
-  const classes = cn('nav-link btn-block mb-2 text-left btn', {
-    'btn-primary': id === currentChannelId,
-    'btn-light': id !== currentChannelId,
-  });
-  return (
-    <Nav.Item key={id}>
-      <button type="button" className={classes} onClick={handleChannel(id)}>
+const buildDefaultChannel = (id, name, btnVariant, handleActiveChannel) => (
+  <Nav.Item key={id}>
+    <Button
+      variant={btnVariant}
+      onClick={handleActiveChannel}
+      className="nav-link btn-block mb-2 text-left"
+    >
+      {name}
+    </Button>
+  </Nav.Item>
+);
+
+const buildControlledChannel = (id, name, btnVariant, handleActiveChannel) => (
+  <Nav.Item key={id}>
+    <Dropdown as={ButtonGroup} className="d-flex mb-2">
+      <Button
+        onClick={handleActiveChannel}
+        variant={btnVariant}
+        className="text-left flex-grow-1 nav-link"
+      >
         {name}
-      </button>
-    </Nav.Item>
-  );
+      </Button>
+      <Dropdown.Toggle
+        split
+        variant={btnVariant}
+        id="dropdown-split-basic"
+        className="flex-grow-0"
+      />
+      <Dropdown.Menu>
+        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  </Nav.Item>
+);
+
+const buildNavItem = (channel, currentChannelId, handleActiveChannel) => {
+  const { id, name, removable } = channel;
+  const btnVariant = id === currentChannelId ? 'primary' : 'light';
+
+  return removable
+    ? buildControlledChannel(id, name, btnVariant, handleActiveChannel)
+    : buildDefaultChannel(id, name, btnVariant, handleActiveChannel);
 };
 
 const Channels = () => {
@@ -24,7 +54,7 @@ const Channels = () => {
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const dispatch = useDispatch();
 
-  const handleChannel = (channelId) => () =>
+  const handleActiveChannel = (channelId) => () =>
     dispatch(setCurrentChannelId({ channelId }));
 
   const addChannel = () => {
@@ -32,7 +62,7 @@ const Channels = () => {
       isVisible: true,
       type: 'adding',
     };
-    dispatch(handleModal({ modalConfig }));
+    dispatch(toggleModal({ modalConfig }));
   };
 
   return (
@@ -45,8 +75,12 @@ const Channels = () => {
       </div>
       <Nav className="flex-column nav-pills nav-fill">
         {channels.length > 0 &&
-          channels.map(({ id, name }) =>
-            buildNavItem(id, name, currentChannelId, handleChannel)
+          channels.map((channel) =>
+            buildNavItem(
+              channel,
+              currentChannelId,
+              handleActiveChannel(channel.id)
+            )
           )}
       </Nav>
     </>
