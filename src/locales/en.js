@@ -15,5 +15,6 @@ export default {
     cancel: 'Cancel',
     addChannel: 'Добавить канал',
     required: 'Required field',
+    mustBeUnique: 'Must be unique',
   },
 };
