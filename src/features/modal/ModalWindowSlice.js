@@ -16,13 +16,10 @@ const slice = createSlice({
     type: modalTypesMap.idle,
   },
   reducers: {
-    // addChannel: (state, { payload: { channel } }) => { // eslint-disable-line
-    //   state.push(channel);
-    // },
-    handleModal: (state, { payload: { modalConfig } }) => modalConfig, // Вожзможно лучше просто вернуть modalConfig
+    toggleModal: (state, { payload: { modalConfig } }) => modalConfig,
   },
 });
 
-export const { handleModal } = slice.actions;
+export const { toggleModal } = slice.actions;
 
 export default slice.reducer;
