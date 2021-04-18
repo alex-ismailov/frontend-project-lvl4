@@ -5,12 +5,29 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormGroup, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import { toggleModal, modalTypesMap } from './ModalWindowSlice.js';
+import {
+  toggleModal,
+  modalTypesMap,
+  buildModalConfig,
+} from './ModalWindowSlice.js';
 import Feedback from '../../common/Feedback.jsx';
 import SocketContext from '../../context/SocketContext.js';
 import { loadingStatesMap, setLoadingState } from '../../app/loadingSlice.js';
 
-const RemovingPanel = () => <h2>Removing Panel STUB !!!</h2>;
+const RemovingPanel = () => {
+  const { t } = useTranslation();
+  return (
+    <>
+      Уверены?
+      <div className="d-flex justify-content-between">
+        <Button variant="secondary" className="mr-2">
+          {t('cancel')}
+        </Button>
+        <Button variant="danger">{t('remove')}</Button>
+      </div>
+    </>
+  );
+};
 
 const SubmitPanel = ({ handleClosing, handleSubmit }) => {
   const { t } = useTranslation();
@@ -157,10 +174,7 @@ const ModalWindow = () => {
   const dispatch = useDispatch();
 
   const handleClosing = () => {
-    const modalConfig = {
-      isVisible: false,
-      type: modalTypesMap.idle,
-    };
+    const modalConfig = buildModalConfig(false);
     dispatch(toggleModal({ modalConfig }));
   };
 
