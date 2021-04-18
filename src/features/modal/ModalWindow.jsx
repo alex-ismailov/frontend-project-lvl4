@@ -5,37 +5,85 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormGroup, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import {
-  toggleModal,
-  modalTypesMap,
-  buildModalConfig,
-} from './ModalWindowSlice.js';
+import { toggleModal, buildModalConfig } from './ModalWindowSlice.js';
 import Feedback from '../../common/Feedback.jsx';
 import SocketContext from '../../context/SocketContext.js';
 import { loadingStatesMap, setLoadingState } from '../../app/loadingSlice.js';
 
-const RemovingPanel = () => {
+const submitActionsMap = {
+  adding: 'newChannel',
+  removing: 'removeChannel',
+  renaming: 'renameChannel',
+};
+
+const RemovingPanel = ({ channel, closeModal }) => {
   const { t } = useTranslation();
+  const socket = useContext(SocketContext);
+  const dispatch = useDispatch();
+  const action = submitActionsMap.removing;
+
+  const removeChannel = (channelData) => () => {
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
+    try {
+      socket.emit(action, channelData, (response) => {
+        console.log(`${action} status: ${response.status}`);
+      });
+      dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
+      closeModal();
+    } catch (error) {
+      console.log(error);
+      dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
+      closeModal();
+    }
+  };
+
   return (
     <>
       Уверены?
       <div className="d-flex justify-content-between">
-        <Button variant="secondary" className="mr-2">
+        <Button onClick={closeModal} variant="secondary" className="mr-2">
           {t('cancel')}
         </Button>
-        <Button variant="danger">{t('remove')}</Button>
+        <Button onClick={removeChannel(channel)} variant="danger">
+          {t('remove')}
+        </Button>
       </div>
     </>
   );
 };
 
-const SubmitPanel = ({ handleClosing, handleSubmit }) => {
+const buildSubmitHandler = (type, socket, closeModal, dispatch) => (
+  channel,
+  actions
+) => {
+  dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
+  const { setSubmitting, resetForm } = actions;
+  setSubmitting(false);
+  const action = submitActionsMap[type];
+  try {
+    socket.emit(action, channel, (response) => {
+      console.log(`${action} status: ${response.status}`);
+    });
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
+    resetForm();
+    closeModal();
+  } catch (error) {
+    console.log(error);
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
+  }
+};
+
+const SubmitPanel = ({ type, closeModal }) => {
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
   const channelsNames = channels.map(({ name }) => name);
 
   const loadingState = useSelector((state) => state.loading);
   const isDisabled = loadingState === loadingStatesMap.loading;
+
+  const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
+  const handleSubmit = buildSubmitHandler(type, socket, closeModal, dispatch);
 
   return (
     <Formik
@@ -70,7 +118,7 @@ const SubmitPanel = ({ handleClosing, handleSubmit }) => {
               />
               <div className="d-flex justify-content-end">
                 <Button
-                  onClick={handleClosing}
+                  onClick={closeModal}
                   type="button"
                   variant="secondary"
                   className="mr-2"
@@ -89,100 +137,45 @@ const SubmitPanel = ({ handleClosing, handleSubmit }) => {
   );
 };
 
-const submitActionsMap = {
-  adding: 'newChannel',
-  removing: 'removeChannel',
-  renaming: 'renameChannel',
-};
+const ModalContent = ({ type, channelId, closeModal }) => {
+  const channels = useSelector((state) => state.channels);
+  const channel = channels.find(({ id }) => id === channelId);
 
-const buildSubmitHandler = (type, socket, closeModal, dispatch) => (
-  channel,
-  actions
-) => {
-  dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
-  const { setSubmitting, resetForm } = actions;
-  setSubmitting(false);
-  const action = submitActionsMap[type];
+  const modalTitleKeysMap = {
+    adding: 'addChannel',
+    renaming: 'renameChannel',
+    removing: 'removeChannel',
+  };
 
-  try {
-    socket.emit(action, channel, (response) => {
-      console.log(`${action} status: ${response.status}`);
-    });
-    dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
-    resetForm();
-    closeModal();
-  } catch (error) {
-    console.log(error);
-    dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
-  }
-};
-
-const ControlPanel = ({ type, handleClosing }) => {
-  const socket = useContext(SocketContext);
-  const dispatch = useDispatch();
-  const handleSubmit = buildSubmitHandler(
-    type,
-    socket,
-    handleClosing,
-    dispatch
-  );
-
-  switch (type) {
-    case 'adding':
-    case 'renaming':
-      return (
-        <SubmitPanel
-          handleClosing={handleClosing}
-          handleSubmit={handleSubmit}
-        />
-      );
-    case 'removing':
-      return (
-        <RemovingPanel
-          handleClosing={handleClosing}
-          handleSubmit={handleSubmit}
-        />
-      );
-    default:
-      throw new Error(`Unknown control panel type: ${type}`);
-  }
-};
-
-const modalTitleKeysMap = {
-  adding: 'addChannel',
-  renaming: 'renameChannel',
-  removing: 'removeChannel',
-};
-
-const ModalContent = ({ type, handleClosing }) => {
   const { t } = useTranslation();
-
   return (
     <>
       <Modal.Header closeButton>
         <Modal.Title>{t(modalTitleKeysMap[type])}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <ControlPanel type={type} handleClosing={handleClosing} />
+        {type === 'removing' ? (
+          <RemovingPanel channel={channel} closeModal={closeModal} />
+        ) : (
+          <SubmitPanel type={type} channel={channel} closeModal={closeModal} />
+        )}
       </Modal.Body>
     </>
   );
 };
 
 const ModalWindow = () => {
-  const { isVisible, type } = useSelector((state) => state.modal);
+  const { isVisible, type, channelId } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
-  const handleClosing = () => {
+  const closeModal = () => {
     const modalConfig = buildModalConfig(false);
     dispatch(toggleModal({ modalConfig }));
   };
 
   return (
-    <Modal show={isVisible} onHide={handleClosing}>
-      {type !== modalTypesMap.idle && (
-        <ModalContent type={type} handleClosing={handleClosing} />
-      )}
+    <Modal show={isVisible} onHide={closeModal}>
+      <ModalContent type={type} channelId={channelId} closeModal={closeModal} />
     </Modal>
   );
 };
