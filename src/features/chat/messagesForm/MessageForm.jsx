@@ -75,6 +75,7 @@ const MessageForm = () => {
             <Form noValidate>
               <div className={inputContainerClasses}>
                 <Field
+                  autoFocus
                   type="text"
                   name="body"
                   aria-label="body"
