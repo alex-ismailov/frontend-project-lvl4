@@ -9,11 +9,22 @@ export const modalTypesMap = {
   removing: 'removing',
 };
 
+export const buildModalConfig = (
+  isVisible,
+  type = modalTypesMap.idle,
+  channelId = null
+) => ({
+  isVisible,
+  type,
+  channelId,
+});
+
 const slice = createSlice({
   name: 'modal',
   initialState: {
     isVisible: false,
     type: modalTypesMap.idle,
+    channelId: null,
   },
   reducers: {
     toggleModal: (state, { payload: { modalConfig } }) => modalConfig,
