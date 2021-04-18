@@ -1,8 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Nav, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId } from './currentChannelIdSlice.js';
-import { toggleModal, modalTypesMap } from '../../modal/ModalWindowSlice.js';
+import {
+  toggleModal,
+  modalTypesMap,
+  buildModalConfig,
+} from '../../modal/ModalWindowSlice.js';
 
 const DefaultChannel = ({ name, btnVariant, handleActiveChannel }) => (
   <Nav.Item>
@@ -16,36 +21,36 @@ const DefaultChannel = ({ name, btnVariant, handleActiveChannel }) => (
   </Nav.Item>
 );
 
-const ControlledChannel = ({ name, btnVariant, handleActiveChannel }) => (
-  <Nav.Item>
-    <Dropdown as={ButtonGroup} className="d-flex mb-2">
-      <Button
-        onClick={handleActiveChannel}
-        variant={btnVariant}
-        className="text-left flex-grow-1 nav-link"
-      >
-        {name}
-      </Button>
-      <Dropdown.Toggle
-        split
-        variant={btnVariant}
-        id="dropdown-split-basic"
-        className="flex-grow-0"
-      />
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  </Nav.Item>
-);
-
-const buildModalConfig = (isVisible, type) => ({
-  isVisible,
-  type,
-});
+const ControlledChannel = ({
+  name,
+  btnVariant,
+  removeChannel,
+  renameChannel,
+  handleActiveChannel,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <Nav.Item>
+      <Dropdown as={ButtonGroup} className="d-flex mb-2">
+        <Button
+          onClick={handleActiveChannel}
+          variant={btnVariant}
+          className="text-left flex-grow-1 nav-link"
+        >
+          {name}
+        </Button>
+        <Dropdown.Toggle split variant={btnVariant} className="flex-grow-0" />
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={removeChannel}>{t('remove')}</Dropdown.Item>
+          <Dropdown.Item onClick={renameChannel}>{t('rename')}</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </Nav.Item>
+  );
+};
 
 const Channels = () => {
+  const { t } = useTranslation();
   const channels = useSelector((state) => state.channels);
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const dispatch = useDispatch();
@@ -58,20 +63,30 @@ const Channels = () => {
     dispatch(toggleModal({ modalConfig }));
   };
 
-  const removeChannel = () => () => {
-    const modalConfig = buildModalConfig(true, modalTypesMap.removing);
+  const removeChannel = (channelId) => (e) => {
+    e.preventDefault();
+    const modalConfig = buildModalConfig(
+      true,
+      modalTypesMap.removing,
+      channelId
+    );
     dispatch(toggleModal({ modalConfig }));
   };
 
-  const renameChannel = () => () => {
-    const modalConfig = buildModalConfig(true, modalTypesMap.renaming);
+  const renameChannel = (channelId) => (e) => {
+    e.preventDefault();
+    const modalConfig = buildModalConfig(
+      true,
+      modalTypesMap.renaming,
+      channelId
+    );
     dispatch(toggleModal({ modalConfig }));
   };
 
   return (
     <>
       <div className="d-flex mb-2">
-        <span>Channels</span>
+        <span>{t('channels')}</span>
         <Button onClick={addChannel} variant="link" className="ml-auto p-0">
           +
         </Button>
