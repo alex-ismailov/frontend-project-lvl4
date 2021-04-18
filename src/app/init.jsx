@@ -8,7 +8,10 @@ import createStore from './store.js';
 import { addNewMessage } from '../features/chat/messages/messagesSlice.js';
 import App from './App.jsx';
 import { SocketProvider } from '../context/SocketContext.js';
-import { addChannel } from '../features/chat/channels/channelsSlice.js';
+import {
+  addChannel,
+  removeChannel,
+} from '../features/chat/channels/channelsSlice.js';
 import { setCurrentChannelId } from '../features/chat/channels/currentChannelIdSlice.js';
 import yupDictionary from '../locales/yupDictionary.js';
 
@@ -25,6 +28,11 @@ export default (preloadedState = {}) => {
   socket.on('newChannel', (channel) => {
     store.dispatch(addChannel({ channel }));
     store.dispatch(setCurrentChannelId({ channelId: channel.id }));
+  });
+
+  socket.on('removeChannel', ({ id }) => {
+    store.dispatch(removeChannel({ id }));
+    store.dispatch(setCurrentChannelId({ channelId: 1 }));
   });
 
   return (
