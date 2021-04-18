@@ -16,5 +16,10 @@ export default {
     addChannel: 'Добавить канал',
     required: 'Required field',
     mustBeUnique: 'Must be unique',
+    remove: 'Remove',
+    rename: 'Rename',
+    renameChannel: 'Rename channel',
+    removeChannel: 'Remove channel',
+    channels: 'Channels',
   },
 };
