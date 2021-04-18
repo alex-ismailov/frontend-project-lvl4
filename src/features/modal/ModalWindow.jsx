@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -85,6 +85,11 @@ const SubmitPanel = ({ type, closeModal }) => {
   const socket = useContext(SocketContext);
   const handleSubmit = buildSubmitHandler(type, socket, closeModal, dispatch);
 
+  const textInput = useRef(null);
+  useEffect(() => {
+    textInput.current.focus();
+  }, [textInput]);
+
   return (
     <Formik
       initialValues={{
@@ -106,7 +111,7 @@ const SubmitPanel = ({ type, closeModal }) => {
           <Form>
             <FormGroup>
               <Field
-                autoFocus
+                innerRef={textInput}
                 type="text"
                 name="name"
                 aria-label="add channel"
