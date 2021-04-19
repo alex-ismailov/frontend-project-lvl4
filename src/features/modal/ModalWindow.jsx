@@ -130,21 +130,21 @@ const PanelForm = ({
 //   // return jsx
 // };
 
-// { initialName, validationSchema, handleSubmit, closeModal }
 const RenamingPanel = ({ channels, channelId, closeModal }) => {
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
-  const channel = channels.find(({ id }) => id === channelId);
-  const initialName = channel.name;
+  const currentChannel = channels.find(({ id }) => id === channelId);
+  const initialName = currentChannel.name;
   const validationSchema = yup.object().shape({
     name: yup.string().required(),
   });
 
-  const renameChannel = (value, { setSubmitting }) => {
+  const renameChannel = (channel) => ({ name }, { setSubmitting }) => {
     setSubmitting(false);
+    const changedСhannel = { ...channel, name };
     const action = submitActionsMap.rename;
     try {
-      socket.emit(action, channel, (response) => {
+      socket.emit(action, changedСhannel, (response) => {
         console.log(`${action} status: ${response.status}`);
       });
       dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
@@ -159,7 +159,7 @@ const RenamingPanel = ({ channels, channelId, closeModal }) => {
     <PanelForm
       initialName={initialName}
       validationSchema={validationSchema}
-      handleSubmit={renameChannel}
+      handleSubmit={renameChannel(currentChannel)}
       closeModal={closeModal}
     />
   );
@@ -202,9 +202,6 @@ const AddingPanel = ({ channels, closeModal }) => {
 
 const ControllPanel = ({ type, channelId, closeModal }) => {
   const channels = useSelector((state) => state.channels);
-
-  console.log();
-
   switch (type) {
     case modalTypesMap.adding:
       return <AddingPanel channels={channels} closeModal={closeModal} />;
@@ -225,7 +222,6 @@ const ControllPanel = ({ type, channelId, closeModal }) => {
         />
       );
     default:
-      console.log('BOOM !!!!');
       throw new Error(`Unknown controll panel type: ${type}`);
   }
 };
