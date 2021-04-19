@@ -29,6 +29,11 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
+  const redirectToSignupForm = (e) => {
+    e.preventDefault();
+    history.push('signup');
+  };
+
   return (
     <>
       <Header render={null} />
@@ -85,7 +90,9 @@ const LoginForm = () => {
                     </Button>
                     <div className="d-flex flex-column align-items-center">
                       <span className="small mb-2">{t('haveNoAccount')}</span>
-                      <a href="/signup">{t('registration')}</a>
+                      <a onClick={redirectToSignupForm} href="/signup">
+                        {t('registration')}
+                      </a>
                     </div>
                   </Form>
                 );
