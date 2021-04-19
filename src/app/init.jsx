@@ -11,6 +11,7 @@ import { SocketProvider } from '../context/SocketContext.js';
 import {
   addChannel,
   removeChannel,
+  renameChannel,
 } from '../features/chat/channels/channelsSlice.js';
 import { setCurrentChannelId } from '../features/chat/channels/currentChannelIdSlice.js';
 import yupDictionary from '../locales/yupDictionary.js';
@@ -33,6 +34,10 @@ export default (preloadedState = {}) => {
   socket.on('removeChannel', ({ id }) => {
     store.dispatch(removeChannel({ id }));
     store.dispatch(setCurrentChannelId({ channelId: 1 }));
+  });
+
+  socket.on('renameChannel', (channel) => {
+    store.dispatch(renameChannel({ channel }));
   });
 
   return (
