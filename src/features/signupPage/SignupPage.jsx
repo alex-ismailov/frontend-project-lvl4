@@ -1,5 +1,7 @@
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 import React from 'react';
+import * as yup from 'yup';
+import cn from 'classnames';
 import {
   Container,
   Row,
@@ -15,9 +17,28 @@ import Header from '../../common/Header.jsx';
 const SignupForm = () => {
   const { t } = useTranslation();
 
+  const validationSchema = yup.object().shape({
+    username: yup.string('BOOM ERROR').min(3).max(20).required(),
+    password: yup.string().min(6).required(),
+    // confirmPassword: '',
+  });
+
   return (
-    <Formik>
-      {() => (
+    <Formik
+      initialValues={{
+        username: '',
+        password: '',
+        confirmPassword: '',
+      }}
+      validationSchema={validationSchema}
+      validateOnChange={false}
+      onSubmit={(values, actions) => {
+        actions.setSubmitting(false);
+        console.log('SUBMIT !!!');
+        console.log(values);
+      }}
+    >
+      {({ isValid, errors, touched }) => (
         <Form className="p-3">
           <FormGroup>
             <FormLabel htmlFor="username">{t('username')}</FormLabel>
@@ -25,14 +46,16 @@ const SignupForm = () => {
               autoFocus
               type="text"
               name="username"
-              placeholder={t('from3to20symbols')}
+              placeholder={t('minMaxSymbols')}
               autoComplete="username"
               id="username"
-              className="form-control" // if is not valid + is-invalid class
+              className={cn('form-control', {
+                'is-invalid': errors.username && touched.username,
+              })}
             />
             <ErrorMessage
               name="username"
-              render={(message) => <Feedback message={message} />}
+              render={() => <Feedback message="minMaxSymbols" />}
             />
           </FormGroup>
           <FormGroup>
@@ -40,10 +63,12 @@ const SignupForm = () => {
             <Field
               type="password"
               name="password"
-              placeholder={t('atLeast6chars')}
+              placeholder={t('minChars')}
               autoComplete="new-password"
               id="password"
-              className="form-control" // if is not valid + is-invalid class
+              className={cn('form-control', {
+                'is-invalid': errors.password && touched.password,
+              })}
             />
             <ErrorMessage
               name="password"
@@ -60,14 +85,21 @@ const SignupForm = () => {
               placeholder={t('passwordsMustMatch')}
               autoComplete="new-password"
               id="confirmPassword"
-              className="form-control" // if is not valid + is-invalid class
+              className={cn('form-control', {
+                'is-invalid': errors.confirmPassword && touched.confirmPassword,
+              })}
             />
             <ErrorMessage
-              name="password"
+              name="confirmPassword"
               render={(message) => <Feedback message={message} />}
             />
           </FormGroup>
-          <Button type="submit" variant="outline-primary" className="w-100">
+          <Button
+            type="submit"
+            disabled={!isValid}
+            variant="outline-primary"
+            className="w-100"
+          >
             {t('signup')}
           </Button>
         </Form>
