@@ -20,45 +20,6 @@ const submitActionsMap = {
   rename: 'renameChannel',
 };
 
-const RemovingPanel = ({ channels, channelId, closeModal }) => {
-  const { t } = useTranslation();
-  const socket = useContext(SocketContext);
-  const dispatch = useDispatch();
-  const action = submitActionsMap.remove;
-  const currentChannel = channels.find(({ id }) => id === channelId);
-
-  const removeChannel = (channel) => () => {
-    dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
-    try {
-      socket.emit(action, channel, (response) => {
-        console.log(`${action} status: ${response.status}`);
-      });
-      dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
-      closeModal();
-    } catch (error) {
-      console.log(error);
-      dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
-      closeModal();
-    }
-  };
-
-  return (
-    <>
-      Уверены?
-      <div className="d-flex justify-content-between">
-        <Button onClick={closeModal} variant="secondary" className="mr-2">
-          {t('cancel')}
-        </Button>
-        <Button onClick={removeChannel(currentChannel)} variant="danger">
-          {t('remove')}
-        </Button>
-      </div>
-    </>
-  );
-};
-
-// *******************************************************************************************
-
 const PanelForm = ({
   initialName,
   validationSchema,
@@ -125,10 +86,42 @@ const PanelForm = ({
   );
 };
 
-// const RemovingPanel = ({ closeModal }) => {
+const RemovingPanel = ({ channels, channelId, closeModal }) => {
+  const { t } = useTranslation();
+  const socket = useContext(SocketContext);
+  const dispatch = useDispatch();
+  const action = submitActionsMap.remove;
+  const currentChannel = channels.find(({ id }) => id === channelId);
 
-//   // return jsx
-// };
+  const removeChannel = (channel) => () => {
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
+    try {
+      socket.emit(action, channel, (response) => {
+        console.log(`${action} status: ${response.status}`);
+      });
+      dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
+      closeModal();
+    } catch (error) {
+      console.log(error);
+      dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
+      closeModal();
+    }
+  };
+
+  return (
+    <>
+      Уверены?
+      <div className="d-flex justify-content-between">
+        <Button onClick={closeModal} variant="secondary" className="mr-2">
+          {t('cancel')}
+        </Button>
+        <Button onClick={removeChannel(currentChannel)} variant="danger">
+          {t('remove')}
+        </Button>
+      </div>
+    </>
+  );
+};
 
 const RenamingPanel = ({ channels, channelId, closeModal }) => {
   const socket = useContext(SocketContext);
