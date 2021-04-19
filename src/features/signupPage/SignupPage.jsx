@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import Feedback from '../../common/Feedback.jsx';
 import Header from '../../common/Header.jsx';
 
-const RegistrationForm = () => {
+const SignupForm = () => {
   const { t } = useTranslation();
 
   return (
@@ -76,17 +76,17 @@ const RegistrationForm = () => {
   );
 };
 
-const RegistrationPage = () => (
+const SignupPage = () => (
   <>
     <Header render={null} />
     <Container fluid>
       <Row className="justify-content-center pt-5">
         <Col sm={4}>
-          <RegistrationForm />
+          <SignupForm />
         </Col>
       </Row>
     </Container>
   </>
 );
 
-export default RegistrationPage;
+export default SignupPage;
