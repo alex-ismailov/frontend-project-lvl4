@@ -39,6 +39,7 @@ const MessageForm = () => {
   const username = useContext(UserNameContext);
   // @ts-ignore
   const currentChannelId = useSelector((state) => state.currentChannelId);
+  // @ts-ignore
   const loadingState = useSelector((state) => state.loading);
   const isDisabled = loadingState === loadingStatesMap.loading;
 
