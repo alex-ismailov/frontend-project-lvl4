@@ -7,4 +7,8 @@ export default {
   // string: {
   //   required: 'required',
   // }
+  string: {
+    min: 'minChars',
+    max: 'maxChars',
+  },
 };
