@@ -11,17 +11,38 @@ import {
   Button,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import Feedback from '../../common/Feedback.jsx';
 import Header from '../../common/Header.jsx';
+import routes from '../../common/routes.js';
 
 const SignupForm = () => {
   const { t } = useTranslation();
+  const history = useHistory();
 
   const validationSchema = yup.object().shape({
     username: yup.string().min(3).max(20).required(),
     password: yup.string().min(6).required(),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null]),
   });
+
+  const registerNewUser = async ({ username, password }, actions) => {
+    actions.setSubmitting(false);
+    const credentials = { username, password };
+
+    try {
+      const response = await axios.post(routes.signupPath(), credentials);
+      const { data } = response;
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.username);
+      history.push('/');
+    } catch (error) {
+      // TODO: отдельно обработать error 409,
+      // Такой пользователь уже существует
+      console.log(error);
+    }
+  };
 
   return (
     <Formik
@@ -32,11 +53,7 @@ const SignupForm = () => {
       }}
       validationSchema={validationSchema}
       validateOnBlur={false}
-      onSubmit={(values, actions) => {
-        actions.setSubmitting(false);
-        console.log('SUBMIT !!!');
-        console.log(values);
-      }}
+      onSubmit={registerNewUser}
     >
       {({ isValid, errors, touched }) => (
         <Form className="p-3">
