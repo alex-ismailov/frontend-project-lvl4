@@ -10,5 +10,6 @@ export default {
   channelMessagesPath: (id) =>
     [host, prefix, 'channels', id, 'messages'].join('/'),
   loginPath: () => [host, prefix, 'login'].join('/'),
-  data: () => [host, prefix, 'data'].join('/'), // /api/v1/data
+  signupPath: () => [host, prefix, 'signup'].join('/'),
+  data: () => [host, prefix, 'data'].join('/'),
 };
