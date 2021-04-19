@@ -18,9 +18,9 @@ const SignupForm = () => {
   const { t } = useTranslation();
 
   const validationSchema = yup.object().shape({
-    username: yup.string('BOOM ERROR').min(3).max(20).required(),
+    username: yup.string().min(3).max(20).required(),
     password: yup.string().min(6).required(),
-    // confirmPassword: '',
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null]),
   });
 
   return (
