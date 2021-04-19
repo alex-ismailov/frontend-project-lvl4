@@ -31,7 +31,7 @@ const SignupForm = () => {
         confirmPassword: '',
       }}
       validationSchema={validationSchema}
-      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={(values, actions) => {
         actions.setSubmitting(false);
         console.log('SUBMIT !!!');
