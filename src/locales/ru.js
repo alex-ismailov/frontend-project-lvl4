@@ -24,5 +24,7 @@ export default {
     minChars: 'Не менее 6 символов',
     passwordsMustMatch: 'Пароли должны совпадать',
     signup: 'Зарегистрироваться',
+    userAlreadyExists: 'Такой пользователь уже существует',
+    networkError: 'Ошибка cети',
   },
 };
