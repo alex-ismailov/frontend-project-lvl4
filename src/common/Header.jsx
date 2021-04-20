@@ -14,7 +14,9 @@ const Header = ({ render }) => {
 
   return (
     <Navbar className="mb-3" expand="lg" bg="light">
-      <Navbar.Brand onClick={redirectToHome}>{t('hexletChat')}</Navbar.Brand>
+      <Navbar.Brand className="mr-auto" onClick={redirectToHome}>
+        {t('hexletChat')}
+      </Navbar.Brand>
       {render && render()}
     </Navbar>
   );
