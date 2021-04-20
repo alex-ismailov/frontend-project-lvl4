@@ -24,5 +24,7 @@ export default {
     minChars: 'At least 6 characters',
     passwordsMustMatch: 'Passwords must match',
     signup: 'Signup',
+    userAlreadyExists: 'This user already exists',
+    networkError: 'Network error',
   },
 };
