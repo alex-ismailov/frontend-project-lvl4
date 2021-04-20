@@ -1,5 +1,5 @@
 import { Formik, Field, ErrorMessage, Form } from 'formik';
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as yup from 'yup';
 import cn from 'classnames';
 import {
@@ -27,20 +27,33 @@ const SignupForm = () => {
     confirmPassword: yup.string().oneOf([yup.ref('password'), null]),
   });
 
+  const usernameInput = useRef(null);
+  useEffect(() => {
+    usernameInput.current.focus();
+  });
+
   const registerNewUser = async ({ username, password }, actions) => {
     actions.setSubmitting(false);
+    console.log(actions);
     const credentials = { username, password };
-
     try {
       const response = await axios.post(routes.signupPath(), credentials);
       const { data } = response;
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.username);
       history.push('/');
-    } catch (error) {
-      // TODO: отдельно обработать error 409,
-      // Такой пользователь уже существует
-      console.log(error);
+    } catch (e) {
+      console.log(e);
+      if (!e.response) {
+        actions.setStatus('failure');
+        actions.setFieldTouched('confirmPassword', true);
+        actions.setFieldError('confirmPassword', 'networkError');
+        return;
+      }
+      actions.setStatus('failure');
+      actions.setFieldTouched('confirmPassword', true);
+      actions.setFieldError('confirmPassword', 'userAlreadyExists');
+      //
     }
   };
 
@@ -52,75 +65,80 @@ const SignupForm = () => {
         confirmPassword: '',
       }}
       validationSchema={validationSchema}
-      validateOnBlur={false}
+      // validateOnBlur={false}
       onSubmit={registerNewUser}
     >
-      {({ isValid, errors, touched }) => (
-        <Form className="p-3">
-          <FormGroup>
-            <FormLabel htmlFor="username">{t('username')}</FormLabel>
-            <Field
-              autoFocus
-              type="text"
-              name="username"
-              placeholder={t('minMaxSymbols')}
-              autoComplete="username"
-              id="username"
-              className={cn('form-control', {
-                'is-invalid': errors.username && touched.username,
-              })}
-            />
-            <ErrorMessage
-              name="username"
-              render={() => <Feedback message="minMaxSymbols" />}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel htmlFor="password">{t('password')}</FormLabel>
-            <Field
-              type="password"
-              name="password"
-              placeholder={t('minChars')}
-              autoComplete="new-password"
-              id="password"
-              className={cn('form-control', {
-                'is-invalid': errors.password && touched.password,
-              })}
-            />
-            <ErrorMessage
-              name="password"
-              render={(message) => <Feedback message={message} />}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel htmlFor="confirmPassword">
-              {t('confirmPassword')}
-            </FormLabel>
-            <Field
-              type="password"
-              name="confirmPassword"
-              placeholder={t('passwordsMustMatch')}
-              autoComplete="new-password"
-              id="confirmPassword"
-              className={cn('form-control', {
-                'is-invalid': errors.confirmPassword && touched.confirmPassword,
-              })}
-            />
-            <ErrorMessage
-              name="confirmPassword"
-              render={(message) => <Feedback message={message} />}
-            />
-          </FormGroup>
-          <Button
-            type="submit"
-            disabled={!isValid}
-            variant="outline-primary"
-            className="w-100"
-          >
-            {t('signup')}
-          </Button>
-        </Form>
-      )}
+      {(props) => {
+        const { isValid, errors, touched, status } = props;
+        return (
+          <Form className="p-3">
+            <FormGroup>
+              <FormLabel htmlFor="username">{t('username')}</FormLabel>
+              <Field
+                innerRef={usernameInput}
+                onFocus={(e) => e.currentTarget.select()}
+                // autoFocus
+                type="text"
+                name="username"
+                placeholder={t('minMaxSymbols')}
+                autoComplete="username"
+                id="username"
+                className={cn('form-control', {
+                  'is-invalid': (errors.username && touched.username) || status,
+                })}
+              />
+              <ErrorMessage
+                name="username"
+                render={() => <Feedback message="minMaxSymbols" />}
+              />
+            </FormGroup>
+            <FormGroup>
+              <FormLabel htmlFor="password">{t('password')}</FormLabel>
+              <Field
+                type="password"
+                name="password"
+                placeholder={t('minChars')}
+                autoComplete="new-password"
+                id="password"
+                className={cn('form-control', {
+                  'is-invalid': (errors.password && touched.password) || status,
+                })}
+              />
+              <ErrorMessage
+                name="password"
+                render={(message) => <Feedback message={message} />}
+              />
+            </FormGroup>
+            <FormGroup>
+              <FormLabel htmlFor="confirmPassword">
+                {t('confirmPassword')}
+              </FormLabel>
+              <Field
+                type="password"
+                name="confirmPassword"
+                placeholder={t('passwordsMustMatch')}
+                autoComplete="new-password"
+                id="confirmPassword"
+                className={cn('form-control', {
+                  'is-invalid': (errors && touched.confirmPassword) || status,
+                })}
+              />
+              <ErrorMessage
+                name="confirmPassword"
+                render={(message) => <Feedback message={message} />}
+              />
+            </FormGroup>
+            <Button
+              type="submit"
+              disabled={!isValid}
+              variant="outline-primary"
+              className="w-100"
+            >
+              {t('signup')}
+            </Button>
+          </Form>
+        );
+      }}
     </Formik>
   );
 };
