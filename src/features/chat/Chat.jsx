@@ -63,7 +63,7 @@ const Chat = () => {
         <Col sm={3} className="border-right">
           <Channels />
         </Col>
-        <Col className="h-100">
+        <Col>
           <div className="d-flex flex-column h-100">
             <Messages />
             <MessageForm />
