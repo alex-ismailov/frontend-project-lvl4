@@ -10,7 +10,7 @@ import {
 } from '../../modal/ModalWindowSlice.js';
 
 const DefaultChannel = ({ name, btnVariant, handleActiveChannel }) => (
-  <Nav.Item>
+  <Nav.Item className="mr-2 mr-sm-0">
     <Button
       variant={btnVariant}
       onClick={handleActiveChannel}
@@ -30,7 +30,7 @@ const ControlledChannel = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <Nav.Item>
+    <Nav.Item className="mr-2 mr-sm-0">
       <Dropdown as={ButtonGroup} className="d-flex mb-2">
         <Button
           onClick={handleActiveChannel}
@@ -85,13 +85,17 @@ const Channels = () => {
 
   return (
     <>
-      <div className="d-flex mb-2">
+      <div className="d-flex justify-content-center justify-content-center justify-content-sm-start mb-2">
         <span>{t('channels')}</span>
-        <Button onClick={addChannel} variant="link" className="ml-auto p-0">
+        <Button
+          onClick={addChannel}
+          variant="link"
+          className="ml-3 ml-sm-auto p-0"
+        >
           +
         </Button>
       </div>
-      <Nav className="flex-column nav-pills nav-fill">
+      <Nav className="ustify-content-right flex-sm-column nav-sm-pills nav-sm-fill">
         {channels.length > 0 &&
           channels.map(({ id, name, removable }) => {
             const btnVariant = id === currentChannelId ? 'primary' : 'light';
@@ -103,6 +107,7 @@ const Channels = () => {
                 removeChannel={removeChannel(id)}
                 renameChannel={renameChannel(id)}
                 handleActiveChannel={handleActiveChannel(id)}
+                // className='ml-3'
               />
             ) : (
               <DefaultChannel
@@ -110,6 +115,7 @@ const Channels = () => {
                 name={name}
                 btnVariant={btnVariant}
                 handleActiveChannel={handleActiveChannel(id)}
+                // className='ml-3'
               />
             );
           })}
