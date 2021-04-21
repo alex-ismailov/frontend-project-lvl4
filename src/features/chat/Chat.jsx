@@ -59,7 +59,7 @@ const Chat = () => {
   return (
     <>
       <Header render={() => <ExitButton />} />
-      <Row className="flex-grow-1 h-75 pb-3">
+      <Row className="d-flex flex-column flex-sm-row flex-grow-1 h-75 pb-3 row">
         <Col sm={3} className="border-right">
           <Channels />
         </Col>
