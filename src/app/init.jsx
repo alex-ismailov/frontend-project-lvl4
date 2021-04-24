@@ -1,9 +1,10 @@
 import React from 'react';
-import '../i18n.js';
+import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import { BrowserRouter } from 'react-router-dom';
 import { setLocale } from 'yup';
+import i18n from '../i18n.js';
 import createStore from './store.js';
 import { addNewMessage } from '../features/chat/messages/messagesSlice.js';
 import App from './App.jsx';
@@ -44,7 +45,9 @@ export default () => {
     <Provider store={store}>
       <BrowserRouter>
         <SocketProvider value={socket}>
-          <App />
+          <I18nextProvider i18n={i18n}>
+            <App />
+          </I18nextProvider>
         </SocketProvider>
       </BrowserRouter>
     </Provider>
