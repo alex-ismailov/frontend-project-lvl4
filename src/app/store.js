@@ -5,7 +5,7 @@ import currentChannelIdReducer from '../features/chat/channels/currentChannelIdS
 import modalReducer from '../features/modal/ModalWindowSlice.js';
 import loadingReducer from './loadingSlice.js';
 
-export default (preloadedState = {}) => {
+export default () => {
   const store = configureStore({
     reducer: {
       channels: channelsReducer,
@@ -15,7 +15,6 @@ export default (preloadedState = {}) => {
       loading: loadingReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-    preloadedState,
   });
 
   return store;
