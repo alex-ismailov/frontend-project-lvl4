@@ -96,29 +96,26 @@ const Channels = () => {
         </Button>
       </div>
       <Nav className="ustify-content-right flex-sm-column nav-sm-pills nav-sm-fill">
-        {channels.length > 0 &&
-          channels.map(({ id, name, removable }) => {
-            const btnVariant = id === currentChannelId ? 'primary' : 'light';
-            return removable ? (
-              <ControlledChannel
-                key={id}
-                name={name}
-                btnVariant={btnVariant}
-                removeChannel={removeChannel(id)}
-                renameChannel={renameChannel(id)}
-                handleActiveChannel={handleActiveChannel(id)}
-                // className='ml-3'
-              />
-            ) : (
-              <DefaultChannel
-                key={id}
-                name={name}
-                btnVariant={btnVariant}
-                handleActiveChannel={handleActiveChannel(id)}
-                // className='ml-3'
-              />
-            );
-          })}
+        {channels.map(({ id, name, removable }) => {
+          const btnVariant = id === currentChannelId ? 'primary' : 'light';
+          return removable ? (
+            <ControlledChannel
+              key={id}
+              name={name}
+              btnVariant={btnVariant}
+              removeChannel={removeChannel(id)}
+              renameChannel={renameChannel(id)}
+              handleActiveChannel={handleActiveChannel(id)}
+            />
+          ) : (
+            <DefaultChannel
+              key={id}
+              name={name}
+              btnVariant={btnVariant}
+              handleActiveChannel={handleActiveChannel(id)}
+            />
+          );
+        })}
       </Nav>
     </>
   );
