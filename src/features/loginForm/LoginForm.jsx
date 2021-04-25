@@ -36,7 +36,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <Header render={null} />
+      <Header />
       <div className="container-fluid">
         <Row className="justify-content-center pt-5">
           <Col sm="4">
