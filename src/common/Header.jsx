@@ -3,7 +3,7 @@ import { Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
-const Header = ({ render }) => {
+const Header = ({ children }) => {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -17,7 +17,7 @@ const Header = ({ render }) => {
       <Navbar.Brand className="mr-auto" onClick={redirectToHome}>
         {t('hexletChat')}
       </Navbar.Brand>
-      {render && render()}
+      {children}
     </Navbar>
   );
 };
