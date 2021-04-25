@@ -147,7 +147,7 @@ const SignupForm = () => {
 
 const SignupPage = () => (
   <>
-    <Header render={null} />
+    <Header />
     <Container fluid>
       <Row className="justify-content-center pt-5">
         <Col sm={4}>
