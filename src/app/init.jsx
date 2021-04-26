@@ -1,7 +1,6 @@
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
-import { io } from 'socket.io-client';
 import { setLocale } from 'yup';
 import i18n from '../i18n.js';
 import createStore from './store.js';
@@ -16,27 +15,27 @@ import {
 import { setCurrentChannelId } from '../features/chat/channels/currentChannelIdSlice.js';
 import yupDictionary from '../locales/yupDictionary.js';
 
-export default () => {
+export default (socket) => {
+  const { on } = socket;
   const store = createStore();
 
   setLocale(yupDictionary);
 
-  const socket = io();
-  socket.on('newMessage', (message) => {
+  on('newMessage', (message) => {
     store.dispatch(addNewMessage({ message }));
   });
 
-  socket.on('newChannel', (channel) => {
+  on('newChannel', (channel) => {
     store.dispatch(addChannel({ channel }));
     store.dispatch(setCurrentChannelId({ channelId: channel.id }));
   });
 
-  socket.on('removeChannel', ({ id }) => {
+  on('removeChannel', ({ id }) => {
     store.dispatch(removeChannel({ id }));
     store.dispatch(setCurrentChannelId({ channelId: 1 }));
   });
 
-  socket.on('renameChannel', (channel) => {
+  on('renameChannel', (channel) => {
     store.dispatch(renameChannel({ channel }));
   });
 
