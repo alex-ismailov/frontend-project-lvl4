@@ -23,6 +23,7 @@ const ExitButton = () => {
   const auth = useAuth();
 
   const handleLogOut = () => {
+    // @ts-ignore
     auth.logOut();
     history.push('/');
   };
