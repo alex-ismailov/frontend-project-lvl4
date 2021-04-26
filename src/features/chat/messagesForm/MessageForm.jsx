@@ -73,6 +73,7 @@ const MessageForm = () => {
       >
         <InputGroup>
           <Form.Control
+            autoComplete="off"
             onChange={formik.handleChange}
             value={formik.values.body}
             name="body"
