@@ -5,12 +5,20 @@ import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
 import ReactDOM from 'react-dom';
 import { io } from 'socket.io-client';
+import Rollbar from 'rollbar';
 import init from './app/init.jsx';
-import initRollbar from './rollbar.js';
 
-initRollbar();
+const mode = process.env.NODE_ENV;
 
-if (process.env.NODE_ENV !== 'production') {
+// eslint-disable-next-line
+new Rollbar({
+  accessToken: process.env.ROLLBAR_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  enabled: mode === 'production',
+});
+
+if (mode !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
