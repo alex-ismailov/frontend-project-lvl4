@@ -2,7 +2,7 @@ import Rollbar from 'rollbar';
 
 export default () =>
   new Rollbar({
-    accessToken: 'f80df8e493384bfca8fb6a00025e0fe8',
+    accessToken: process.env.ROLLBAR_TOKEN,
     captureUncaught: true,
     captureUnhandledRejections: true,
   });
