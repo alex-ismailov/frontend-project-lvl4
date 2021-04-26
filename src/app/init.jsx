@@ -1,3 +1,6 @@
+// @ts-check
+/* eslint-disable react/destructuring-assignment */
+
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
@@ -16,26 +19,24 @@ import { setCurrentChannelId } from '../features/chat/channels/currentChannelIdS
 import yupDictionary from '../locales/yupDictionary.js';
 
 export default (socket) => {
-  const { on } = socket;
   const store = createStore();
-
   setLocale(yupDictionary);
 
-  on('newMessage', (message) => {
+  socket.on('newMessage', (message) => {
     store.dispatch(addNewMessage({ message }));
   });
 
-  on('newChannel', (channel) => {
+  socket.on('newChannel', (channel) => {
     store.dispatch(addChannel({ channel }));
     store.dispatch(setCurrentChannelId({ channelId: channel.id }));
   });
 
-  on('removeChannel', ({ id }) => {
+  socket.on('removeChannel', ({ id }) => {
     store.dispatch(removeChannel({ id }));
     store.dispatch(setCurrentChannelId({ channelId: 1 }));
   });
 
-  on('renameChannel', (channel) => {
+  socket.on('renameChannel', (channel) => {
     store.dispatch(renameChannel({ channel }));
   });
 
