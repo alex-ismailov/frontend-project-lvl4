@@ -15,18 +15,20 @@ import { setCurrentChannelId } from './channels/currentChannelIdSlice.js';
 import { initChannels } from './channels/channelsSlice.js';
 import { initMessages } from './messages/messagesSlice.js';
 import ModalWindow from '../modal/ModalWindow.jsx';
+import useAuth from '../../hooks/useAuth.jsx';
 
 const ExitButton = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const auth = useAuth();
 
-  const handleClick = () => {
-    localStorage.clear();
+  const handleLogOut = () => {
+    auth.logOut();
     history.push('/');
   };
 
   return (
-    <Button onClick={handleClick} variant="primary">
+    <Button onClick={handleLogOut} variant="primary">
       {t('exit')}
     </Button>
   );
@@ -41,6 +43,8 @@ const fetchData = async (dispatch) => {
       },
     });
     const { channels, messages, currentChannelId } = response.data;
+    // Надо сделать один вызов, а остальные части должны отработать
+    // через extraReducers
     dispatch(setCurrentChannelId({ channelId: currentChannelId }));
     dispatch(initChannels({ channels }));
     dispatch(initMessages({ messages }));
