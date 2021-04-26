@@ -7,7 +7,6 @@ import * as yup from 'yup';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import UserNameContext from '../../../context/UserNameContext.js';
 import SocketContext from '../../../context/SocketContext.js';
 import Feedback from '../../../common/Feedback.jsx';
 import {
@@ -36,7 +35,7 @@ const MessageForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
-  const username = useContext(UserNameContext);
+  const username = localStorage.getItem('username');
   // @ts-ignore
   const currentChannelId = useSelector((state) => state.currentChannelId);
   // @ts-ignore
