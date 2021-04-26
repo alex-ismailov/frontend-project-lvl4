@@ -1,21 +1,18 @@
 // @ts-check
 
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Button } from 'react-bootstrap';
-import cn from 'classnames';
+import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import SocketContext from '../../../context/SocketContext.js';
-import Feedback from '../../../common/Feedback.jsx';
 import {
   loadingStatesMap,
   setLoadingState,
 } from '../../../app/loadingSlice.js';
 
 const sendMessage = async (message, socket, dispatch) => {
-  console.log(message);
   dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
   try {
     socket.emit('newMessage', message, (response) => {
@@ -41,61 +38,59 @@ const MessageForm = () => {
   // @ts-ignore
   const loadingState = useSelector((state) => state.loading);
   const isDisabled = loadingState === loadingStatesMap.loading;
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      body: '',
+    },
+    validationSchema: yup.object().shape({
+      body: yup.string().required(),
+    }),
+    validateOnBlur: false,
+    onSubmit: async ({ body }, { setSubmitting, resetForm }) => {
+      setSubmitting(false);
+      const message = {
+        nickname: username,
+        body,
+        channelId: currentChannelId,
+      };
+      await sendMessage(message, socket, dispatch);
+      resetForm();
+    },
+  });
 
   return (
-    <Formik
-      initialValues={{
-        body: '',
-      }}
-      validationSchema={yup.object().shape({
-        body: yup.string().required(),
-      })}
-      validateOnBlur={false}
-      onSubmit={async ({ body }, { setSubmitting, resetForm }) => {
-        setSubmitting(false);
-        const message = {
-          nickname: username,
-          body,
-          channelId: currentChannelId,
-        };
-        await sendMessage(message, socket, dispatch);
-        resetForm();
-      }}
-    >
-      {({ isValid }) => {
-        const inputContainerClasses = cn('input-group', {
-          'has-validation': !isValid,
-        });
-        const inputClasses = cn('form-control', {
-          'is-invalid': !isValid,
-        });
-
-        return (
-          <div className="mt-auto">
-            <Form noValidate>
-              <div className={inputContainerClasses}>
-                <Field
-                  autoFocus
-                  type="text"
-                  name="body"
-                  aria-label="body"
-                  className={inputClasses}
-                />
-                <div className="input-group-append">
-                  <Button type="submit" variant="primary" disabled={isDisabled}>
-                    {t('send')}
-                  </Button>
-                </div>
-                <ErrorMessage
-                  name="body"
-                  render={(message) => <Feedback message={message} />}
-                />
-              </div>
-            </Form>
-          </div>
-        );
-      }}
-    </Formik>
+    <div className="mt-auto">
+      <Form
+        noValidate
+        onSubmit={formik.handleSubmit}
+        onChange={formik.handleChange}
+      >
+        <InputGroup>
+          <Form.Control
+            onChange={formik.handleChange}
+            value={formik.values.body}
+            name="body"
+            id="body"
+            isInvalid={!formik.isValid}
+            ref={inputRef}
+          />
+          <InputGroup.Append>
+            <Button type="submit" variant="primary" disabled={isDisabled}>
+              {t('send')}
+            </Button>
+          </InputGroup.Append>
+          <Form.Control.Feedback type="invalid">
+            {t(formik.errors.body)}
+          </Form.Control.Feedback>
+        </InputGroup>
+      </Form>
+    </div>
   );
 };
 
