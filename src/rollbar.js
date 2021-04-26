@@ -5,4 +5,5 @@ export default () =>
     accessToken: process.env.ROLLBAR_TOKEN,
     captureUncaught: true,
     captureUnhandledRejections: true,
+    enabled: process.env.NODE_ENV === 'production',
   });
