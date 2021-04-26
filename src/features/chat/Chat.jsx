@@ -70,7 +70,7 @@ const Chat = () => {
         <Col sm={3} className="border-right">
           <Channels />
         </Col>
-        <Col>
+        <Col className="h-100 overflow-auto">
           <div className="d-flex flex-column h-100">
             <Messages />
             <MessageForm />
