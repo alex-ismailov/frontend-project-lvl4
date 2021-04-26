@@ -1,33 +1,50 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Formik, Form, Field } from 'formik';
-// import * as yup from 'yup';
-import { Row, Col, Button, FormGroup, FormLabel } from 'react-bootstrap';
-import cn from 'classnames';
+import { useFormik } from 'formik';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-import Feedback from '../../common/Feedback.jsx';
 import routes from '../../common/routes.js';
 import Header from '../../common/Header.jsx';
-
-const login = async (loginData, actions, history) => {
-  actions.setSubmitting(false);
-  try {
-    const response = await axios.post(routes.loginPath(), loginData);
-    const { token, username } = response.data;
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', username);
-    history.push('/');
-  } catch (error) {
-    console.log(error);
-    actions.setErrors('invalidUsernameOrPassword');
-    // надо еще что-то сделать на случай Network error
-  }
-};
+import useAuth from '../../hooks/useAuth.jsx';
 
 const LoginForm = () => {
+  const [isFailedAuth, setIsFailedAuth] = useState(false);
   const { t } = useTranslation();
+  const auth = useAuth();
   const history = useHistory();
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    onSubmit: async (loginData, actions) => {
+      setIsFailedAuth(false);
+      try {
+        const response = await axios.post(routes.loginPath(), loginData);
+        const { token, username } = response.data;
+        auth.logIn(token, username);
+        const { from } = window.location.state || { from: { pathname: '/' } };
+        history.replace(from);
+      } catch (error) {
+        setIsFailedAuth(true);
+        if (!error.response) {
+          actions.setErrors({ authStatus: 'networkError' });
+          return;
+        }
+        if (error.isAxiosError && error.response.status === 401) {
+          inputRef.current.select();
+          actions.setErrors({ authStatus: 'invalidUsernameOrPassword' });
+        }
+      }
+    },
+  });
 
   const redirectToSignupForm = (e) => {
     e.preventDefault();
@@ -37,70 +54,56 @@ const LoginForm = () => {
   return (
     <>
       <Header />
-      <div className="container-fluid">
-        <Row className="justify-content-center pt-5">
-          <Col sm="4">
-            <Formik
-              initialValues={{
-                username: '',
-                password: '',
-              }}
-              onSubmit={(loginData, actions) =>
-                login(loginData, actions, history)
-              }
-              validateOnBlur={false}
-              validateOnChange={false}
+      <Row className="justify-content-center pt-5">
+        <Col sm="4">
+          <Form onSubmit={formik.handleSubmit} className="p-3">
+            <Form.Group>
+              <Form.Label htmlFor="username">{t('yourNickname')}</Form.Label>
+              <Form.Control
+                onChange={formik.handleChange}
+                value={formik.values.username}
+                placeholder="username"
+                name="username"
+                id="username"
+                autoComplete="username"
+                isInvalid={isFailedAuth}
+                required
+                ref={inputRef}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="password">{t('password')}</Form.Label>
+              <Form.Control
+                type="password"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                placeholder="password"
+                name="password"
+                id="password"
+                autoComplete="current-password"
+                isInvalid={isFailedAuth}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                {t(formik.errors.authStatus)}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Button
+              type="submit"
+              variant="outline-primary"
+              className="w-100 mb-3"
             >
-              {({ isValid, errors: errorKey }) => {
-                const inputClasses = cn('form-control', {
-                  'is-invalid': !isValid,
-                });
-                return (
-                  <Form className="p-3">
-                    <FormGroup>
-                      <FormLabel htmlFor="username">
-                        {t('yourNickname')}
-                      </FormLabel>
-                      <Field
-                        autoFocus
-                        type="text"
-                        name="username"
-                        required
-                        id="username"
-                        className={inputClasses}
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <FormLabel htmlFor="password">{t('password')}</FormLabel>
-                      <Field
-                        type="password"
-                        name="password"
-                        required
-                        id="password"
-                        className={inputClasses}
-                      />
-                      {!isValid && <Feedback message={t(errorKey)} />}
-                    </FormGroup>
-                    <Button
-                      type="submit"
-                      variant="outline-primary"
-                      className="w-100 mb-3"
-                    >
-                      {t('login')}
-                    </Button>
-                    <div className="d-flex flex-column align-items-center">
-                      <span className="small mb-2">{t('haveNoAccount')}</span>
-                      <a onClick={redirectToSignupForm} href="/signup">
-                        {t('registration')}
-                      </a>
-                    </div>
-                  </Form>
-                );
-              }}
-            </Formik>
-          </Col>
-        </Row>
-      </div>
+              {t('login')}
+            </Button>
+            <div className="d-flex flex-column align-items-center">
+              <span className="small mb-2">{t('haveNoAccount')}</span>
+              <a onClick={redirectToSignupForm} href="/signup">
+                {t('registration')}
+              </a>
+            </div>
+          </Form>
+        </Col>
+      </Row>
     </>
   );
 };
