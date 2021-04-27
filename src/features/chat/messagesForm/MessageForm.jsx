@@ -71,7 +71,7 @@ const MessageForm = () => {
         onSubmit={formik.handleSubmit}
         onChange={formik.handleChange}
       >
-        <InputGroup>
+        <InputGroup hasValidation>
           <Form.Control
             autoComplete="off"
             onChange={formik.handleChange}
