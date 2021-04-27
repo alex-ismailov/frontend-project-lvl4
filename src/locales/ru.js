@@ -1,6 +1,6 @@
 export default {
   translation: {
-    hexletChat: 'Hexlet чат',
+    hexletChat: 'Hexlet Chat',
     yourNickname: 'Ваш ник',
     password: 'Пароль',
     login: 'Войти',
