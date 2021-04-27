@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { animateScroll as scroll } from 'react-scroll';
 
 const buildMessage = ({ id, nickname, body }) => (
   <div key={id} className="text-break">
@@ -13,25 +14,21 @@ const Messages = () => {
   const currentChannelMessages = messages.filter(
     ({ channelId }) => channelId === currentChannelId
   );
-  const messagesContainer = useRef();
 
-  const scrolPageDown = () => {
-    const scroll =
-      messagesContainer.current.scrollHeight -
-      messagesContainer.current.clientHeight;
-    messagesContainer.current.scrollTo(0, scroll);
-  };
+  const scrollToBottom = () =>
+    scroll.scrollToBottom({
+      containerId: 'messages-box',
+      duration: 50,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+    });
 
   useEffect(() => {
-    scrolPageDown();
+    scrollToBottom();
   });
 
   return (
-    <div
-      ref={messagesContainer}
-      id="messages-box"
-      className="chat-messages overflow-auto mb-3"
-    >
+    <div id="messages-box" className="chat-messages overflow-auto mb-3">
       {currentChannelMessages && currentChannelMessages.map(buildMessage)}
     </div>
   );
