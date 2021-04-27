@@ -45,7 +45,7 @@ const ExitButton = () => {
 };
 
 const fetchData = async (loadingState, dispatch) => {
-  dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
+  // dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
   const token = localStorage.getItem('token');
   try {
     const response = await axios.get(routes.data(), {
@@ -72,6 +72,7 @@ const Chat = () => {
   const loadingState = useSelector((state) => state.loading);
 
   useEffect(() => {
+    dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
     fetchData(loadingState, dispatch);
   }, []);
 
