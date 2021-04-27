@@ -73,6 +73,7 @@ const MessageForm = () => {
       >
         <InputGroup hasValidation>
           <Form.Control
+            type="text"
             autoComplete="off"
             onChange={formik.handleChange}
             value={formik.values.body}
