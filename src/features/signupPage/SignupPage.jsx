@@ -64,7 +64,7 @@ const SignupForm = () => {
       validationSchema={validationSchema}
       onSubmit={registerNewUser}
     >
-      {({ isValid, errors, touched, status }) => (
+      {({ errors, touched, status }) => (
         <Form className="p-3">
           <FormGroup>
             <FormLabel htmlFor="username">{t('username')}</FormLabel>
@@ -133,7 +133,7 @@ const SignupForm = () => {
           </FormGroup>
           <Button
             type="submit"
-            disabled={!isValid}
+            // disabled={!isValid}
             variant="outline-primary"
             className="w-100"
           >
