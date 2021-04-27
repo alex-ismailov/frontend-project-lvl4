@@ -66,11 +66,11 @@ const Chat = () => {
       <Header>
         <ExitButton />
       </Header>
-      <Row className="d-flex flex-column flex-sm-row flex-grow-1 h-75 pb-3 row">
-        <Col sm={3} className="border-right">
+      <Row className="d-flex flex-column flex-sm-row flex-grow-1 h-75 pb-3">
+        <Col sm={3} className="border-right mb-1">
           <Channels />
         </Col>
-        <Col>
+        <Col className="h-100 overflow-auto pb-1">
           <div className="d-flex flex-column h-100">
             <Messages />
             <MessageForm />
