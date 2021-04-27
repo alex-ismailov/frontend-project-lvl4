@@ -38,10 +38,12 @@ const LoginForm = () => {
         //   actions.setErrors({ authStatus: 'networkError' });
         //   return;
         // }
-        if (error.isAxiosError && error.response.status === 401) {
-          inputRef.current.select();
-          actions.setErrors({ authStatus: 'invalidUsernameOrPassword' });
-        }
+        // if (error.isAxiosError && error.response.status === 401) {
+        //   inputRef.current.select();
+        //   actions.setErrors({ authStatus: 'invalidUsernameOrPassword' });
+        // }
+        inputRef.current.select();
+        actions.setErrors({ authStatus: 'invalidUsernameOrPassword' });
       }
     },
   });
