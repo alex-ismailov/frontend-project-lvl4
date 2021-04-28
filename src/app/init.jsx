@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { setLocale } from 'yup';
 import i18n from '../i18n.js';
 import createStore from './store.js';
-// import { addNewMessage } from '../features/chat/messages/messagesSlice.js';
+import { addNewMessage } from '../features/chat/messages/messagesSlice.js';
 import App from './App.jsx';
 import { SocketProvider } from '../context/SocketContext.js';
 import {
@@ -22,9 +22,9 @@ export default async (socket) => {
   const store = createStore();
   setLocale(yupDictionary);
 
-  // socket.on('newMessage', (message) => {
-  //   store.dispatch(addNewMessage({ message }));
-  // });
+  socket.on('newMessage', (message) => {
+    store.dispatch(addNewMessage({ message }));
+  });
 
   socket.on('newChannel', (channel) => {
     store.dispatch(addChannel({ channel }));
