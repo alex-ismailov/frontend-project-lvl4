@@ -18,7 +18,7 @@ import {
 import { setCurrentChannelId } from '../features/chat/channels/currentChannelIdSlice.js';
 import yupDictionary from '../locales/yupDictionary.js';
 
-export default (socket) => {
+export default async (socket) => {
   const store = createStore();
   setLocale(yupDictionary);
 
