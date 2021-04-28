@@ -54,60 +54,60 @@ const LoginForm = () => {
   };
 
   return (
-    <>
-      <Header />
-      <Row className="justify-content-center pt-5">
-        <Col sm="4">
-          <Form onSubmit={formik.handleSubmit} className="p-3">
-            <Form.Group>
-              <Form.Label htmlFor="username">{t('yourNickname')}</Form.Label>
-              <Form.Control
-                onChange={formik.handleChange}
-                value={formik.values.username}
-                placeholder="username"
-                name="username"
-                id="username"
-                autoComplete="username"
-                isInvalid={isFailedAuth}
-                required
-                ref={inputRef}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="password">{t('password')}</Form.Label>
-              <Form.Control
-                type="password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                placeholder="password"
-                name="password"
-                id="password"
-                autoComplete="current-password"
-                isInvalid={isFailedAuth}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                {t(formik.errors.authStatus)}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Button
-              type="submit"
-              variant="outline-primary"
-              className="w-100 mb-3"
-            >
-              {t('login')}
-            </Button>
-            <div className="d-flex flex-column align-items-center">
-              <span className="small mb-2">{t('haveNoAccount')}</span>
-              <a onClick={redirectToSignupForm} href="/signup">
-                {t('registration')}
-              </a>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </>
+    <Form onSubmit={formik.handleSubmit} className="p-3">
+      <Form.Group>
+        <Form.Label htmlFor="username">{t('yourNickname')}</Form.Label>
+        <Form.Control
+          onChange={formik.handleChange}
+          value={formik.values.username}
+          placeholder="username"
+          name="username"
+          id="username"
+          autoComplete="username"
+          isInvalid={isFailedAuth}
+          required
+          ref={inputRef}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="password">{t('password')}</Form.Label>
+        <Form.Control
+          type="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          placeholder="password"
+          name="password"
+          id="password"
+          autoComplete="current-password"
+          isInvalid={isFailedAuth}
+          required
+        />
+        <Form.Control.Feedback type="invalid">
+          {t(formik.errors.authStatus)}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Button type="submit" variant="outline-primary" className="w-100 mb-3">
+        {t('login')}
+      </Button>
+      <div className="d-flex flex-column align-items-center">
+        <span className="small mb-2">{t('haveNoAccount')}</span>
+        <a onClick={redirectToSignupForm} href="/signup">
+          {t('registration')}
+        </a>
+      </div>
+    </Form>
   );
 };
 
-export default LoginForm;
+const LoginPage = () => (
+  <>
+    <Header />
+    <Row className="justify-content-center pt-5">
+      <Col sm="4">
+        <LoginForm />
+      </Col>
+    </Row>
+  </>
+);
+
+export default LoginPage;
