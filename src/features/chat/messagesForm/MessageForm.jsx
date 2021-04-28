@@ -11,6 +11,7 @@ import {
   loadingStatesMap,
   setLoadingState,
 } from '../../../app/loadingSlice.js';
+import { addNewMessage } from '../messages/messagesSlice.js';
 
 // const sendMessage = async (message, socket, dispatch) => {
 //   dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
@@ -65,17 +66,22 @@ const MessageForm = () => {
     onSubmit: ({ body }, { setSubmitting, resetForm }) => {
       setSubmitting(false);
       dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
-      const message = {
+      const newMessage = {
         nickname: username,
         body,
         channelId: currentChannelId,
       };
       try {
-        socket.emit('newMessage', message, (response) => {
+        socket.emit('newMessage', newMessage, (response) => {
           console.log(`Message sending status: ${response.status}`);
+          socket.on('newMessage', (message) => {
+            dispatch(addNewMessage({ message }));
+          });
+          dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
+          resetForm();
         });
-        dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
-        resetForm();
+        // dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
+        // resetForm();
       } catch (error) {
         console.log(error);
         dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
