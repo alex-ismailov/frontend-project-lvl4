@@ -12,21 +12,21 @@ import {
   setLoadingState,
 } from '../../../app/loadingSlice.js';
 
-const sendMessage = async (message, socket, dispatch) => {
-  dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
-  try {
-    socket.emit('newMessage', message, (response) => {
-      console.log(`Message sending status: ${response.status}`);
-    });
-    dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
-  } catch (error) {
-    console.log(error);
-    // setTimeout(() => {
-    //   sendMessage(message, socket);
-    // }, 3000); // Это пока под вопросом
-    dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
-  }
-};
+// const sendMessage = async (message, socket, dispatch) => {
+//   dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
+//   try {
+//     socket.emit('newMessage', message, (response) => {
+//       console.log(`Message sending status: ${response.status}`);
+//     });
+//     dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
+//   } catch (error) {
+//     console.log(error);
+//     // setTimeout(() => {
+//     //   sendMessage(message, socket);
+//     // }, 3000); // Это пока под вопросом
+//     dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
+//   }
+// };
 
 const MessageForm = () => {
   const { t } = useTranslation();
@@ -52,15 +52,34 @@ const MessageForm = () => {
       body: yup.string().required(),
     }),
     validateOnBlur: false,
-    onSubmit: async ({ body }, { setSubmitting, resetForm }) => {
+    // onSubmit: async ({ body }, { setSubmitting, resetForm }) => {
+    //   setSubmitting(false);
+    //   const message = {
+    //     nickname: username,
+    //     body,
+    //     channelId: currentChannelId,
+    //   };
+    //   await sendMessage(message, socket, dispatch);
+    //   resetForm();
+    // },
+    onSubmit: ({ body }, { setSubmitting, resetForm }) => {
       setSubmitting(false);
+      dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
       const message = {
         nickname: username,
         body,
         channelId: currentChannelId,
       };
-      await sendMessage(message, socket, dispatch);
-      resetForm();
+      try {
+        socket.emit('newMessage', message, (response) => {
+          console.log(`Message sending status: ${response.status}`);
+        });
+        dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
+        resetForm();
+      } catch (error) {
+        console.log(error);
+        dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
+      }
     },
   });
 
