@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import _ from 'lodash';
 import Chat from '../features/chat/Chat.jsx';
-import LoginForm from '../features/loginForm/LoginForm.jsx';
+import LoginPage from '../features/loginPage/LoginPage.jsx';
 import NoMatch from '../features/noMatch/NoMatch.jsx';
 import authContext from '../context/authContext.jsx';
 import useAuth from '../hooks/useAuth.jsx';
@@ -53,7 +53,7 @@ const App = () => (
     <AuthProvider>
       <BrowserRouter>
         <Switch>
-          <Route path="/login" render={() => <LoginForm />} />
+          <Route path="/login" render={() => <LoginPage />} />
           <Route path="/signup" render={() => <SignupPage />} />
           <ChatRoute path="/">
             <Chat />
