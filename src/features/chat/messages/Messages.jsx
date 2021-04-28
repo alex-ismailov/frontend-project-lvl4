@@ -25,7 +25,7 @@ const Messages = () => {
 
   useEffect(() => {
     scrollToBottom();
-  });
+  }, [messages]);
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
