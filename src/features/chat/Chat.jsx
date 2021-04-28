@@ -18,13 +18,13 @@ import ModalWindow from '../modal/ModalWindow.jsx';
 import useAuth from '../../hooks/useAuth.jsx';
 import { loadingStatesMap, setLoadingState } from '../../app/loadingSlice.js';
 
-const Spinner = () => (
-  <div className="h-100 d-flex justify-content-center align-items-center">
-    <div className="spinner-border text-secondary" role="status">
-      <span className="sr-only">Loading...</span>
-    </div>
-  </div>
-);
+// const Spinner = () => (
+//   <div className="h-100 d-flex justify-content-center align-items-center">
+//     <div className="spinner-border text-secondary" role="status">
+//       <span className="sr-only">Loading...</span>
+//     </div>
+//   </div>
+// );
 
 const ExitButton = () => {
   const { t } = useTranslation();
@@ -87,11 +87,13 @@ const Chat = () => {
         </Col>
         <Col className="h-100 overflow-auto pb-1">
           <div className="d-flex flex-column h-100">
-            {loadingState === loadingStatesMap.loading ? (
+            {/* {loadingState === loadingStatesMap.loading ? (
               <Spinner />
             ) : (
               <Messages />
             )}
+            <MessageForm /> */}
+            <Messages />
             <MessageForm />
           </div>
         </Col>
