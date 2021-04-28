@@ -23,7 +23,12 @@ if (mode !== 'production') {
 }
 
 const socket = io();
-const vdom = init(socket);
-const container = document.querySelector('#chat');
+// const vdom = await init(socket);
+// const container = document.querySelector('#chat');
 
-ReactDOM.render(vdom, container);
+// ReactDOM.render(vdom, container);
+
+const container = document.querySelector('#chat');
+init(socket).then((vdom) => {
+  ReactDOM.render(vdom, container);
+});
