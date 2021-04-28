@@ -28,6 +28,9 @@ deploy:
 	git push heroku
 
 test:
-	npm test -s
+	npm run test
+
+test-watch:
+	npm run test-watch
 
 .PHONY: test
