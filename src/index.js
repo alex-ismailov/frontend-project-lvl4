@@ -8,22 +8,26 @@ import { io } from 'socket.io-client';
 import Rollbar from 'rollbar';
 import init from './app/init.jsx';
 
-const mode = process.env.NODE_ENV;
+const runApp = async () => {
+  const mode = process.env.NODE_ENV;
 
-// eslint-disable-next-line
-new Rollbar({
-  accessToken: process.env.ROLLBAR_TOKEN,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  enabled: mode === 'production',
-});
+  // eslint-disable-next-line
+  new Rollbar({
+    accessToken: process.env.ROLLBAR_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    enabled: mode === 'production',
+  });
 
-if (mode !== 'production') {
-  localStorage.debug = 'chat:*';
-}
+  if (mode !== 'production') {
+    localStorage.debug = 'chat:*';
+  }
 
-const socket = io();
-const vdom = init(socket);
-const container = document.querySelector('#chat');
+  const socket = io();
+  const vdom = await init(socket);
+  const container = document.querySelector('#chat');
 
-ReactDOM.render(vdom, container);
+  ReactDOM.render(vdom, container);
+};
+
+runApp();
