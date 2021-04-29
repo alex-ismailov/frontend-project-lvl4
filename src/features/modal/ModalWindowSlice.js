@@ -12,7 +12,7 @@ export const modalTypesMap = {
 export const buildModalConfig = (
   isVisible,
   type = modalTypesMap.idle,
-  channelId = null
+  channelId = null,
 ) => ({
   isVisible,
   type,
