@@ -1,7 +1,9 @@
 // @ts-check
 
 import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter, Switch, Route, Redirect,
+} from 'react-router-dom';
 import _ from 'lodash';
 import Chat from '../features/chat/Chat.jsx';
 import LoginPage from '../features/loginPage/LoginPage.jsx';
@@ -36,14 +38,13 @@ const ChatRoute = ({ children, path }) => {
   return (
     <Route
       path={path}
-      render={({ location }) =>
-        // @ts-ignore
-        auth.isLoggedIn() ? (
+      // @ts-ignore
+      render={({ location }) => (auth.isLoggedIn()
+        ? (
           children
         ) : (
           <Redirect to={{ pathname: '/login', state: { from: location } }} />
-        )
-      }
+        ))}
     />
   );
 };
