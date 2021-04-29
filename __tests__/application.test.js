@@ -4,9 +4,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import '@testing-library/jest-dom';
 
-import {
-  render, screen, waitFor,
-} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import nock from 'nock';
 import MockedSocket from 'socket.io-mock';
@@ -62,7 +60,9 @@ describe('auth', () => {
     userEvent.type(await screen.findByLabelText(/Пароль/i), 'pass');
     userEvent.click(await screen.findByRole('button', { name: /Войти/i }));
 
-    expect(await screen.findByText(/Неверные имя пользователя или пароль/i)).toBeVisible();
+    expect(
+      await screen.findByText(/Неверные имя пользователя или пароль/i)
+    ).toBeVisible();
     scope.done();
   });
 
@@ -109,8 +109,13 @@ describe('registration', () => {
     });
     userEvent.type(await screen.findByLabelText(/Имя пользователя/i), 'user');
     userEvent.type(await screen.findByLabelText(/^Пароль$/i), 'password');
-    userEvent.type(await screen.findByLabelText(/Подтвердите пароль/i), 'password');
-    userEvent.click(await screen.findByRole('button', { name: /Зарегистрироваться/i }));
+    userEvent.type(
+      await screen.findByLabelText(/Подтвердите пароль/i),
+      'password'
+    );
+    userEvent.click(
+      await screen.findByRole('button', { name: /Зарегистрироваться/i })
+    );
     await waitFor(() => {
       expect(window.location.pathname).toBe('/');
     });
@@ -127,8 +132,13 @@ describe('registration', () => {
     });
     userEvent.type(await screen.findByLabelText(/Имя пользователя/i), 'u');
     userEvent.type(await screen.findByLabelText(/^Пароль$/i), 'pass');
-    userEvent.type(await screen.findByLabelText(/Подтвердите пароль/i), 'passw');
-    userEvent.click(await screen.findByRole('button', { name: /Зарегистрироваться/i }));
+    userEvent.type(
+      await screen.findByLabelText(/Подтвердите пароль/i),
+      'passw'
+    );
+    userEvent.click(
+      await screen.findByRole('button', { name: /Зарегистрироваться/i })
+    );
     expect(await screen.findByText(/От 3 до 20 символов/i)).toBeVisible();
     expect(await screen.findByText(/Не менее 6 символов/i)).toBeVisible();
     expect(await screen.findByText(/Пароли должны совпадать/i)).toBeVisible();
@@ -138,7 +148,10 @@ describe('registration', () => {
 describe('chat', () => {
   beforeEach(async () => {
     const data = {
-      channels: [{ id: 1, name: 'General' }, { id: 2, name: 'Random' }],
+      channels: [
+        { id: 1, name: 'General' },
+        { id: 2, name: 'Random' },
+      ],
       messages: [],
       currentChannelId: 1,
     };
@@ -156,27 +169,41 @@ describe('chat', () => {
   });
 
   test('messaging', async () => {
-    userEvent.type(await screen.findByRole('textbox', { name: /body/i }), 'hello');
+    userEvent.type(
+      await screen.findByRole('textbox', { name: /body/i }),
+      'hello'
+    );
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
     expect(await screen.findByText(/hello/i)).toBeInTheDocument();
   });
 
   test('different channels', async () => {
-    userEvent.type(await screen.findByRole('textbox', { name: /body/i }), 'message for general');
+    userEvent.type(
+      await screen.findByRole('textbox', { name: /body/i }),
+      'message for general'
+    );
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
     expect(await screen.findByText(/message for general/i)).toBeInTheDocument();
     userEvent.click(await screen.findByRole('button', { name: /random/i }));
     expect(screen.queryByText(/message for general/i)).not.toBeInTheDocument();
-    userEvent.type(await screen.findByRole('textbox', { name: /body/i }), 'message for random');
+    userEvent.type(
+      await screen.findByRole('textbox', { name: /body/i }),
+      'message for random'
+    );
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
     expect(await screen.findByText(/message for random/i)).toBeInTheDocument();
   });
 
   test('adding channel', async () => {
     userEvent.click(await screen.findByRole('button', { name: '+' }));
-    userEvent.type(await screen.findByRole('textbox', { name: /add channel/i }), 'test channel');
+    userEvent.type(
+      await screen.findByRole('textbox', { name: /add channel/i }),
+      'test channel'
+    );
     userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
-    expect(await screen.findByRole('button', { name: /test channel/i })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('button', { name: /test channel/i })
+    ).toBeInTheDocument();
   });
 
   // TODO: tests for renaming and removing channel
