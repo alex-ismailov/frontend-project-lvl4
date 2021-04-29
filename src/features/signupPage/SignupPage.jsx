@@ -1,7 +1,9 @@
 import { useFormik } from 'formik';
 import React, { useRef, useEffect, useState } from 'react';
 import * as yup from 'yup';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import {
+  Container, Row, Col, Form, Button,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -69,7 +71,7 @@ const SignupForm = () => {
         />
         <Form.Control.Feedback type="invalid">
           {t(
-            formik.errors.username === 'required' ? 'required' : 'minMaxSymbols'
+            formik.errors.username === 'required' ? 'required' : 'minMaxSymbols',
           )}
         </Form.Control.Feedback>
       </Form.Group>
@@ -106,8 +108,8 @@ const SignupForm = () => {
           placeholder={t('passwordsMustMatch')}
           autoComplete="new-password"
           isInvalid={
-            (formik.errors.confirmPassword && formik.touched.confirmPassword) ||
-            !isValidData
+            (formik.errors.confirmPassword && formik.touched.confirmPassword)
+            || !isValidData
           }
         />
         <Form.Control.Feedback type="invalid">
