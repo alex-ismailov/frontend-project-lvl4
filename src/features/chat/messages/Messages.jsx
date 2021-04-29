@@ -6,6 +6,7 @@ const buildMessage = ({ id, nickname, body }) => (
   <div key={id} className="text-break">
     <b>{nickname}</b>
     :
+    {' '}
     {body}
   </div>
 );
