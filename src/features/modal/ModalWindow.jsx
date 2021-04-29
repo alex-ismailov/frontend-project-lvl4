@@ -62,6 +62,7 @@ const PanelForm = ({
                 name="name"
                 aria-label="add channel"
                 className={inputClasses}
+                data-testid="add-channel"
               />
               <ErrorMessage
                 name="name"
