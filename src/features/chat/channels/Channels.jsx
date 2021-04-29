@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Nav, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
+import {
+  Nav, Button, Dropdown, ButtonGroup,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId } from './currentChannelIdSlice.js';
 import {
@@ -55,8 +57,7 @@ const Channels = () => {
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const dispatch = useDispatch();
 
-  const handleActiveChannel = (channelId) => () =>
-    dispatch(setCurrentChannelId({ channelId }));
+  const handleActiveChannel = (channelId) => () => dispatch(setCurrentChannelId({ channelId }));
 
   const addChannel = () => {
     const modalConfig = buildModalConfig(true, modalTypesMap.adding);
@@ -68,7 +69,7 @@ const Channels = () => {
     const modalConfig = buildModalConfig(
       true,
       modalTypesMap.removing,
-      channelId
+      channelId,
     );
     dispatch(toggleModal({ modalConfig }));
   };
@@ -78,7 +79,7 @@ const Channels = () => {
     const modalConfig = buildModalConfig(
       true,
       modalTypesMap.renaming,
-      channelId
+      channelId,
     );
     dispatch(toggleModal({ modalConfig }));
   };
