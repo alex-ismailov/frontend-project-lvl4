@@ -1,18 +1,21 @@
 ---
 
 plugins:
-  - jsx-a11y
-  - prettier
+  - react
+  - jest
   - functional
+  - testing-library
+  - jest-dom
 
 extends:
   - airbnb
-  - plugin:jsx-a11y/recommended
-  - 'plugin:react-hooks/recommended'
-  - prettier
   - "plugin:jest/recommended"
   - "plugin:functional/external-recommended"
   - "plugin:functional/recommended"
+  - "plugin:react/recommended"
+  - "plugin:react-hooks/recommended"
+  # - "plugin:testing-library/recommended"
+  - "plugin:jest-dom/recommended"
 
 parser: babel-eslint
 
@@ -21,10 +24,10 @@ env:
   node: true
   jest: true
 
-settings:
-  import/resolver:
-    - node
-    - webpack
+# settings:
+#   import/resolver:
+#     - node
+#     - webpack
 
 rules:
   import/extensions: 0
@@ -41,8 +44,3 @@ rules:
     - extensions:
       - ".js"
       - ".jsx"
-  prettier/prettier:
-    - error
-    - singleQuote: true
-      trailingComma: "es5"
-      tabWidth: 2
