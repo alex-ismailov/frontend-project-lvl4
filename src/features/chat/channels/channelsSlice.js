@@ -9,13 +9,10 @@ const slice = createSlice({
     addChannel: (state, { payload: { channel } }) => {
       state.push(channel);
     },
-    removeChannel: (state, { payload: { id } }) =>
-      state.filter((channel) => channel.id !== id),
+    removeChannel: (state, { payload: { id } }) => state.filter((channel) => channel.id !== id),
     renameChannel: (state, { payload: { channel: changedСhannel } }) => {
       const { id, name } = changedСhannel;
-      return state.map((channel) =>
-        channel.id === id ? { ...channel, name } : channel
-      );
+      return state.map((channel) => (channel.id === id ? { ...channel, name } : channel));
     },
     initChannels: (state, { payload: { channels } }) => channels,
   },
