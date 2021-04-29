@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import {
+  Row, Col, Form, Button,
+} from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../../common/routes.js';
 import Header from '../../common/Header.jsx';
