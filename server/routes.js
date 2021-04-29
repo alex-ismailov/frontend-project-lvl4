@@ -135,7 +135,7 @@ export default (app, defaultState = {}) => {
       reply
         .header('Content-Type', 'application/json; charset=utf-8')
         .send(_.omit(state, 'users'));
-    }
+    },
   );
 
   app.get('*', (_req, reply) => {
