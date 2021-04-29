@@ -64,6 +64,7 @@ const MessageForm = () => {
             id="body"
             isInvalid={!formik.isValid}
             ref={inputRef}
+            data-testid="new-message"
           />
           <InputGroup.Append>
             <Button type="submit" variant="primary">
