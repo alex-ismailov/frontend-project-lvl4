@@ -1,147 +1,125 @@
-import { Formik, Field, ErrorMessage, Form } from 'formik';
-import React, { useRef, useEffect } from 'react';
+import { useFormik } from 'formik';
+import React, { useRef, useEffect, useState } from 'react';
 import * as yup from 'yup';
-import cn from 'classnames';
-import {
-  Container,
-  Row,
-  Col,
-  FormGroup,
-  FormLabel,
-  Button,
-} from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Feedback from '../../common/Feedback.jsx';
 import Header from '../../common/Header.jsx';
 import routes from '../../common/routes.js';
 
 const SignupForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const usernameInput = useRef(null);
+  const [isValidData, setIsValidData] = useState(true);
+  const inputRef = useRef();
 
   useEffect(() => {
-    usernameInput.current.focus();
-  });
+    inputRef.current.focus();
+  }, []);
 
-  const validationSchema = yup.object().shape({
-    username: yup.string().required().min(3).max(20),
-    password: yup.string().required().min(6),
-    confirmPassword: yup
-      .string()
-      .required()
-      .oneOf([yup.ref('password'), null]),
-  });
-
-  const registerNewUser = async ({ username, password }, actions) => {
-    actions.setSubmitting(false);
-    const credentials = { username, password };
-    try {
-      const response = await axios.post(routes.signupPath(), credentials);
-      const { data } = response;
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('username', data.username);
-      history.push('/');
-    } catch (e) {
-      if (e.message === 'Network Error') {
-        actions.setStatus({ isValid: false, message: 'networkError' });
-        return;
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationSchema: yup.object().shape({
+      username: yup.string().required().min(3).max(20),
+      password: yup.string().required().min(6),
+      confirmPassword: yup
+        .string()
+        .required()
+        .oneOf([yup.ref('password'), null]),
+    }),
+    onSubmit: async ({ username, password }, actions) => {
+      actions.setSubmitting(false);
+      const credentials = { username, password };
+      try {
+        const response = await axios.post(routes.signupPath(), credentials);
+        const { data } = response;
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        const { from } = window.location.state || { from: { pathname: '/' } };
+        history.replace(from);
+      } catch (e) {
+        inputRef.current.select();
+        setIsValidData(false);
       }
-      usernameInput.current.focus();
-      actions.setStatus({ isValid: false, message: 'userAlreadyExists' });
-    }
-  };
+    },
+  });
 
   return (
-    <Formik
-      initialValues={{
-        username: '',
-        password: '',
-        confirmPassword: '',
-      }}
-      validationSchema={validationSchema}
-      onSubmit={registerNewUser}
-    >
-      {({ errors, touched, status }) => (
-        <Form className="p-3">
-          <FormGroup>
-            <FormLabel htmlFor="username">{t('username')}</FormLabel>
-            <Field
-              innerRef={usernameInput}
-              onFocus={(e) => e.currentTarget.select()}
-              type="text"
-              name="username"
-              placeholder={t('minMaxSymbols')}
-              autoComplete="username"
-              id="username"
-              className={cn('form-control', {
-                'is-invalid':
-                  (errors.username && touched.username) ||
-                  (status && !status.isValid),
-              })}
-            />
-            <ErrorMessage
-              name="username"
-              render={(msg) => {
-                const message = msg === 'required' ? msg : 'minMaxSymbols';
-                return <Feedback message={message} />;
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel htmlFor="password">{t('password')}</FormLabel>
-            <Field
-              type="password"
-              name="password"
-              placeholder={t('minChars')}
-              autoComplete="new-password"
-              id="password"
-              className={cn('form-control', {
-                'is-invalid':
-                  (errors.password && touched.password) ||
-                  (status && !status.isValid),
-              })}
-            />
-            <ErrorMessage
-              name="password"
-              render={(message) => <Feedback message={message} />}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel htmlFor="confirmPassword">
-              {t('confirmPassword')}
-            </FormLabel>
-            <Field
-              type="password"
-              name="confirmPassword"
-              placeholder={t('passwordsMustMatch')}
-              autoComplete="new-password"
-              id="confirmPassword"
-              className={cn('form-control', {
-                'is-invalid':
-                  (errors.confirmPassword && touched.confirmPassword) ||
-                  (status && !status.isValid),
-              })}
-            />
-            <ErrorMessage
-              name="confirmPassword"
-              render={(message) => <Feedback message={message} />}
-            />
-            {status && !status.isValid && <Feedback message={status.message} />}
-          </FormGroup>
-          <Button
-            type="submit"
-            // disabled={!isValid}
-            variant="outline-primary"
-            className="w-100"
-          >
-            {t('signup')}
-          </Button>
-        </Form>
-      )}
-    </Formik>
+    <Form onSubmit={formik.handleSubmit} className="p-3">
+      <Form.Group>
+        <Form.Label htmlFor="username">{t('username')}</Form.Label>
+        <Form.Control
+          type="text"
+          name="username"
+          id="username"
+          value={formik.values.username}
+          ref={inputRef}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          placeholder={t('minMaxSymbols')}
+          autoComplete="username"
+          isInvalid={
+            (formik.errors.username && formik.touched.username) || !isValidData
+          }
+        />
+        <Form.Control.Feedback type="invalid">
+          {t(
+            formik.errors.username === 'required' ? 'required' : 'minMaxSymbols'
+          )}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="password">{t('password')}</Form.Label>
+        <Form.Control
+          type="password"
+          name="password"
+          id="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          placeholder={t('minChars')}
+          autoComplete="new-password"
+          isInvalid={
+            (formik.errors.password && formik.touched.password) || !isValidData
+          }
+        />
+        <Form.Control.Feedback type="invalid">
+          {t(formik.errors.password)}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="confirmPassword">
+          {t('confirmPassword')}
+        </Form.Label>
+        <Form.Control
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          value={formik.values.confirmPassword}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          placeholder={t('passwordsMustMatch')}
+          autoComplete="new-password"
+          isInvalid={
+            (formik.errors.confirmPassword && formik.touched.confirmPassword) ||
+            !isValidData
+          }
+        />
+        <Form.Control.Feedback type="invalid">
+          {!isValidData
+            ? t('userAlreadyExists')
+            : t(formik.errors.confirmPassword)}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Button type="submit" variant="outline-primary" className="w-100">
+        {t('signup')}
+      </Button>
+    </Form>
   );
 };
 
