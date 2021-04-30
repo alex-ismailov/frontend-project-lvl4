@@ -12,7 +12,6 @@ import {
   modalTypesMap,
 } from './ModalWindowSlice.js';
 import SocketContext from '../../context/SocketContext.js';
-import { loadingStatesMap, setLoadingState } from '../../app/loadingSlice.js';
 
 const submitActionsMap = {
   add: 'newChannel',
@@ -28,8 +27,6 @@ const PanelForm = ({
 }) => {
   const inputRef = useRef();
   const { t } = useTranslation();
-  const loadingState = useSelector((state) => state.loading);
-  const isDisabled = loadingState === loadingStatesMap.loading;
 
   useEffect(() => {
     inputRef.current.focus();
@@ -72,7 +69,7 @@ const PanelForm = ({
           >
             {t('cancel')}
           </Button>
-          <Button type="submit" variant="primary" disabled={isDisabled}>
+          <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
             {t('send')}
           </Button>
         </div>
@@ -84,21 +81,17 @@ const PanelForm = ({
 const RemovingPanel = ({ channels, channelId, closeModal }) => {
   const { t } = useTranslation();
   const socket = useContext(SocketContext);
-  const dispatch = useDispatch();
   const action = submitActionsMap.remove;
   const currentChannel = channels.find(({ id }) => id === channelId);
 
   const removeChannel = (channel) => () => {
-    dispatch(setLoadingState({ loadingState: loadingStatesMap.loading }));
     try {
       socket.emit(action, channel, (response) => {
         console.log(`${action} status: ${response.status}`);
       });
-      dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
       closeModal();
     } catch (error) {
       console.log(error);
-      dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
       closeModal();
     }
   };
@@ -120,7 +113,6 @@ const RemovingPanel = ({ channels, channelId, closeModal }) => {
 
 const RenamingPanel = ({ channels, channelId, closeModal }) => {
   const socket = useContext(SocketContext);
-  const dispatch = useDispatch();
   const currentChannel = channels.find(({ id }) => id === channelId);
   const initialName = currentChannel.name;
   const validationSchema = yup.object().shape({
@@ -135,11 +127,9 @@ const RenamingPanel = ({ channels, channelId, closeModal }) => {
       socket.emit(action, changedСhannel, (response) => {
         console.log(`${action} status: ${response.status}`);
       });
-      dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
       closeModal();
     } catch (error) {
       console.log(error);
-      dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
     }
   };
 
@@ -155,7 +145,6 @@ const RenamingPanel = ({ channels, channelId, closeModal }) => {
 
 const AddingPanel = ({ channels, closeModal }) => {
   const socket = useContext(SocketContext);
-  const dispatch = useDispatch();
   const initialName = '';
   const channelsNames = channels.map(({ name }) => name);
   const validationSchema = yup.object().shape({
@@ -170,11 +159,9 @@ const AddingPanel = ({ channels, closeModal }) => {
       socket.emit(action, channel, (response) => {
         console.log(`${action} status: ${response.status}`);
       });
-      dispatch(setLoadingState({ loadingState: loadingStatesMap.success }));
       closeModal();
     } catch (error) {
       console.log(error);
-      dispatch(setLoadingState({ loadingState: loadingStatesMap.failure }));
     }
   };
 
