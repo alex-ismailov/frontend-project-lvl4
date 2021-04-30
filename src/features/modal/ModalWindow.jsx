@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Formik, Form, Field, ErrorMessage,
+  useFormik,
 } from 'formik';
-import { FormGroup, Modal, Button } from 'react-bootstrap';
+import { Form, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import {
@@ -12,7 +11,6 @@ import {
   buildModalConfig,
   modalTypesMap,
 } from './ModalWindowSlice.js';
-import Feedback from '../../common/Feedback.jsx';
 import SocketContext from '../../context/SocketContext.js';
 import { loadingStatesMap, setLoadingState } from '../../app/loadingSlice.js';
 
@@ -28,64 +26,58 @@ const PanelForm = ({
   handleSubmit,
   closeModal,
 }) => {
-  const textInput = useRef(null);
+  const inputRef = useRef();
   const { t } = useTranslation();
   const loadingState = useSelector((state) => state.loading);
   const isDisabled = loadingState === loadingStatesMap.loading;
 
   useEffect(() => {
-    textInput.current.focus();
+    inputRef.current.focus();
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: initialName,
+    },
+    validationSchema,
+    validateOnBlur: false,
+    validateOnChange: false,
+    onSubmit: handleSubmit,
   });
 
   return (
-    <Formik
-      initialValues={{
-        name: initialName,
-      }}
-      validationSchema={validationSchema}
-      validateOnBlur={false}
-      validateOnChange={false}
-      onSubmit={handleSubmit}
-    >
-      {({ isValid }) => {
-        const inputClasses = cn('mb-2', 'form-control', {
-          'is-invalid': !isValid,
-        });
-
-        return (
-          <Form>
-            <FormGroup>
-              <Field
-                innerRef={textInput}
-                onFocus={(e) => e.currentTarget.select()}
-                type="text"
-                name="name"
-                aria-label="add channel"
-                className={inputClasses}
-                data-testid="add-channel"
-              />
-              <ErrorMessage
-                name="name"
-                render={(message) => <Feedback message={message} />}
-              />
-              <div className="d-flex justify-content-end">
-                <Button
-                  onClick={closeModal}
-                  type="button"
-                  variant="secondary"
-                  className="mr-2"
-                >
-                  {t('cancel')}
-                </Button>
-                <Button type="submit" variant="primary" disabled={isDisabled}>
-                  {t('send')}
-                </Button>
-              </div>
-            </FormGroup>
-          </Form>
-        );
-      }}
-    </Formik>
+    <Form onSubmit={formik.handleSubmit}>
+      <Form.Group>
+        <Form.Control
+          value={formik.values.password}
+          ref={inputRef}
+          onFocus={(e) => e.currentTarget.select()}
+          type="text"
+          name="name"
+          id="name"
+          onChange={formik.handleChange}
+          aria-label="add channel"
+          className="mb-2 form-control"
+          data-testid="add-channel"
+        />
+        <Form.Control.Feedback type="invalid">
+          {t(formik.errors.initialName)}
+        </Form.Control.Feedback>
+        <div className="d-flex justify-content-end">
+          <Button
+            onClick={closeModal}
+            type="button"
+            variant="secondary"
+            className="mr-2"
+          >
+            {t('cancel')}
+          </Button>
+          <Button type="submit" variant="primary" disabled={isDisabled}>
+            {t('send')}
+          </Button>
+        </div>
+      </Form.Group>
+    </Form>
   );
 };
 
