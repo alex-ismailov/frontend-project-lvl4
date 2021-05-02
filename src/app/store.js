@@ -12,7 +12,6 @@ export default () => {
       currentChannelId: currentChannelIdReducer,
       modal: modalReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   });
 
   return store;
