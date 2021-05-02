@@ -36,9 +36,7 @@ const MessageForm = () => {
         channelId: currentChannelId,
       };
       try {
-        socket.emit('newMessage', message, (response) => {
-          console.log(`Message sending status: ${response.status}`);
-        });
+        socket.emit('newMessage', message, () => {});
         resetForm();
       } catch (error) {
         console.log(error);
