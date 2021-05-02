@@ -6,6 +6,7 @@
   "engines": {
     "node": "14.x"
   },
+  "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/application.test.js",
     "test-watch": "npm run test -- --watchAll",
