@@ -86,9 +86,7 @@ const RemovingPanel = ({ channels, channelId, closeModal }) => {
 
   const removeChannel = (channel) => () => {
     try {
-      socket.emit(action, channel, (response) => {
-        console.log(`${action} status: ${response.status}`);
-      });
+      socket.emit(action, channel, () => {});
       closeModal();
     } catch (error) {
       console.log(error);
@@ -124,9 +122,7 @@ const RenamingPanel = ({ channels, channelId, closeModal }) => {
     const changedСhannel = { ...channel, name };
     const action = submitActionsMap.rename;
     try {
-      socket.emit(action, changedСhannel, (response) => {
-        console.log(`${action} status: ${response.status}`);
-      });
+      socket.emit(action, changedСhannel, () => {});
       closeModal();
     } catch (error) {
       console.log(error);
@@ -156,9 +152,7 @@ const AddingPanel = ({ channels, closeModal }) => {
     const action = submitActionsMap.add;
     const channel = { name };
     try {
-      socket.emit(action, channel, (response) => {
-        console.log(`${action} status: ${response.status}`);
-      });
+      socket.emit(action, channel, () => {});
       closeModal();
     } catch (error) {
       console.log(error);
