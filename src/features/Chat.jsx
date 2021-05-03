@@ -45,9 +45,10 @@ const ExitButton = () => {
 const Chat = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const auth = useAuth();
 
   const fetchData = async () => {
-    const token = localStorage.getItem('token');
+    const token = auth.getToken();
     try {
       const response = await axios.get(routes.data(), {
         headers: {
