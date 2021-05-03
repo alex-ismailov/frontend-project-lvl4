@@ -1,7 +1,7 @@
 // @ts-check
 
 import { createSlice } from '@reduxjs/toolkit';
-import { removeChannel } from '../channels/channelsSlice.js';
+import { removeChannel } from '../channelsInfo/channelsSlice.js';
 
 const slice = createSlice({
   name: 'messages',
