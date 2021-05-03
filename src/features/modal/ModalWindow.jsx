@@ -190,6 +190,8 @@ const ControllPanel = ({ type, channelId, closeModal }) => {
           closeModal={closeModal}
         />
       );
+    case modalTypesMap.idle:
+      return null;
     default:
       throw new Error(`Unknown controll panel type: ${type}`);
   }
@@ -214,20 +216,18 @@ const ModalWindow = () => {
   };
 
   return (
-    isVisible && (
-      <Modal show={isVisible} onHide={closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{t(modalTitleKeysMap[type])}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <ControllPanel
-            type={type}
-            channelId={channelId}
-            closeModal={closeModal}
-          />
-        </Modal.Body>
-      </Modal>
-    )
+    <Modal show={isVisible} onHide={closeModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>{t(modalTitleKeysMap[type])}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <ControllPanel
+          type={type}
+          channelId={channelId}
+          closeModal={closeModal}
+        />
+      </Modal.Body>
+    </Modal>
   );
 };
 
