@@ -9,12 +9,14 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import Header from '../../common/Header.jsx';
 import routes from '../../common/routes.js';
+import useAuth from '../../hooks/useAuth.jsx';
 
 const SignupForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [isValidData, setIsValidData] = useState(true);
   const inputRef = useRef();
+  const auth = useAuth();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -39,9 +41,8 @@ const SignupForm = () => {
       const credentials = { username, password };
       try {
         const response = await axios.post(routes.signupPath(), credentials);
-        const { data } = response;
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
+        const { token } = response.data;
+        auth.logIn(token, username);
         const { from } = window.location.state || { from: { pathname: '/' } };
         history.replace(from);
       } catch (e) {
