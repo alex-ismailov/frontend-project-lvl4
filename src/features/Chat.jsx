@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import routes from '../common/routes.js';
 import Channels from './channelsInfo/Channels.jsx';
 import Messages from './messages/Messages.jsx';
-import MessageForm from './messagesForm/MessageForm.jsx';
+import MessageForm from './MessageForm.jsx';
 import Header from '../common/Header.jsx';
 import { setCurrentChannelId, initChannels } from './channelsInfo/channelsSlice.js';
 import { initMessages } from './messages/messagesSlice.js';
