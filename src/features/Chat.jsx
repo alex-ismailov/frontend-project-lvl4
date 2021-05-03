@@ -11,8 +11,7 @@ import Channels from './channelsInfo/Channels.jsx';
 import Messages from './messages/Messages.jsx';
 import MessageForm from './MessageForm.jsx';
 import Header from '../common/Header.jsx';
-import { setCurrentChannelId, initChannels } from './channelsInfo/channelsSlice.js';
-import { initMessages } from './messages/messagesSlice.js';
+import { initChannels } from './channelsInfo/channelsSlice.js';
 import ModalWindow from './modal/ModalWindow.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 
@@ -55,14 +54,9 @@ const Chat = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { channels, messages, currentChannelId } = response.data;
-      // Надо сделать один вызов, а остальные части должны отработать
-      // через extraReducers
-      dispatch(setCurrentChannelId({ channelId: currentChannelId }));
-      dispatch(initChannels({ channels }));
-      dispatch(initMessages({ messages }));
+      const { data } = response;
+      dispatch(initChannels({ data }));
       setIsLoading(false);
-      // ************************************
     } catch (error) {
       console.log(error);
     }
