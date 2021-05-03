@@ -43,8 +43,7 @@ const SignupForm = () => {
         const response = await axios.post(routes.signupPath(), credentials);
         const { token } = response.data;
         auth.logIn(token, username);
-        const { from } = window.location.state || { from: { pathname: '/' } };
-        history.replace(from);
+        history.replace('/');
       } catch (e) {
         inputRef.current.select();
         setIsValidData(false);
