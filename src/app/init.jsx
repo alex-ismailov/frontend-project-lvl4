@@ -6,6 +6,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { setLocale } from 'yup';
 
+import _ from 'lodash';
 import resources from '../locales/index.js';
 import i18n from '../i18n.js';
 import createStore from './store.js';
@@ -18,6 +19,7 @@ import {
   renameChannel,
 } from '../features/channelsInfo/channelsSlice.js';
 import yupDictionary from '../locales/yupDictionary.js';
+import authContext from '../context/authContext.jsx';
 
 export default async (socket) => {
   const store = createStore();
@@ -51,11 +53,33 @@ export default async (socket) => {
     store.dispatch(renameChannel({ channel }));
   });
 
+  const AuthProvider = ({ children }) => {
+    const isLoggedIn = () => _.has(localStorage, 'token');
+
+    const logIn = (token, username) => {
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
+    };
+
+    const logOut = () => {
+      localStorage.removeItem('username');
+      localStorage.removeItem('token');
+    };
+
+    return (
+      <authContext.Provider value={{ isLoggedIn, logIn, logOut }}>
+        {children}
+      </authContext.Provider>
+    );
+  };
+
   return (
     <Provider store={store}>
       <SocketProvider value={socket}>
         <I18nextProvider i18n={i18nInstance}>
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         </I18nextProvider>
       </SocketProvider>
     </Provider>

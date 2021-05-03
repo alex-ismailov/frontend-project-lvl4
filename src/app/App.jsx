@@ -4,66 +4,36 @@ import React from 'react';
 import {
   BrowserRouter, Switch, Route, Redirect,
 } from 'react-router-dom';
-import _ from 'lodash';
 import Chat from '../features/Chat.jsx';
 import LoginPage from '../features/LoginPage.jsx';
 import NoMatch from '../features/NoMatch.jsx';
-import authContext from '../context/authContext.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 import SignupPage from '../features/SignupPage.jsx';
 
-const AuthProvider = ({ children }) => {
-  const isLoggedIn = () => _.has(localStorage, 'token');
-
-  const logIn = (token, username) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', username);
-  };
-
-  const logOut = () => {
-    localStorage.removeItem('username');
-    localStorage.removeItem('token');
-  };
-
-  return (
-    <authContext.Provider value={{ isLoggedIn, logIn, logOut }}>
-      {children}
-    </authContext.Provider>
-  );
-};
-
-const ChatRoute = ({ children, path }) => {
+const App = () => {
   const auth = useAuth();
 
   return (
-    <Route
-      path={path}
-      // @ts-ignore
-      render={({ location }) => (auth.isLoggedIn()
-        ? (
-          children
-        ) : (
-          <Redirect to={{ pathname: '/login', state: { from: location } }} />
-        ))}
-    />
-  );
-};
-
-const App = () => (
-  <div className="d-flex flex-column h-100">
-    <AuthProvider>
+    <div className="d-flex flex-column h-100">
       <BrowserRouter>
         <Switch>
+          <Route
+            exact
+            path="/"
+            render={({ location }) => (auth.isLoggedIn()
+              ? (
+                <Chat />
+              ) : (
+                <Redirect to={{ pathname: '/login', state: { from: location } }} />
+              ))}
+          />
           <Route path="/login" render={() => <LoginPage />} />
           <Route path="/signup" render={() => <SignupPage />} />
-          <ChatRoute path="/">
-            <Chat />
-          </ChatRoute>
           <Route path="*" render={() => <NoMatch />} />
         </Switch>
       </BrowserRouter>
-    </AuthProvider>
-  </div>
-);
+    </div>
+  );
+};
 
 export default App;
