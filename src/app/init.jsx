@@ -16,7 +16,7 @@ import {
   addChannel,
   removeChannel,
   renameChannel,
-} from '../features/chat/channels/channelsSlice.js';
+} from '../features/chat/channelsInfo/channelsSlice.js';
 import yupDictionary from '../locales/yupDictionary.js';
 
 export default async (socket) => {
