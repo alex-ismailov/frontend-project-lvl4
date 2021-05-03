@@ -12,7 +12,7 @@ const buildMessage = ({ id, nickname, body }) => (
 );
 
 const Messages = () => {
-  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
   const messages = useSelector((state) => state.messages);
   const currentChannelMessages = messages.filter(
     ({ channelId }) => channelId === currentChannelId,
