@@ -4,7 +4,7 @@ import {
   Nav, Button, Dropdown, ButtonGroup,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { setCurrentChannelId } from './currentChannelIdSlice.js';
+import { setCurrentChannelId } from './channelsSlice.js';
 import {
   toggleModal,
   modalTypesMap,
@@ -53,8 +53,8 @@ const ControlledChannel = ({
 
 const Channels = () => {
   const { t } = useTranslation();
-  const channels = useSelector((state) => state.channels);
-  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const channels = useSelector((state) => state.channelsInfo.channels);
+  const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
   const dispatch = useDispatch();
 
   const handleActiveChannel = (channelId) => () => dispatch(setCurrentChannelId({ channelId }));
