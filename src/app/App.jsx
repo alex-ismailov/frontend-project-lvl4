@@ -6,11 +6,11 @@ import {
 } from 'react-router-dom';
 import _ from 'lodash';
 import Chat from '../features/Chat.jsx';
-import LoginPage from '../features/loginPage/LoginPage.jsx';
-import NoMatch from '../features/noMatch/NoMatch.jsx';
+import LoginPage from '../features/LoginPage.jsx';
+import NoMatch from '../features/NoMatch.jsx';
 import authContext from '../context/authContext.jsx';
 import useAuth from '../hooks/useAuth.jsx';
-import SignupPage from '../features/signupPage/SignupPage.jsx';
+import SignupPage from '../features/SignupPage.jsx';
 
 const AuthProvider = ({ children }) => {
   const isLoggedIn = () => _.has(localStorage, 'token');
