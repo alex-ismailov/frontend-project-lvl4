@@ -3,18 +3,46 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
-  name: 'channels',
-  initialState: [],
+  name: 'channelsInfo',
+  initialState: {
+    channels: [],
+    currentChannelId: 1,
+  },
   reducers: {
     addChannel: (state, { payload: { channel } }) => {
-      state.push(channel);
+      state.channels.push(channel);
     },
-    removeChannel: (state, { payload: { id } }) => state.filter((channel) => channel.id !== id),
+    removeChannel: (state, { payload: { id } }) => {
+      state.channels = state.channels.filter((channel) => channel.id !== id);
+      return state;
+    },
     renameChannel: (state, { payload: { channel: changedСhannel } }) => {
       const { id, name } = changedСhannel;
-      return state.map((channel) => (channel.id === id ? { ...channel, name } : channel));
+      state.channels = state.channels
+        .map((channel) => (channel.id === id ? { ...channel, name } : channel));
+      return state;
     },
-    initChannels: (state, { payload: { channels } }) => channels,
+    initChannels: (state, { payload: { channels } }) => {
+      state.channels = channels;
+      return state;
+    },
+    setCurrentChannelId: (state, { payload: { channelId } }) => {
+      state.currentChannelId = channelId;
+      return state;
+    },
+    // extraReducers: (builder) => {
+    //   builder
+    //     .addCase(addChannel, (state, action) => {
+    //       const { id } = action.payload.channel;
+    //       console.log(action);
+    //       // state.currentChannelId = id;
+    //       // return state;
+    //     })
+    //     .addCase(removeChannel, (state) => {
+    //       // state.currentChannelId = 1;
+    //       // return state;
+    //     });
+    // },
   },
 });
 
@@ -23,6 +51,7 @@ export const {
   removeChannel,
   renameChannel,
   initChannels,
+  setCurrentChannelId,
 } = slice.actions;
 
 export default slice.reducer;
