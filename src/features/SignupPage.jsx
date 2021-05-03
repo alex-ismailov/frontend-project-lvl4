@@ -7,9 +7,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Header from '../../common/Header.jsx';
-import routes from '../../common/routes.js';
-import useAuth from '../../hooks/useAuth.jsx';
+import Header from '../common/Header.jsx';
+import routes from '../common/routes.js';
+import useAuth from '../hooks/useAuth.jsx';
 
 const SignupForm = () => {
   const { t } = useTranslation();
