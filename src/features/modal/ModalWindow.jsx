@@ -197,7 +197,9 @@ const ControllPanel = ({ type, channelId, closeModal }) => {
 
 const ModalWindow = () => {
   const { t } = useTranslation();
-  const { isVisible, type, channelId } = useSelector((state) => state.modal);
+  const isVisible = useSelector((state) => state.modal.isVisible);
+  const type = useSelector((state) => state.modal.type);
+  const channelId = useSelector((state) => state.modal.channelId);
   const dispatch = useDispatch();
 
   const closeModal = () => {
