@@ -170,7 +170,7 @@ const AddingPanel = ({ channels, closeModal }) => {
 };
 
 const ControllPanel = ({ type, channelId, closeModal }) => {
-  const channels = useSelector((state) => state.channels);
+  const channels = useSelector((state) => state.channelsInfo.channels);
   switch (type) {
     case modalTypesMap.adding:
       return <AddingPanel channels={channels} closeModal={closeModal} />;
