@@ -13,7 +13,7 @@ const MessageForm = () => {
   const socket = useContext(SocketContext);
   const username = localStorage.getItem('username');
   // @ts-ignore
-  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
   const inputRef = useRef(null);
 
   useEffect(() => {
