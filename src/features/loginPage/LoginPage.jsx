@@ -36,14 +36,7 @@ const LoginForm = () => {
         history.replace(from);
       } catch (error) {
         setIsFailedAuth(true);
-        // if (!error.response) {
-        //   actions.setErrors({ authStatus: 'networkError' });
-        //   return;
-        // }
-        // if (error.isAxiosError && error.response.status === 401) {
-        //   inputRef.current.select();
-        //   actions.setErrors({ authStatus: 'invalidUsernameOrPassword' });
-        // }
+        // TODO: что делать с ошибками сети
         inputRef.current.select();
         actions.setErrors({ authStatus: 'invalidUsernameOrPassword' });
       }
