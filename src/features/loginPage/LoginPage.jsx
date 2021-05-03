@@ -32,8 +32,7 @@ const LoginForm = () => {
         const response = await axios.post(routes.loginPath(), loginData);
         const { token, username } = response.data;
         auth.logIn(token, username);
-        const { from } = window.location.state || { from: { pathname: '/' } };
-        history.replace(from);
+        history.replace('/');
       } catch (error) {
         setIsFailedAuth(true);
         // TODO: что делать с ошибками сети
