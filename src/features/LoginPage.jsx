@@ -6,9 +6,9 @@ import {
   Row, Col, Form, Button,
 } from 'react-bootstrap';
 import axios from 'axios';
-import routes from '../../common/routes.js';
-import Header from '../../common/Header.jsx';
-import useAuth from '../../hooks/useAuth.jsx';
+import routes from '../common/routes.js';
+import Header from '../common/Header.jsx';
+import useAuth from '../hooks/useAuth.jsx';
 
 const LoginForm = () => {
   const [isFailedAuth, setIsFailedAuth] = useState(false);
