@@ -2,6 +2,8 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
+const GENERAL_ID = 1;
+
 const slice = createSlice({
   name: 'channelsInfo',
   initialState: {
@@ -11,9 +13,12 @@ const slice = createSlice({
   reducers: {
     addChannel: (state, { payload: { channel } }) => {
       state.channels.push(channel);
+      state.currentChannelId = channel.id;
+      return state;
     },
     removeChannel: (state, { payload: { id } }) => {
       state.channels = state.channels.filter((channel) => channel.id !== id);
+      state.currentChannelId = GENERAL_ID;
       return state;
     },
     renameChannel: (state, { payload: { channel: changedСhannel } }) => {
@@ -30,19 +35,6 @@ const slice = createSlice({
       state.currentChannelId = channelId;
       return state;
     },
-    // extraReducers: (builder) => {
-    //   builder
-    //     .addCase(addChannel, (state, action) => {
-    //       const { id } = action.payload.channel;
-    //       console.log(action);
-    //       // state.currentChannelId = id;
-    //       // return state;
-    //     })
-    //     .addCase(removeChannel, (state) => {
-    //       // state.currentChannelId = 1;
-    //       // return state;
-    //     });
-    // },
   },
 });
 
