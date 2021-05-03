@@ -9,7 +9,7 @@ import {
   toggleModal,
   modalTypesMap,
   buildModalConfig,
-} from '../../modal/ModalWindowSlice.js';
+} from '../modal/ModalWindowSlice.js';
 
 const DefaultChannel = ({ name, btnVariant, handleActiveChannel }) => (
   <Nav.Item className="mr-2 mr-sm-0">

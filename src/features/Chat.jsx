@@ -6,15 +6,15 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import routes from '../../common/routes.js';
+import routes from '../common/routes.js';
 import Channels from './channelsInfo/Channels.jsx';
 import Messages from './messages/Messages.jsx';
 import MessageForm from './messagesForm/MessageForm.jsx';
-import Header from '../../common/Header.jsx';
+import Header from '../common/Header.jsx';
 import { setCurrentChannelId, initChannels } from './channelsInfo/channelsSlice.js';
 import { initMessages } from './messages/messagesSlice.js';
-import ModalWindow from '../modal/ModalWindow.jsx';
-import useAuth from '../../hooks/useAuth.jsx';
+import ModalWindow from './modal/ModalWindow.jsx';
+import useAuth from '../hooks/useAuth.jsx';
 
 const Spinner = () => (
   <div className="h-100 d-flex justify-content-center align-items-center">

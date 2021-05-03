@@ -9,14 +9,14 @@ import { setLocale } from 'yup';
 import resources from '../locales/index.js';
 import i18n from '../i18n.js';
 import createStore from './store.js';
-import { addNewMessage } from '../features/chat/messages/messagesSlice.js';
+import { addNewMessage } from '../features/messages/messagesSlice.js';
 import App from './App.jsx';
 import { SocketProvider } from '../context/SocketContext.js';
 import {
   addChannel,
   removeChannel,
   renameChannel,
-} from '../features/chat/channelsInfo/channelsSlice.js';
+} from '../features/channelsInfo/channelsSlice.js';
 import yupDictionary from '../locales/yupDictionary.js';
 
 export default async (socket) => {

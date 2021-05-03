@@ -5,7 +5,7 @@ import {
   BrowserRouter, Switch, Route, Redirect,
 } from 'react-router-dom';
 import _ from 'lodash';
-import Chat from '../features/chat/Chat.jsx';
+import Chat from '../features/Chat.jsx';
 import LoginPage from '../features/loginPage/LoginPage.jsx';
 import NoMatch from '../features/noMatch/NoMatch.jsx';
 import authContext from '../context/authContext.jsx';
