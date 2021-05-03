@@ -7,17 +7,16 @@ const NoMatch = () => {
     <div>
       <h1>404</h1>
       <h3>
-        Not found
-        {' '}
-        <code>{location.pathname}</code>
+        <p>
+          Not found
+          <code>{location.pathname}</code>
+        </p>
       </h3>
       <p>Maybe this page moved? Got deleted?</p>
       <hr />
       <p>
         Let`s go
-        {' '}
-        <a href="/">HOME</a>
-        {' '}
+        <a href="/"> HOME </a>
         and try from there.
       </p>
     </div>
