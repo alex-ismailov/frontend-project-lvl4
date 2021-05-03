@@ -27,8 +27,10 @@ const slice = createSlice({
         .map((channel) => (channel.id === id ? { ...channel, name } : channel));
       return state;
     },
-    initChannels: (state, { payload: { channels } }) => {
+    initChannels: (state, { payload: { data } }) => {
+      const { channels, currentChannelId } = data;
       state.channels = channels;
+      state.currentChannelId = currentChannelId;
       return state;
     },
     setCurrentChannelId: (state, { payload: { channelId } }) => {
