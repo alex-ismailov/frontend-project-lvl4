@@ -19,7 +19,7 @@ lint:
 	npx eslint --ext .jsx,.js ./src/
 
 lint-fix:
-	npx eslint --fix --ext .jsx,.js .src/
+	npx eslint --fix --ext .jsx,.js ./src/
 
 publish:
 	npm publish
