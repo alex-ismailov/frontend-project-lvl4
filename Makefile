@@ -16,10 +16,10 @@ build:
 	npm run build
 
 lint:
-	npx eslint --ext .jsx,.js .
+	npx eslint --ext .jsx,.js ./src/
 
 lint-fix:
-	npx eslint --fix --ext .jsx,.js .
+	npx eslint --fix --ext .jsx,.js .src/
 
 publish:
 	npm publish
