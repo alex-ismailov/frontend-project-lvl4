@@ -1,5 +1,6 @@
 // @ts-check
 /* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-shadow */
 
 import React from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
