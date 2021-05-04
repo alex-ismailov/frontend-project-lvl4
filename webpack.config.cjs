@@ -12,6 +12,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       Modal: path.resolve(__dirname, 'src/features/modal'),
+      Context: path.resolve(__dirname, 'src/context'),
     },
   },
   output: {
