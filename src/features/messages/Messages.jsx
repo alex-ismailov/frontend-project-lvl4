@@ -31,7 +31,7 @@ const Messages = () => {
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
-      {currentChannelMessages && currentChannelMessages.map(Message)}
+      {currentChannelMessages.map(Message)}
     </div>
   );
 };
