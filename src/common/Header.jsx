@@ -1,3 +1,5 @@
+// @ts-check
+
 import React from 'react';
 import { Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
