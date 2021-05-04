@@ -78,8 +78,42 @@ const PanelForm = ({
   );
 };
 
-const RemovingPanel = ({ channels, channelId, closeModal }) => {
+const RenamingPanel = ({ closeModal }) => {
+  const socket = useContext(SocketContext);
+  const channelId = useSelector((state) => state.modal.channelId);
+  const channels = useSelector((state) => state.channelsInfo.channels);
+  const currentChannel = channels.find(({ id }) => id === channelId);
+  const initialName = currentChannel.name;
+  const validationSchema = yup.object().shape({
+    name: yup.string().required(),
+  });
+
+  const renameChannel = (channel) => ({ name }, { setSubmitting }) => {
+    setSubmitting(false);
+    const changedСhannel = { ...channel, name };
+    const action = submitActionsMap.rename;
+    try {
+      socket.emit(action, changedСhannel, () => {});
+      closeModal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <PanelForm
+      initialName={initialName}
+      validationSchema={validationSchema}
+      handleSubmit={renameChannel(currentChannel)}
+      closeModal={closeModal}
+    />
+  );
+};
+
+const RemovingPanel = ({ closeModal }) => {
   const { t } = useTranslation();
+  const channelId = useSelector((state) => state.modal.channelId);
+  const channels = useSelector((state) => state.channelsInfo.channels);
   const socket = useContext(SocketContext);
   const action = submitActionsMap.remove;
   const currentChannel = channels.find(({ id }) => id === channelId);
@@ -109,39 +143,10 @@ const RemovingPanel = ({ channels, channelId, closeModal }) => {
   );
 };
 
-const RenamingPanel = ({ channels, channelId, closeModal }) => {
-  const socket = useContext(SocketContext);
-  const currentChannel = channels.find(({ id }) => id === channelId);
-  const initialName = currentChannel.name;
-  const validationSchema = yup.object().shape({
-    name: yup.string().required(),
-  });
-
-  const renameChannel = (channel) => ({ name }, { setSubmitting }) => {
-    setSubmitting(false);
-    const changedСhannel = { ...channel, name };
-    const action = submitActionsMap.rename;
-    try {
-      socket.emit(action, changedСhannel, () => {});
-      closeModal();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  return (
-    <PanelForm
-      initialName={initialName}
-      validationSchema={validationSchema}
-      handleSubmit={renameChannel(currentChannel)}
-      closeModal={closeModal}
-    />
-  );
-};
-
-const AddingPanel = ({ channels, closeModal }) => {
+const AddingPanel = ({ closeModal }) => {
   const socket = useContext(SocketContext);
   const initialName = '';
+  const channels = useSelector((state) => state.channelsInfo.channels);
   const channelsNames = channels.map(({ name }) => name);
   const validationSchema = yup.object().shape({
     name: yup.string().required().notOneOf(channelsNames),
@@ -169,27 +174,14 @@ const AddingPanel = ({ channels, closeModal }) => {
   );
 };
 
-const ControllPanel = ({ type, channelId, closeModal }) => {
-  const channels = useSelector((state) => state.channelsInfo.channels);
+const getControllPanel = (type) => {
   switch (type) {
     case modalTypesMap.adding:
-      return <AddingPanel channels={channels} closeModal={closeModal} />;
+      return AddingPanel;
     case modalTypesMap.removing:
-      return (
-        <RemovingPanel
-          channels={channels}
-          channelId={channelId}
-          closeModal={closeModal}
-        />
-      );
+      return RemovingPanel;
     case modalTypesMap.renaming:
-      return (
-        <RenamingPanel
-          channels={channels}
-          channelId={channelId}
-          closeModal={closeModal}
-        />
-      );
+      return RenamingPanel;
     case modalTypesMap.idle:
       return null;
     default:
@@ -201,7 +193,6 @@ const ModalWindow = () => {
   const { t } = useTranslation();
   const isVisible = useSelector((state) => state.modal.isVisible);
   const type = useSelector((state) => state.modal.type);
-  const channelId = useSelector((state) => state.modal.channelId);
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -215,17 +206,15 @@ const ModalWindow = () => {
     removing: 'removeChannel',
   };
 
+  const ControllPanel = getControllPanel(type);
+
   return (
     <Modal show={isVisible} onHide={closeModal}>
       <Modal.Header closeButton>
         <Modal.Title>{t(modalTitleKeysMap[type])}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <ControllPanel
-          type={type}
-          channelId={channelId}
-          closeModal={closeModal}
-        />
+        {isVisible && <ControllPanel closeModal={closeModal} />}
       </Modal.Body>
     </Modal>
   );
