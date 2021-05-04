@@ -125,7 +125,6 @@ const RemovingPanel = ({ closeModal }) => {
       closeModal();
     } catch (error) {
       console.log(error);
-      closeModal();
     }
   };
 
