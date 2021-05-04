@@ -7,7 +7,7 @@ import {
 import Chat from '../features/Chat.jsx';
 import LoginPage from '../features/LoginPage.jsx';
 import NoMatch from '../features/NoMatch.jsx';
-import useAuth from '../hooks/useAuth.jsx';
+import useAuth from '../hooks/useAuth.js';
 import SignupPage from '../features/SignupPage.jsx';
 
 const App = () => {
