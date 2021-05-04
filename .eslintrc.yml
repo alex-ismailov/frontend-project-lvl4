@@ -49,3 +49,9 @@ rules:
     - props: true
       ignorePropertyModificationsFor:
         - state
+  no-shadow:
+    - error
+    - allow:
+      - addChannel
+      - removeChannel
+      - renameChannel
