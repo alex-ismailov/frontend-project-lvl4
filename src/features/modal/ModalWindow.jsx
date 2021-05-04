@@ -6,12 +6,12 @@ import {
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import SocketContext from 'Context/SocketContext.js';
 import {
   toggleModal,
   buildModalConfig,
   modalTypesMap,
 } from './ModalWindowSlice.js';
-import SocketContext from '../../context/SocketContext.js';
 
 const submitActionsMap = {
   add: 'newChannel',
