@@ -1,16 +1,16 @@
 // @ts-check
 
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import SocketContext from 'Context/SocketContext.js';
+import useSocket from '../hooks/useSocket.jsx';
 
 const MessageForm = () => {
   const { t } = useTranslation();
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const username = localStorage.getItem('username');
   // @ts-ignore
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
@@ -36,7 +36,7 @@ const MessageForm = () => {
         channelId: currentChannelId,
       };
       try {
-        socket.emit('newMessage', message, () => {});
+        socket.sendMessage(message);
         resetForm();
       } catch (error) {
         console.log(error);
