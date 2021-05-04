@@ -11,7 +11,7 @@ import {
   buildModalConfig,
   modalTypesMap,
 } from './ModalWindowSlice.js';
-import useSocket from '../../hooks/useSocket.jsx';
+import useSocket from '../../hooks/useSocket.js';
 
 const PanelForm = ({
   initialName,
