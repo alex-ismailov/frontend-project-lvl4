@@ -13,7 +13,7 @@ import i18n from '../i18n.js';
 import createStore from './store.js';
 import { addNewMessage } from '../features/messages/messagesSlice.js';
 import App from './App.jsx';
-import SocketContext from '../context/SocketContext.js';
+import socketContext from '../context/socketContext.js';
 import {
   addChannel,
   removeChannel,
@@ -61,12 +61,12 @@ export default async (socket) => {
     const renameChannel = (channel) => socket.emit('renameChannel', channel, () => {});
 
     return (
-      <SocketContext.Provider value={{
+      <socketContext.Provider value={{
         sendMessage, addChannel, removeChannel, renameChannel,
       }}
       >
         {children}
-      </SocketContext.Provider>
+      </socketContext.Provider>
     );
   };
 
