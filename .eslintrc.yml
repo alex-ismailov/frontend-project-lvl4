@@ -24,10 +24,10 @@ env:
   node: true
   jest: true
 
-# settings:
-#   import/resolver:
-#     - node
-#     - webpack
+settings:
+  import/resolver:
+    webpack:
+      config: 'webpack.config.cjs'
 
 rules:
   import/extensions: 0
