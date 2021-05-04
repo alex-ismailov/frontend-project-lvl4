@@ -62,6 +62,7 @@ const PanelForm = ({
         </Form.Control.Feedback>
         <div className="d-flex justify-content-end">
           <Button
+            disabled={formik.isSubmitting}
             onClick={closeModal}
             type="button"
             variant="secondary"
