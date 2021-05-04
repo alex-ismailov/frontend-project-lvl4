@@ -4,12 +4,12 @@ import {
   Nav, Button, Dropdown, ButtonGroup,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { setCurrentChannelId } from './channelsSlice.js';
 import {
   toggleModal,
   modalTypesMap,
   buildModalConfig,
-} from '../modal/ModalWindowSlice.js';
+} from 'Modal/ModalWindowSlice.js';
+import { setCurrentChannelId } from './channelsSlice.js';
 
 const DefaultChannel = ({ name, btnVariant, handleActiveChannel }) => (
   <Nav.Item className="mr-2 mr-sm-0">
