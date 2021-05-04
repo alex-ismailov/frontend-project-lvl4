@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import ModalWindow from 'Modal/ModalWindow.jsx';
+import ModalWindow from './modal/ModalWindow.jsx';
 import routes from '../common/routes.js';
 import Channels from './channelsInfo/Channels.jsx';
 import Messages from './messages/Messages.jsx';
