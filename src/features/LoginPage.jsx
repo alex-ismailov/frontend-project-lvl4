@@ -8,7 +8,7 @@ import {
 import axios from 'axios';
 import routes from '../common/routes.js';
 import Header from '../common/Header.jsx';
-import useAuth from '../hooks/useAuth.jsx';
+import useAuth from '../hooks/useAuth.js';
 
 const LoginForm = () => {
   const [isFailedAuth, setIsFailedAuth] = useState(false);
