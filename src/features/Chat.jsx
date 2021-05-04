@@ -13,7 +13,7 @@ import Messages from './messages/Messages.jsx';
 import MessageForm from './MessageForm.jsx';
 import Header from '../common/Header.jsx';
 import { initChannels } from './channelsInfo/channelsSlice.js';
-import useAuth from '../hooks/useAuth.jsx';
+import useAuth from '../hooks/useAuth.js';
 
 const Spinner = () => (
   <div className="h-100 d-flex justify-content-center align-items-center">
