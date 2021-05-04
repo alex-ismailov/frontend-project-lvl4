@@ -1,3 +1,5 @@
+// @ts-check
+
 import { useFormik } from 'formik';
 import React, { useRef, useEffect, useState } from 'react';
 import * as yup from 'yup';
