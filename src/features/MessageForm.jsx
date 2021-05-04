@@ -6,13 +6,12 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import useSocket from '../hooks/useSocket.jsx';
+import useSocket from '../hooks/useSocket.js';
 
 const MessageForm = () => {
   const { t } = useTranslation();
   const socket = useSocket();
   const username = localStorage.getItem('username');
-  // @ts-ignore
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
   const inputRef = useRef(null);
 
