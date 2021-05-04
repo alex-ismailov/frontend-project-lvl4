@@ -8,7 +8,7 @@ import {
   toggleModal,
   modalTypesMap,
   buildModalConfig,
-} from 'Modal/ModalWindowSlice.js';
+} from '../modal/ModalWindowSlice.js';
 import { setCurrentChannelId } from './channelsSlice.js';
 
 const DefaultChannel = ({ name, btnVariant, handleActiveChannel }) => (
