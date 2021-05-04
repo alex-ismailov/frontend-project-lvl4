@@ -6,13 +6,13 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import ModalWindow from 'Modal/ModalWindow.jsx';
 import routes from '../common/routes.js';
 import Channels from './channelsInfo/Channels.jsx';
 import Messages from './messages/Messages.jsx';
 import MessageForm from './MessageForm.jsx';
 import Header from '../common/Header.jsx';
 import { initChannels } from './channelsInfo/channelsSlice.js';
-import ModalWindow from './modal/ModalWindow.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 
 const Spinner = () => (
