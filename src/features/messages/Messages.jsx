@@ -1,3 +1,5 @@
+// @ts-check
+
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { animateScroll as scroll } from 'react-scroll';
