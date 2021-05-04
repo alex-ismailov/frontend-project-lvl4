@@ -20,7 +20,7 @@ import {
   renameChannel,
 } from '../features/channelsInfo/channelsSlice.js';
 import yupDictionary from '../locales/yupDictionary.js';
-import authContext from '../context/authContext.jsx';
+import authContext from '../context/authContext.js';
 
 export default async (socket) => {
   const store = createStore();
