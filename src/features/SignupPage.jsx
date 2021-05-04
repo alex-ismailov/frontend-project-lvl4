@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import Header from '../common/Header.jsx';
 import routes from '../common/routes.js';
-import useAuth from '../hooks/useAuth.jsx';
+import useAuth from '../hooks/useAuth.js';
 
 const SignupForm = () => {
   const { t } = useTranslation();
