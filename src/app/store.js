@@ -1,3 +1,5 @@
+// @ts-check
+
 import { configureStore } from '@reduxjs/toolkit';
 import channelsReducer from '../features/channelsInfo/channelsSlice.js';
 import messagesReducer from '../features/messages/messagesSlice.js';
