@@ -10,6 +10,9 @@ module.exports = {
   mode,
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      Modal: path.resolve(__dirname, 'src/features/modal'),
+    },
   },
   output: {
     path: path.join(__dirname, 'dist', 'public'),
