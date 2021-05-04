@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   useFormik,
@@ -6,18 +6,12 @@ import {
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import SocketContext from 'Context/SocketContext.js';
 import {
   toggleModal,
   buildModalConfig,
   modalTypesMap,
 } from './ModalWindowSlice.js';
-
-const submitActionsMap = {
-  add: 'newChannel',
-  remove: 'removeChannel',
-  rename: 'renameChannel',
-};
+import useSocket from '../../hooks/useSocket.jsx';
 
 const PanelForm = ({
   initialName,
@@ -80,7 +74,7 @@ const PanelForm = ({
 };
 
 const RenamingPanel = ({ closeModal }) => {
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const channelId = useSelector((state) => state.modal.channelId);
   const channels = useSelector((state) => state.channelsInfo.channels);
   const currentChannel = channels.find(({ id }) => id === channelId);
@@ -92,9 +86,8 @@ const RenamingPanel = ({ closeModal }) => {
   const renameChannel = (channel) => ({ name }, { setSubmitting }) => {
     setSubmitting(false);
     const changedСhannel = { ...channel, name };
-    const action = submitActionsMap.rename;
     try {
-      socket.emit(action, changedСhannel, () => {});
+      socket.renameChannel(changedСhannel);
       closeModal();
     } catch (error) {
       console.log(error);
@@ -112,16 +105,16 @@ const RenamingPanel = ({ closeModal }) => {
 };
 
 const RemovingPanel = ({ closeModal }) => {
+  const socket = useSocket();
   const { t } = useTranslation();
   const channelId = useSelector((state) => state.modal.channelId);
   const channels = useSelector((state) => state.channelsInfo.channels);
-  const socket = useContext(SocketContext);
-  const action = submitActionsMap.remove;
   const currentChannel = channels.find(({ id }) => id === channelId);
 
   const removeChannel = (channel) => () => {
     try {
-      socket.emit(action, channel, () => {});
+      // socket.emit(action, channel, () => {});
+      socket.removeChannel(channel);
       closeModal();
     } catch (error) {
       console.log(error);
@@ -144,7 +137,7 @@ const RemovingPanel = ({ closeModal }) => {
 };
 
 const AddingPanel = ({ closeModal }) => {
-  const socket = useContext(SocketContext);
+  const socket = useSocket();
   const initialName = '';
   const channels = useSelector((state) => state.channelsInfo.channels);
   const channelsNames = channels.map(({ name }) => name);
@@ -154,10 +147,10 @@ const AddingPanel = ({ closeModal }) => {
 
   const addChannel = ({ name }, { setSubmitting }) => {
     setSubmitting(false);
-    const action = submitActionsMap.add;
     const channel = { name };
     try {
-      socket.emit(action, channel, () => {});
+      // socket.emit(action, channel, () => {});
+      socket.addChannel(channel);
       closeModal();
     } catch (error) {
       console.log(error);
