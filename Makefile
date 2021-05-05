@@ -5,7 +5,8 @@ start:
 
 start-backend:
 	# npx nodemon bin/slack.js
-	npx nodemon --exec npx babel-node bin/slack.js
+	# npx nodemon --exec npx babel-node bin/slack.js
+	npx nodemon --exec npx babel-node server/bin/slack.js
 
 start-frontend:
 	npx webpack serve
