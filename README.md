@@ -6,4 +6,4 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/5402a4dd9550fabf0d7a/maintainability)](https://codeclimate.com/github/alex-ismailov/frontend-project-lvl4/maintainability)
 
 
-[Go to communication](https://evening-everglades-79502.herokuapp.com/)
+[Go to communication](https://desolate-sands-09696.herokuapp.com/)
