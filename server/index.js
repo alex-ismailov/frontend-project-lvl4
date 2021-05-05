@@ -39,7 +39,6 @@ const setUpViews = (app) => {
 
 const setUpStaticAssets = (app) => {
   const publicPath = isProduction ? 'public' : 'dist/public';
-  console.log(publicPath);
   app.register(fastifyStatic, {
     root: path.join(appPath, publicPath),
     prefix: '/assets',
