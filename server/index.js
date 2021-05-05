@@ -2,7 +2,7 @@
 
 import Pug from 'pug';
 import path from 'path';
-import { fileURLToPath } from 'url';
+// import { fileURLToPath } from 'url';
 import fastify from 'fastify';
 import pointOfView from 'point-of-view';
 import fastifySocketIo from 'fastify-socket.io';
@@ -15,9 +15,9 @@ import addRoutes from './routes.js';
 const { Unauthorized } = HttpErrors;
 
 // eslint-disable-next-line no-underscore-dangle
-const __filename = fileURLToPath(import.meta.url);
+// const __filename = fileURLToPath(import.meta.url);
 // eslint-disable-next-line no-underscore-dangle
-const __dirname = path.dirname(__filename);
+// const __dirname = path.dirname(__filename);
 
 const isProduction = process.env.NODE_ENV === 'production';
 const appPath = path.join(__dirname, '..');
