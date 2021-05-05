@@ -11,7 +11,7 @@
     "test-watch": "npm run test -- --watchAll",
     "prebuild": "rm -rf dist",
     "build": "NODE_ENV=production npx webpack --mode production",
-    "start": "npx babel-node bin/slack.js",
+    "start": "babel-node bin/slack.js",
     "postinstall": "npm run build",
     "prepare": "husky install"
   },
