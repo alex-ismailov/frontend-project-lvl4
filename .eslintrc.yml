@@ -6,6 +6,7 @@ plugins:
   - functional
   - testing-library
   - jest-dom
+  # - import
 
 extends:
   - airbnb
@@ -14,7 +15,6 @@ extends:
   - "plugin:functional/recommended"
   - "plugin:react/recommended"
   - "plugin:react-hooks/recommended"
-  # - "plugin:testing-library/recommended"
   - "plugin:jest-dom/recommended"
 
 parser: babel-eslint
@@ -23,11 +23,13 @@ env:
   browser: true
   node: true
   jest: true
+  es6: true
 
 settings:
   import/resolver:
-    webpack:
-      config: 'webpack.config.cjs'
+    - node
+    - webpack:
+        config: 'webpack.config.cjs'
 
 rules:
   import/extensions: 0
