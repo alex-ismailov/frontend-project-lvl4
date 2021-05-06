@@ -19,7 +19,7 @@ const slice = createSlice({
       })
       .addCase(initChannels, (state, action) => {
         const { messages } = action.payload.data;
-        state.push(...messages);
+        return messages;
       });
   },
 });
