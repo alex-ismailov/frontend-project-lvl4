@@ -26,5 +26,6 @@ export default {
     signup: 'Зарегистрироваться',
     userAlreadyExists: 'Такой пользователь уже существует',
     networkError: 'Ошибка cети',
+    areYouSure: 'Уверены?',
   },
 };
