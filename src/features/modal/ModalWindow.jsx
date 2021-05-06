@@ -115,7 +115,6 @@ const RemovingPanel = ({ closeModal }) => {
 
   const removeChannel = (channel) => () => {
     try {
-      // socket.emit(action, channel, () => {});
       socket.removeChannel(channel);
       closeModal();
     } catch (error) {
@@ -125,7 +124,7 @@ const RemovingPanel = ({ closeModal }) => {
 
   return (
     <>
-      Уверены?
+      <p>{t('areYouSure')}</p>
       <div className="d-flex justify-content-between">
         <Button onClick={closeModal} variant="secondary" className="mr-2">
           {t('cancel')}
@@ -151,7 +150,6 @@ const AddingPanel = ({ closeModal }) => {
     setSubmitting(false);
     const channel = { name };
     try {
-      // socket.emit(action, channel, () => {});
       socket.addChannel(channel);
       closeModal();
     } catch (error) {
