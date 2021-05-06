@@ -26,5 +26,6 @@ export default {
     signup: 'Signup',
     userAlreadyExists: 'This user already exists',
     networkError: 'Network error',
+    areYouSure: 'Are you sure?',
   },
 };
