@@ -12,12 +12,14 @@ const runApp = async () => {
   const mode = process.env.NODE_ENV;
 
   // eslint-disable-next-line
-  new Rollbar({
+  const rollbar = new Rollbar({
     accessToken: process.env.ROLLBAR_TOKEN,
     captureUncaught: true,
     captureUnhandledRejections: true,
     enabled: mode === 'production',
   });
+  // log a generic message and send to rollbar
+  rollbar.log('Test Heroku');
 
   if (mode !== 'production') {
     localStorage.debug = 'chat:*';
