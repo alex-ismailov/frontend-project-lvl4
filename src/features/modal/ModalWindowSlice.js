@@ -1,23 +1,7 @@
 // @ts-check
+/* eslint-disable no-param-reassign */
 
 import { createSlice } from '@reduxjs/toolkit';
-
-export const modalTypesMap = {
-  idle: 'idle',
-  adding: 'adding',
-  renaming: 'renaming',
-  removing: 'removing',
-};
-
-export const buildModalConfig = (
-  isVisible,
-  type = null,
-  channelId = null,
-) => ({
-  isVisible,
-  type,
-  channelId,
-});
 
 const slice = createSlice({
   name: 'modal',
@@ -27,10 +11,17 @@ const slice = createSlice({
     channelId: null,
   },
   reducers: {
-    toggleModal: (state, { payload: { modalConfig } }) => modalConfig,
+    openModalWindow: (state, { payload: { modalConfig } }) => {
+      state = modalConfig;
+      return state;
+    },
+    closeModalWindow: (state) => {
+      state = { isVisible: false, type: null, channelId: null };
+      return state;
+    },
   },
 });
 
-export const { toggleModal } = slice.actions;
+export const { openModalWindow, closeModalWindow } = slice.actions;
 
 export default slice.reducer;
