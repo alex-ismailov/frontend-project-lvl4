@@ -11,7 +11,7 @@ export const modalTypesMap = {
 
 export const buildModalConfig = (
   isVisible,
-  type = modalTypesMap.idle,
+  type = null,
   channelId = null,
 ) => ({
   isVisible,
@@ -23,7 +23,7 @@ const slice = createSlice({
   name: 'modal',
   initialState: {
     isVisible: false,
-    type: modalTypesMap.idle,
+    type: null,
     channelId: null,
   },
   reducers: {
