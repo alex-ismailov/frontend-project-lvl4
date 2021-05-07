@@ -2,17 +2,11 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  useFormik,
-} from 'formik';
+import { useFormik } from 'formik';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import {
-  toggleModal,
-  buildModalConfig,
-  modalTypesMap,
-} from './ModalWindowSlice.js';
+import { closeModalWindow } from './ModalWindowSlice.js';
 import useSocket from '../../hooks/useSocket.js';
 
 const PanelForm = ({
@@ -172,11 +166,11 @@ const EmptyPanel = () => null;
 
 const getControllPanel = (type) => {
   switch (type) {
-    case modalTypesMap.adding:
+    case 'adding':
       return AddingPanel;
-    case modalTypesMap.removing:
+    case 'removing':
       return RemovingPanel;
-    case modalTypesMap.renaming:
+    case 'renaming':
       return RenamingPanel;
     case null:
       return EmptyPanel;
@@ -192,8 +186,7 @@ const ModalWindow = () => {
   const dispatch = useDispatch();
 
   const closeModal = () => {
-    const modalConfig = buildModalConfig(false);
-    dispatch(toggleModal({ modalConfig }));
+    dispatch(closeModalWindow());
   };
 
   const modalTitleKeysMap = {
