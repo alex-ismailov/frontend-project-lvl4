@@ -27,7 +27,7 @@ const Messages = () => {
 
   useEffect(() => {
     scrollToBottom();
-  });
+  }, [currentChannelId]);
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
