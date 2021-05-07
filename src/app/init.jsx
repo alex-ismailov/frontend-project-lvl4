@@ -55,17 +55,21 @@ export default async (socket) => {
   });
 
   const SocketProvider = ({ children }) => {
+    // const sendMessage = (message) => {
+    //   console.log(socket.connected);
+    //   socket.emit('newMessage', message, (response) => {
+    //     console.log(response);
+    //     console.log(`sendingMessage status: ${response.status}`);
+    //   });
+    // };
     const sendMessage = (message) => {
-      try {
-        socket.emit('newMessage', message, (response) => {
-          console.log(response);
-          console.log(`sendingMessage status: ${response.status}`);
-        });
-      } catch (error) {
-        console.log('BOOM socket.emit -> newMessage');
-        console.log(error);
-        console.log('-----------------');
+      if (!socket.connected) {
+        throw new Error('Socket is disconnected!');
       }
+      socket.emit('newMessage', message, (response) => {
+        console.log(response);
+        console.log(`sendingMessage status: ${response.status}`);
+      });
     };
     const addChannel = (channel) => socket.emit('newChannel', channel, () => {});
     const removeChannel = (channel) => socket.emit('removeChannel', channel, () => {});
