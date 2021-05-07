@@ -38,7 +38,9 @@ const MessageForm = () => {
         socket.sendMessage(message);
         resetForm();
       } catch (error) {
+        console.log('Boom sendMessage');
         console.log(error);
+        console.log('-------------');
       }
     },
   });
