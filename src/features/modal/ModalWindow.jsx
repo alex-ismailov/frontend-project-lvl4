@@ -42,7 +42,7 @@ const PanelForm = ({
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group>
         <Form.Control
-          value={formik.values.password}
+          value={formik.values.name}
           ref={inputRef}
           onFocus={(e) => e.currentTarget.select()}
           type="text"
@@ -52,9 +52,10 @@ const PanelForm = ({
           aria-label="add channel"
           className="mb-2 form-control"
           data-testid="add-channel"
+          isInvalid={!formik.isValid}
         />
         <Form.Control.Feedback type="invalid">
-          {t(formik.errors.initialName)}
+          {t(formik.errors.name)}
         </Form.Control.Feedback>
         <div className="d-flex justify-content-end">
           <Button
