@@ -38,8 +38,7 @@ const SignupForm = () => {
         .required()
         .oneOf([yup.ref('password'), null]),
     }),
-    onSubmit: async ({ username, password }, actions) => {
-      actions.setSubmitting(false);
+    onSubmit: async ({ username, password }) => {
       const credentials = { username, password };
       try {
         const response = await axios.post(routes.signupPath(), credentials);
@@ -120,7 +119,7 @@ const SignupForm = () => {
             : t(formik.errors.confirmPassword)}
         </Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit" variant="outline-primary" className="w-100">
+      <Button type="submit" variant="outline-primary" className="w-100" disabled={formik.isSubmitting}>
         {t('signup')}
       </Button>
     </Form>
