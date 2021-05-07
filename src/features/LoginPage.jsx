@@ -14,6 +14,7 @@ import useAuth from '../hooks/useAuth.js';
 
 const LoginForm = () => {
   const [isFailedAuth, setIsFailedAuth] = useState(false);
+  const [authError, setAuthError] = useState(null);
   const { t } = useTranslation();
   const auth = useAuth();
   const history = useHistory();
@@ -28,7 +29,7 @@ const LoginForm = () => {
       username: '',
       password: '',
     },
-    onSubmit: async (loginData, actions) => {
+    onSubmit: async (loginData) => {
       setIsFailedAuth(false);
       try {
         const response = await axios.post(routes.loginPath(), loginData);
@@ -39,7 +40,7 @@ const LoginForm = () => {
         setIsFailedAuth(true);
         // TODO: что делать с ошибками сети
         inputRef.current.select();
-        actions.setErrors({ authStatus: 'invalidUsernameOrPassword' });
+        setAuthError('invalidUsernameOrPassword');
       }
     },
   });
@@ -79,7 +80,7 @@ const LoginForm = () => {
           required
         />
         <Form.Control.Feedback type="invalid">
-          {t(formik.errors.authStatus)}
+          {t(authError)}
         </Form.Control.Feedback>
       </Form.Group>
       <Button type="submit" variant="outline-primary" className="w-100 mb-3">
