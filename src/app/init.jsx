@@ -55,7 +55,9 @@ export default async (socket) => {
   });
 
   const SocketProvider = ({ children }) => {
-    const sendMessage = (message) => socket.emit('newMessage', message, () => {});
+    const sendMessage = (message) => socket.emit('newMessage', message, (response) => {
+      console.log(`sendingMessage status: ${response.status}`);
+    });
     const addChannel = (channel) => socket.emit('newChannel', channel, () => {});
     const removeChannel = (channel) => socket.emit('removeChannel', channel, () => {});
     const renameChannel = (channel) => socket.emit('renameChannel', channel, () => {});
