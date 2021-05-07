@@ -7,9 +7,7 @@ import { animateScroll as scroll } from 'react-scroll';
 const Message = ({ id, nickname, body }) => (
   <div key={id} className="text-break">
     <b>{nickname}</b>
-    :
-    {' '}
-    {body}
+    {`: ${body}`}
   </div>
 );
 
