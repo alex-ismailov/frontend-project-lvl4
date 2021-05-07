@@ -6,11 +6,7 @@ import {
   Nav, Button, Dropdown, ButtonGroup,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import {
-  toggleModal,
-  modalTypesMap,
-  buildModalConfig,
-} from '../modal/ModalWindowSlice.js';
+import { openModalWindow } from '../modal/ModalWindowSlice.js';
 import { setCurrentChannelId } from './channelsSlice.js';
 
 const DefaultChannel = ({ name, btnVariant, handleActiveChannel }) => (
@@ -62,28 +58,32 @@ const Channels = () => {
   const handleActiveChannel = (channelId) => () => dispatch(setCurrentChannelId({ channelId }));
 
   const addChannel = () => {
-    const modalConfig = buildModalConfig(true, modalTypesMap.adding);
-    dispatch(toggleModal({ modalConfig }));
+    const modalConfig = {
+      isVisible: true,
+      type: 'adding',
+      channelId: null,
+    };
+    dispatch(openModalWindow({ modalConfig }));
   };
 
   const removeChannel = (channelId) => (e) => {
     e.preventDefault();
-    const modalConfig = buildModalConfig(
-      true,
-      modalTypesMap.removing,
+    const modalConfig = {
+      isVisible: true,
+      type: 'removing',
       channelId,
-    );
-    dispatch(toggleModal({ modalConfig }));
+    };
+    dispatch(openModalWindow({ modalConfig }));
   };
 
   const renameChannel = (channelId) => (e) => {
     e.preventDefault();
-    const modalConfig = buildModalConfig(
-      true,
-      modalTypesMap.renaming,
+    const modalConfig = {
+      isVisible: true,
+      type: 'renaming',
       channelId,
-    );
-    dispatch(toggleModal({ modalConfig }));
+    };
+    dispatch(openModalWindow({ modalConfig }));
   };
 
   return (
