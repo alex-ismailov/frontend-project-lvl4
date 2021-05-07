@@ -56,6 +56,7 @@ export default async (socket) => {
 
   const SocketProvider = ({ children }) => {
     const sendMessage = (message) => socket.emit('newMessage', message, (response) => {
+      console.log(response);
       console.log(`sendingMessage status: ${response.status}`);
     });
     const addChannel = (channel) => socket.emit('newChannel', channel, () => {});
