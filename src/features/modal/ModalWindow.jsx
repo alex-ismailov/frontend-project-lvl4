@@ -168,6 +168,8 @@ const AddingPanel = ({ closeModal }) => {
   );
 };
 
+const EmptyPanel = () => null;
+
 const getControllPanel = (type) => {
   switch (type) {
     case modalTypesMap.adding:
@@ -176,8 +178,8 @@ const getControllPanel = (type) => {
       return RemovingPanel;
     case modalTypesMap.renaming:
       return RenamingPanel;
-    case modalTypesMap.idle:
-      return null;
+    case null:
+      return EmptyPanel;
     default:
       throw new Error(`Unknown controll panel type: ${type}`);
   }
@@ -208,7 +210,7 @@ const ModalWindow = () => {
         <Modal.Title>{t(modalTitleKeysMap[type])}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {isVisible && <ControllPanel closeModal={closeModal} />}
+        <ControllPanel closeModal={closeModal} />
       </Modal.Body>
     </Modal>
   );
