@@ -68,28 +68,28 @@ export default async (socket) => {
   const SocketProvider = ({ children }) => {
     const sendMessage = (message) => {
       if (socket.disconnected) {
-        throw new Error('NetworkError');
+        throw new Error('networkError');
       }
       socket.emit('newMessage', message, () => {});
     };
 
     const addChannel = (channel) => {
       if (socket.disconnected) {
-        throw new Error('NetworkError');
+        throw new Error('networkError');
       }
       socket.emit('newChannel', channel, () => {});
     };
 
     const removeChannel = (channel) => {
       if (socket.disconnected) {
-        throw new Error('NetworkError');
+        throw new Error('networkError');
       }
       socket.emit('removeChannel', channel, () => {});
     };
 
     const renameChannel = (channel) => {
       if (socket.disconnected) {
-        throw new Error('NetworkError');
+        throw new Error('networkError');
       }
       socket.emit('renameChannel', channel, () => {});
     };
