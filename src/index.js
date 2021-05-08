@@ -21,6 +21,7 @@ const runApp = async () => {
   // log a generic message and send to rollbar
   rollbar.log('Test rollbar from heroku');
   console.log(`mode: ${mode}`);
+  console.log(process.env.ROLLBAR_TOKEN);
 
   if (mode !== 'production') {
     localStorage.debug = 'chat:*';
