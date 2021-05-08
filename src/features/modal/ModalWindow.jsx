@@ -99,7 +99,7 @@ const RenamingPanel = ({ closeModal }) => {
       console.log(error);
       // Намеренно попробую еще раз прибегнуть к императивному api
       // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
-      setErrors({ name: error });
+      setErrors({ name: error.message });
     }
   };
 
@@ -128,7 +128,7 @@ const RemovingPanel = ({ closeModal }) => {
       console.log(error);
       // Намеренно попробую еще раз прибегнуть к императивному api
       // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
-      setErrors({ name: error });
+      setErrors({ name: error.message });
     }
   };
 
@@ -165,7 +165,7 @@ const AddingPanel = ({ closeModal }) => {
       console.log(error);
       // Намеренно попробую еще раз прибегнуть к императивному api
       // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
-      setErrors({ name: error });
+      setErrors({ name: error.message });
     }
   };
 
