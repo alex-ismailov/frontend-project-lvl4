@@ -20,7 +20,7 @@ export default {
     channels: 'Channels',
     username: 'Username',
     confirmPassword: 'Confirm the password',
-    minMaxSymbols: '3 to 20 characters',
+    minMaxChars: '3 to 20 characters',
     minChars: 'At least 6 characters',
     passwordsMustMatch: 'Passwords must match',
     signup: 'Signup',
