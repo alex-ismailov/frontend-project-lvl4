@@ -28,7 +28,7 @@ module.exports = {
     new MiniCssExtractPlugin(),
     new Dotenv(),
     new webpack.DefinePlugin({
-      ROLLBAR_TOKEN: process.env.ROLLBAR_TOKEN,
+      ROLLBAR_TOKEN: JSON.stringify(process.env.ROLLBAR_TOKEN),
     })
   ],
   module: {
