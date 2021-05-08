@@ -27,8 +27,7 @@ const MessageForm = () => {
       body: yup.string().required(),
     }),
     validateOnBlur: false,
-    onSubmit: ({ body }, { setSubmitting, resetForm }) => {
-      setSubmitting(false);
+    onSubmit: ({ body }, { setErrors, resetForm }) => {
       const message = {
         nickname: username,
         body,
@@ -38,9 +37,10 @@ const MessageForm = () => {
         socket.sendMessage(message);
         resetForm();
       } catch (error) {
-        console.log('Boom sendMessage');
         console.log(error);
-        console.log('-------------');
+        // Намеренно попробую еще раз прибегнуть к императивному api
+        // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
+        setErrors({ body: error });
       }
     },
   });
