@@ -28,9 +28,8 @@ export default async (socket) => {
   yup.setLocale(yupDictionary);
 
   function minMaxChars() {
-    return this.test('minMaxChars', null, function (value) {
+    return this.test('minMaxChars', null, function (value = '') {
       const { path, createError } = this;
-      console.log(value);
       return value.length < 3 || value.length > 20
         ? createError({ path, message: 'minMaxChars' })
         : true;
@@ -67,25 +66,33 @@ export default async (socket) => {
   });
 
   const SocketProvider = ({ children }) => {
-    // const sendMessage = (message) => {
-    //   console.log(socket.connected);
-    //   socket.emit('newMessage', message, (response) => {
-    //     console.log(response);
-    //     console.log(`sendingMessage status: ${response.status}`);
-    //   });
-    // };
     const sendMessage = (message) => {
-      if (!socket.connected) {
-        throw new Error('Socket is disconnected!');
+      if (socket.disconnected) {
+        throw new Error('NetworkError');
       }
-      socket.emit('newMessage', message, (response) => {
-        console.log(response);
-        console.log(`sendingMessage status: ${response.status}`);
-      });
+      socket.emit('newMessage', message, () => {});
     };
-    const addChannel = (channel) => socket.emit('newChannel', channel, () => {});
-    const removeChannel = (channel) => socket.emit('removeChannel', channel, () => {});
-    const renameChannel = (channel) => socket.emit('renameChannel', channel, () => {});
+
+    const addChannel = (channel) => {
+      if (socket.disconnected) {
+        throw new Error('NetworkError');
+      }
+      socket.emit('newChannel', channel, () => {});
+    };
+
+    const removeChannel = (channel) => {
+      if (socket.disconnected) {
+        throw new Error('NetworkError');
+      }
+      socket.emit('removeChannel', channel, () => {});
+    };
+
+    const renameChannel = (channel) => {
+      if (socket.disconnected) {
+        throw new Error('NetworkError');
+      }
+      socket.emit('renameChannel', channel, () => {});
+    };
 
     return (
       <socketContext.Provider value={{
