@@ -117,7 +117,7 @@ const SignupForm = () => {
             : t(formik.errors.confirmPassword)}
         </Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit" variant="outline-primary" className="w-100" disabled={formik.isSubmitting}>
+      <Button type="submit" variant="outline-primary" className="w-100" disabled={formik.isSubmitting || !formik.isValid}>
         {t('signup')}
       </Button>
     </Form>
