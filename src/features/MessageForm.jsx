@@ -40,7 +40,7 @@ const MessageForm = () => {
         console.log(error);
         // Намеренно попробую еще раз прибегнуть к императивному api
         // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
-        setErrors({ body: error });
+        setErrors({ body: error.message });
       }
     },
   });
@@ -70,7 +70,7 @@ const MessageForm = () => {
               {t('send')}
             </Button>
           </InputGroup.Append>
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type="invalid" className="h-3">
             {t(formik.errors.body)}
           </Form.Control.Feedback>
         </InputGroup>
