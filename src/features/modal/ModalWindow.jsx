@@ -27,8 +27,6 @@ const PanelForm = ({
       name: initialName,
     },
     validationSchema,
-    validateOnBlur: false,
-    validateOnChange: false,
     onSubmit: handleSubmit,
   });
 
@@ -47,6 +45,7 @@ const PanelForm = ({
           className="mb-2 form-control"
           data-testid="add-channel"
           isInvalid={!formik.isValid}
+          autoComplete="off"
         />
         <Form.Control.Feedback type="invalid">
           {t(formik.errors.name)}
@@ -61,7 +60,7 @@ const PanelForm = ({
           >
             {t('cancel')}
           </Button>
-          <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
+          <Button type="submit" variant="primary" disabled={!formik.isValid}>
             {t('send')}
           </Button>
         </div>
@@ -77,7 +76,7 @@ const RenamingPanel = ({ closeModal }) => {
   const currentChannel = channels.find(({ id }) => id === channelId);
   const initialName = currentChannel.name;
   const validationSchema = yup.object().shape({
-    name: yup.string().required(),
+    name: yup.string().required().minMaxChars(),
   });
 
   const renameChannel = (channel) => ({ name }, { setSubmitting }) => {
@@ -138,7 +137,7 @@ const AddingPanel = ({ closeModal }) => {
   const channels = useSelector((state) => state.channelsInfo.channels);
   const channelsNames = channels.map(({ name }) => name);
   const validationSchema = yup.object().shape({
-    name: yup.string().required().notOneOf(channelsNames),
+    name: yup.string().required().notOneOf(channelsNames).minMaxChars(),
   });
 
   const addChannel = ({ name }, { setSubmitting }) => {
