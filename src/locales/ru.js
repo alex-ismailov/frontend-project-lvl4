@@ -20,7 +20,7 @@ export default {
     channels: 'Каналы',
     username: 'Имя пользователя',
     confirmPassword: 'Подтвердите пароль',
-    minMaxSymbols: 'От 3 до 20 символов',
+    minMaxChars: 'От 3 до 20 символов',
     minChars: 'Не менее 6 символов',
     passwordsMustMatch: 'Пароли должны совпадать',
     signup: 'Зарегистрироваться',
