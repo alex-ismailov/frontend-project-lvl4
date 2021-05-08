@@ -1,5 +1,6 @@
 // @ts-check
 
+const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -26,6 +27,9 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new Dotenv(),
+    new webpack.DefinePlugin({
+      ROLLBAR_TOKEN: process.env.ROLLBAR_TOKEN,
+    })
   ],
   module: {
     rules: [
