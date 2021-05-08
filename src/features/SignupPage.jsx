@@ -31,7 +31,7 @@ const SignupForm = () => {
       confirmPassword: '',
     },
     validationSchema: yup.object().shape({
-      username: yup.string().required().min(3).max(20),
+      username: yup.string().required().minMaxChars(),
       password: yup.string().required().min(6),
       confirmPassword: yup
         .string()
@@ -64,16 +64,14 @@ const SignupForm = () => {
           ref={inputRef}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          placeholder={t('minMaxSymbols')}
+          placeholder={t('minMaxChars')}
           autoComplete="username"
           isInvalid={
             (formik.errors.username && formik.touched.username) || !isValidData
           }
         />
         <Form.Control.Feedback type="invalid">
-          {t(
-            formik.errors.username === 'required' ? 'required' : 'minMaxSymbols',
-          )}
+          {t(formik.errors.username)}
         </Form.Control.Feedback>
       </Form.Group>
       <Form.Group>
