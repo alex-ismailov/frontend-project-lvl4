@@ -60,7 +60,18 @@ const PanelForm = ({
           >
             {t('cancel')}
           </Button>
-          <Button type="submit" variant="primary" disabled={!formik.isValid}>
+          {/*
+          Из-за disabled={!formik.isValid} на конпке падает тест adding channel
+          вот на этом месте:
+          expect(await screen.findByRole('button', { name: /test channel/i })).toBeInTheDocument();
+          чтобы пройти тесте его надо немного переписать, вот так:
+          вместо этого
+          userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
+          надо это
+          await waitFor(async () =>
+            userEvent.click(await screen.findByRole('button', { name: /Отправить/i })))
+          */}
+          <Button type="submit" variant="primary">
             {t('send')}
           </Button>
         </div>
@@ -79,14 +90,16 @@ const RenamingPanel = ({ closeModal }) => {
     name: yup.string().required().minMaxChars(),
   });
 
-  const renameChannel = (channel) => ({ name }, { setSubmitting }) => {
-    setSubmitting(false);
+  const renameChannel = (channel) => ({ name }, { setErrors }) => {
     const changedСhannel = { ...channel, name };
     try {
       socket.renameChannel(changedСhannel);
       closeModal();
     } catch (error) {
       console.log(error);
+      // Намеренно попробую еще раз прибегнуть к императивному api
+      // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
+      setErrors({ name: error });
     }
   };
 
@@ -107,12 +120,15 @@ const RemovingPanel = ({ closeModal }) => {
   const channels = useSelector((state) => state.channelsInfo.channels);
   const currentChannel = channels.find(({ id }) => id === channelId);
 
-  const removeChannel = (channel) => () => {
+  const removeChannel = (channel) => ({ setErrors }) => {
     try {
       socket.removeChannel(channel);
       closeModal();
     } catch (error) {
       console.log(error);
+      // Намеренно попробую еще раз прибегнуть к императивному api
+      // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
+      setErrors({ name: error });
     }
   };
 
@@ -140,14 +156,16 @@ const AddingPanel = ({ closeModal }) => {
     name: yup.string().required().notOneOf(channelsNames).minMaxChars(),
   });
 
-  const addChannel = ({ name }, { setSubmitting }) => {
-    setSubmitting(false);
+  const addChannel = ({ name }, { setErrors }) => {
     const channel = { name };
     try {
       socket.addChannel(channel);
       closeModal();
     } catch (error) {
       console.log(error);
+      // Намеренно попробую еще раз прибегнуть к императивному api
+      // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
+      setErrors({ name: error });
     }
   };
 
