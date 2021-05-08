@@ -24,6 +24,7 @@ const runApp = async () => {
   console.log(process.env.ROLLBAR_TOKEN);
   console.log(`TEST_TOKEN_WITH_QUOTE: ${process.env.TEST_TOKEN_WITH_QUOTE}`);
   console.log(`testtoken: ${process.env.testtoken}`);
+  console.log(`ROLLBAR_TOKEN_2: ${process.env.ROLLBAR_TOKEN_2}`);
 
   if (mode !== 'production') {
     localStorage.debug = 'chat:*';
