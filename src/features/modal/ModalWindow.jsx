@@ -18,17 +18,19 @@ const PanelForm = ({
   const inputRef = useRef();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    inputRef.current.focus();
-  });
-
   const formik = useFormik({
     initialValues: {
       name: initialName,
     },
     validationSchema,
     onSubmit: handleSubmit,
+    validateOnChange: false,
   });
+
+  useEffect(() => {
+    console.log('src/features/modal/ModalWindow.jsx');
+    inputRef.current.focus();
+  }, [formik.isSubmitting]);
 
   return (
     <Form onSubmit={formik.handleSubmit}>
