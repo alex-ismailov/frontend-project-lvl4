@@ -13,6 +13,7 @@ const slice = createSlice({
   reducers: {
     openModalWindow: (state, { payload: { modalConfig } }) => {
       state = modalConfig;
+      state.isVisible = true;
       return state;
     },
     closeModalWindow: (state) => {
