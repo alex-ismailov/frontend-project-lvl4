@@ -38,9 +38,9 @@ const LoginForm = () => {
         history.replace('/');
       } catch (error) {
         setIsFailedAuth(true);
-        // TODO: что делать с ошибками сети
         inputRef.current.select();
         setAuthError('invalidUsernameOrPassword');
+        throw new Error(error);
       }
     },
   });
