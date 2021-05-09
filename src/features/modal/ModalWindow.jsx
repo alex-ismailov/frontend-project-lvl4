@@ -60,17 +60,6 @@ const PanelForm = ({
           >
             {t('cancel')}
           </Button>
-          {/*
-          Из-за disabled={!formik.isValid} на конпке падает тест adding channel
-          вот на этом месте:
-          expect(await screen.findByRole('button', { name: /test channel/i })).toBeInTheDocument();
-          чтобы пройти тесте его надо немного переписать, вот так:
-          вместо этого
-          userEvent.click(await screen.findByRole('button', { name: /Отправить/i }));
-          надо это
-          await waitFor(async () =>
-            userEvent.click(await screen.findByRole('button', { name: /Отправить/i })))
-          */}
           <Button type="submit" variant="primary">
             {t('send')}
           </Button>
@@ -87,7 +76,7 @@ const RenamingPanel = ({ closeModal }) => {
   const currentChannel = channels.find(({ id }) => id === channelId);
   const initialName = currentChannel.name;
   const validationSchema = yup.object().shape({
-    name: yup.string().required().minMaxChars(),
+    name: yup.string().required().min(3).max(20),
   });
 
   const renameChannel = (channel) => ({ name }, { setErrors }) => {
@@ -96,9 +85,6 @@ const RenamingPanel = ({ closeModal }) => {
       socket.renameChannel(changedСhannel);
       closeModal();
     } catch (error) {
-      console.log(error);
-      // Намеренно попробую еще раз прибегнуть к императивному api
-      // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
       setErrors({ name: error.message });
     }
   };
@@ -125,9 +111,6 @@ const RemovingPanel = ({ closeModal }) => {
       socket.removeChannel(channel);
       closeModal();
     } catch (error) {
-      console.log(error);
-      // Намеренно попробую еще раз прибегнуть к императивному api
-      // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
       setErrors({ name: error.message });
     }
   };
@@ -153,7 +136,8 @@ const AddingPanel = ({ closeModal }) => {
   const channels = useSelector((state) => state.channelsInfo.channels);
   const channelsNames = channels.map(({ name }) => name);
   const validationSchema = yup.object().shape({
-    name: yup.string().required().notOneOf(channelsNames).minMaxChars(),
+    name: yup.string().required().notOneOf(channelsNames).min(3)
+      .max(20),
   });
 
   const addChannel = ({ name }, { setErrors }) => {
@@ -162,9 +146,6 @@ const AddingPanel = ({ closeModal }) => {
       socket.addChannel(channel);
       closeModal();
     } catch (error) {
-      console.log(error);
-      // Намеренно попробую еще раз прибегнуть к императивному api
-      // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
       setErrors({ name: error.message });
     }
   };
