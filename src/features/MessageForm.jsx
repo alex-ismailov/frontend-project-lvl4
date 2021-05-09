@@ -37,9 +37,6 @@ const MessageForm = () => {
         socket.sendMessage(message);
         resetForm();
       } catch (error) {
-        console.log(error);
-        // Намеренно попробую еще раз прибегнуть к императивному api
-        // на мой взгляд так удобнонее выводить текст ошибки, возможно я не прав.
         setErrors({ body: error.message });
       }
     },
