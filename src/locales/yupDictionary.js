@@ -4,12 +4,8 @@ export default {
     oneOf: 'passwordsMustMatch',
     required: 'required',
   },
-  // Почему это не работает?
-  // string: {
-  //   required: 'required',
-  // }
   string: {
-    min: 'minChars',
-    max: 'maxChars',
+    min: 'minMaxChars',
+    max: 'minMaxChars',
   },
 };
