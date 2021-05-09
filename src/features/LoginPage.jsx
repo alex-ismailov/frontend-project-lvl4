@@ -40,7 +40,6 @@ const LoginForm = () => {
         setIsFailedAuth(true);
         inputRef.current.select();
         setAuthError('invalidUsernameOrPassword');
-        throw new Error(error);
       }
     },
   });
