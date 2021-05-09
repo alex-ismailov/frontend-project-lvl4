@@ -46,9 +46,11 @@ const SignupForm = () => {
         auth.logIn(token, username);
         history.replace('/');
       } catch (error) {
+        if (!axios.isAxiosError() || error.response.status !== 401) {
+          throw new Error(error);
+        }
         inputRef.current.select();
         setIsValidData(false);
-        throw new Error(error);
       }
     },
   });
