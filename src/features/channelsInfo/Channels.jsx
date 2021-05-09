@@ -59,7 +59,6 @@ const Channels = () => {
 
   const addChannel = () => {
     const modalConfig = {
-      isVisible: true,
       type: 'adding',
       channelId: null,
     };
@@ -69,7 +68,6 @@ const Channels = () => {
   const removeChannel = (channelId) => (e) => {
     e.preventDefault();
     const modalConfig = {
-      isVisible: true,
       type: 'removing',
       channelId,
     };
@@ -79,7 +77,6 @@ const Channels = () => {
   const renameChannel = (channelId) => (e) => {
     e.preventDefault();
     const modalConfig = {
-      isVisible: true,
       type: 'renaming',
       channelId,
     };
