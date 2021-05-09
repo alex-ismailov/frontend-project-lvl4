@@ -45,9 +45,10 @@ const SignupForm = () => {
         const { token } = response.data;
         auth.logIn(token, username);
         history.replace('/');
-      } catch (e) {
+      } catch (error) {
         inputRef.current.select();
         setIsValidData(false);
+        throw new Error(error);
       }
     },
   });
