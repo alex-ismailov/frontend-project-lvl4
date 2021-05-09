@@ -1,8 +1,6 @@
 // @ts-check
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-shadow */
-/* eslint-disable functional/no-this-expression */
-/* eslint-disable func-names */
 
 import React from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -26,16 +24,6 @@ import authContext from '../context/authContext.js';
 export default async (socket) => {
   const store = createStore();
   yup.setLocale(yupDictionary);
-
-  function minMaxChars() {
-    return this.test('minMaxChars', null, function (value = '') {
-      const { path, createError } = this;
-      return value.length < 3 || value.length > 20
-        ? createError({ path, message: 'minMaxChars' })
-        : true;
-    });
-  }
-  yup.addMethod(yup.string, 'minMaxChars', minMaxChars);
 
   const i18nInstance = i18n.createInstance();
   await i18nInstance
