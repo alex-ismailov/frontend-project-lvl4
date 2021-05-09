@@ -58,7 +58,9 @@ const Chat = () => {
       dispatch(initChannels({ data }));
       setIsLoading(false);
     } catch (error) {
-      throw new Error(error);
+      if (!axios.isAxiosError()) {
+        throw new Error(error);
+      }
     }
   };
 
