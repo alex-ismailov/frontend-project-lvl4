@@ -16,7 +16,7 @@ module.exports = {
     path: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
   },
-  devtool: process.env.NODE_ENV === 'production' ? false : 'source-map',
+  devtool: mode === 'production' ? false : 'source-map',
   devServer: {
     compress: true,
     port: 8080,
@@ -26,8 +26,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new Dotenv(),
-    new webpack.DefinePlugin({
+    mode === 'development' ? new Dotenv() : new webpack.DefinePlugin({
       'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_TOKEN),
     })
   ],
