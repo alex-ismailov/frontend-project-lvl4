@@ -45,6 +45,7 @@ const Chat = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const auth = useAuth();
+  const history = useHistory();
 
   const fetchData = async () => {
     const token = auth.getToken();
@@ -58,9 +59,10 @@ const Chat = () => {
       dispatch(initChannels({ data }));
       setIsLoading(false);
     } catch (error) {
-      if (!axios.isAxiosError()) {
+      if (!error.isAxiosError || error.response.status !== 401) {
         throw new Error(error);
       }
+      history.replace('/login');
     }
   };
 
