@@ -63,7 +63,7 @@ const MessageForm = () => {
             data-testid="new-message"
           />
           <InputGroup.Append>
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
               {t('send')}
             </Button>
           </InputGroup.Append>
