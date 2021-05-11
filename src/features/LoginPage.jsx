@@ -14,7 +14,6 @@ import useAuth from '../hooks/useAuth.js';
 
 const LoginForm = () => {
   const [isFailedAuth, setIsFailedAuth] = useState(false);
-  const [authError, setAuthError] = useState(null);
   const { t } = useTranslation();
   const auth = useAuth();
   const history = useHistory();
@@ -30,7 +29,6 @@ const LoginForm = () => {
       password: '',
     },
     onSubmit: async (loginData) => {
-      setIsFailedAuth(false);
       try {
         const response = await axios.post(routes.loginPath(), loginData);
         const { token, username } = response.data;
@@ -39,7 +37,6 @@ const LoginForm = () => {
       } catch (error) {
         setIsFailedAuth(true);
         inputRef.current.select();
-        setAuthError('invalidUsernameOrPassword');
       }
     },
   });
@@ -74,7 +71,7 @@ const LoginForm = () => {
           required
         />
         <Form.Control.Feedback type="invalid">
-          {t(authError)}
+          {t('invalidUsernameOrPassword')}
         </Form.Control.Feedback>
       </Form.Group>
       <Button type="submit" variant="outline-primary" className="w-100 mb-3">
