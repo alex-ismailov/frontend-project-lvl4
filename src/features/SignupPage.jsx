@@ -46,7 +46,7 @@ const SignupForm = () => {
         auth.logIn(token, username);
         history.replace('/');
       } catch (error) {
-        if (!axios.isAxiosError() || error.response.status !== 401) {
+        if (!error.isAxiosError || error.response.status !== 409) {
           throw new Error(error);
         }
         inputRef.current.select();
