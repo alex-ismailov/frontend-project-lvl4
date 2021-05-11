@@ -61,7 +61,7 @@ const PanelForm = ({
           >
             {t('cancel')}
           </Button>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
             {t('send')}
           </Button>
         </div>
