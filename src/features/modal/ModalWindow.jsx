@@ -28,7 +28,6 @@ const PanelForm = ({
   });
 
   useEffect(() => {
-    console.log('src/features/modal/ModalWindow.jsx');
     inputRef.current.focus();
   }, [formik.isSubmitting]);
 
