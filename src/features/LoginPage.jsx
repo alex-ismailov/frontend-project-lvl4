@@ -1,7 +1,7 @@
 // @ts-check
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import {
@@ -44,11 +44,6 @@ const LoginForm = () => {
     },
   });
 
-  const redirectToSignupForm = (e) => {
-    e.preventDefault();
-    history.push('signup');
-  };
-
   return (
     <Form onSubmit={formik.handleSubmit} className="p-3">
       <Form.Group>
@@ -87,9 +82,7 @@ const LoginForm = () => {
       </Button>
       <div className="d-flex flex-column align-items-center">
         <span className="small mb-2">{t('haveNoAccount')}</span>
-        <a onClick={redirectToSignupForm} href="/signup">
-          {t('registration')}
-        </a>
+        <Link to="/signup">{t('registration')}</Link>
       </div>
     </Form>
   );
