@@ -77,7 +77,7 @@ const LoginForm = () => {
           {t('invalidUsernameOrPassword')}
         </Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit" variant="outline-primary" className="w-100 mb-3">
+      <Button type="submit" variant="outline-primary" className="w-100 mb-3" disabled={formik.isSubmitting}>
         {t('login')}
       </Button>
       <div className="d-flex flex-column align-items-center">
