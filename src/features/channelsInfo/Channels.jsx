@@ -67,20 +67,12 @@ const Channels = () => {
 
   const removeChannel = (channelId) => (e) => {
     e.preventDefault();
-    const modalConfig = {
-      type: 'removing',
-      channelId,
-    };
-    dispatch(openModalWindow({ modalConfig }));
+    dispatch(openModalWindow({ type: 'removing', channelId }));
   };
 
   const renameChannel = (channelId) => (e) => {
     e.preventDefault();
-    const modalConfig = {
-      type: 'renaming',
-      channelId,
-    };
-    dispatch(openModalWindow({ modalConfig }));
+    dispatch(openModalWindow({ type: 'renaming', channelId }));
   };
 
   return (
