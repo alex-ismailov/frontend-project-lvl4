@@ -11,9 +11,9 @@ const slice = createSlice({
     channelId: null,
   },
   reducers: {
-    openModalWindow: (state, { payload: { config } }) => {
-      config.isVisible = true;
-      return config;
+    openModalWindow: (state, { payload }) => {
+      payload.isVisible = true;
+      return payload;
     },
     closeModalWindow: (state) => {
       state = { isVisible: false, type: null, channelId: null };
