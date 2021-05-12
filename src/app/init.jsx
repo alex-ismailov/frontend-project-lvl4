@@ -94,7 +94,7 @@ export default async (socket) => {
 
   const AuthProvider = ({ children }) => {
     const getToken = () => localStorage.getItem('token');
-
+    const getUsername = () => localStorage.getItem('username');
     const isLoggedIn = () => _.has(localStorage, 'token');
 
     const logIn = (token, username) => {
@@ -109,7 +109,7 @@ export default async (socket) => {
 
     return (
       <authContext.Provider value={{
-        getToken, isLoggedIn, logIn, logOut,
+        getToken, getUsername, isLoggedIn, logIn, logOut,
       }}
       >
         {children}
