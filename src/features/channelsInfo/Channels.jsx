@@ -58,17 +58,17 @@ const Channels = () => {
   const handleActiveChannel = (channelId) => () => dispatch(setCurrentChannelId({ channelId }));
 
   const addChannel = () => {
-    dispatch(openModalWindow({ type: 'adding', channelId: null }));
+    dispatch(openModalWindow({ config: { type: 'adding', channelId: null } }));
   };
 
   const removeChannel = (channelId) => (e) => {
     e.preventDefault();
-    dispatch(openModalWindow({ type: 'removing', channelId }));
+    dispatch(openModalWindow({ config: { type: 'removing', channelId } }));
   };
 
   const renameChannel = (channelId) => (e) => {
     e.preventDefault();
-    dispatch(openModalWindow({ type: 'renaming', channelId }));
+    dispatch(openModalWindow({ config: { type: 'renaming', channelId } }));
   };
 
   return (
