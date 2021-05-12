@@ -58,11 +58,7 @@ const Channels = () => {
   const handleActiveChannel = (channelId) => () => dispatch(setCurrentChannelId({ channelId }));
 
   const addChannel = () => {
-    const modalConfig = {
-      type: 'adding',
-      channelId: null,
-    };
-    dispatch(openModalWindow({ modalConfig }));
+    dispatch(openModalWindow({ type: 'adding', channelId: null }));
   };
 
   const removeChannel = (channelId) => (e) => {
