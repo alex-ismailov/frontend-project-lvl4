@@ -73,9 +73,12 @@ const LoginForm = () => {
           isInvalid={isFailedAuth}
           required
         />
-        <Form.Control.Feedback type="invalid">
-          {t('invalidUsernameOrPassword')}
-        </Form.Control.Feedback>
+        { isFailedAuth
+          && (
+          <Form.Control.Feedback type="invalid">
+            {t('invalidUsernameOrPassword')}
+          </Form.Control.Feedback>
+          )}
       </Form.Group>
       <Button type="submit" variant="outline-primary" className="w-100 mb-3" disabled={formik.isSubmitting}>
         {t('login')}
