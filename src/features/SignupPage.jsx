@@ -73,9 +73,15 @@ const SignupForm = () => {
             (formik.errors.username && formik.touched.username) || !isValidData
           }
         />
-        <Form.Control.Feedback type="invalid">
+        {((formik.errors.username && formik.touched.username) || !isValidData)
+          && (
+          <Form.Control.Feedback type="invalid">
+            {t(formik.errors.username)}
+          </Form.Control.Feedback>
+          )}
+        {/* <Form.Control.Feedback type="invalid">
           {t(formik.errors.username)}
-        </Form.Control.Feedback>
+        </Form.Control.Feedback> */}
       </Form.Group>
       <Form.Group>
         <Form.Label htmlFor="password">{t('password')}</Form.Label>
@@ -92,9 +98,15 @@ const SignupForm = () => {
             (formik.errors.password && formik.touched.password) || !isValidData
           }
         />
-        <Form.Control.Feedback type="invalid">
+        {((formik.errors.password && formik.touched.password) || !isValidData)
+          && (
+          <Form.Control.Feedback type="invalid">
+            {t(formik.errors.password)}
+          </Form.Control.Feedback>
+          )}
+        {/* <Form.Control.Feedback type="invalid">
           {t(formik.errors.password)}
-        </Form.Control.Feedback>
+        </Form.Control.Feedback> */}
       </Form.Group>
       <Form.Group>
         <Form.Label htmlFor="confirmPassword">
@@ -114,11 +126,20 @@ const SignupForm = () => {
             || !isValidData
           }
         />
-        <Form.Control.Feedback type="invalid">
+        {((formik.errors.confirmPassword && formik.touched.confirmPassword)
+            || !isValidData)
+            && (
+            <Form.Control.Feedback type="invalid">
+              {!isValidData
+                ? t('userAlreadyExists')
+                : t(formik.errors.confirmPassword)}
+            </Form.Control.Feedback>
+            )}
+        {/* <Form.Control.Feedback type="invalid">
           {!isValidData
             ? t('userAlreadyExists')
             : t(formik.errors.confirmPassword)}
-        </Form.Control.Feedback>
+        </Form.Control.Feedback> */}
       </Form.Group>
       <Button type="submit" variant="outline-primary" className="w-100" disabled={formik.isSubmitting || !formik.isValid}>
         {t('signup')}
