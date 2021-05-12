@@ -58,28 +58,28 @@ export default async (socket) => {
       if (socket.disconnected) {
         throw new Error('networkError');
       }
-      socket.emit('newMessage', message, _.noop);
+      socket.emit('newMessage', message, () => {});
     };
 
     const addChannel = (channel) => {
       if (socket.disconnected) {
         throw new Error('networkError');
       }
-      socket.emit('newChannel', channel, _.noop);
+      socket.emit('newChannel', channel, () => {});
     };
 
     const removeChannel = (channel) => {
       if (socket.disconnected) {
         throw new Error('networkError');
       }
-      socket.emit('removeChannel', channel, _.noop);
+      socket.emit('removeChannel', channel, () => {});
     };
 
     const renameChannel = (channel) => {
       if (socket.disconnected) {
         throw new Error('networkError');
       }
-      socket.emit('renameChannel', channel, _.noop);
+      socket.emit('renameChannel', channel, () => {});
     };
 
     return (
