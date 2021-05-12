@@ -7,11 +7,13 @@ import * as yup from 'yup';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import useSocket from '../hooks/useSocket.js';
+import useAuth from '../hooks/useAuth.js';
 
 const MessageForm = () => {
   const { t } = useTranslation();
   const socket = useSocket();
-  const username = localStorage.getItem('username');
+  const auth = useAuth();
+  const username = auth.getUsername();
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
   const inputRef = useRef(null);
 
