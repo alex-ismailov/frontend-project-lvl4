@@ -1,25 +1,32 @@
 // @ts-check
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 const NoMatch = () => {
   const location = useLocation();
+  const { t } = useTranslation();
   return (
     <div>
       <h1>404</h1>
       <h3>
         <p>
-          Not found
+          {t('notFound')}
           <code>{location.pathname}</code>
         </p>
       </h3>
-      <p>Maybe this page moved? Got deleted?</p>
+      <p>{t('maybeThisPageMoved')}</p>
       <hr />
       <p>
-        Let`s go
-        <a href="/"> HOME </a>
-        and try from there.
+        {t('letsGo')}
+        <a href="/">
+          {' '}
+          {t('home')}
+          {' '}
+        </a>
+        {t('andTryFromThere')}
+        .
       </p>
     </div>
   );
