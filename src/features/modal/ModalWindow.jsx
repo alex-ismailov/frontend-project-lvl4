@@ -174,7 +174,7 @@ const getControllPanel = (type) => {
     case null:
       return EmptyPanel;
     default:
-      throw new Error(`Unknown controll panel type: ${type}`);
+      throw new Error(`Unknown control panel type: ${type}`);
   }
 };
 
