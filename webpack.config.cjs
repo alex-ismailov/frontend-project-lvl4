@@ -26,9 +26,11 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    mode === 'development' ? new Dotenv() : new webpack.DefinePlugin({
-      'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_TOKEN),
-    })
+    mode === 'production'
+      ? new webpack.DefinePlugin({
+        'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_TOKEN),
+      })
+      : new Dotenv(),
   ],
   module: {
     rules: [
