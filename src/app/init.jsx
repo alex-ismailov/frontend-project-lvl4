@@ -53,33 +53,28 @@ export default async (socket) => {
     store.dispatch(renameChannel({ channel }));
   });
 
+  const socketWrapper = (action, data) => {
+    if (socket.disconnected) {
+      throw new Error('networkError');
+    }
+    socket.emit(action, data, _.noop);
+  };
+
   const SocketProvider = ({ children }) => {
     const sendMessage = (message) => {
-      if (socket.disconnected) {
-        throw new Error('networkError');
-      }
-      socket.emit('newMessage', message, _.noop);
+      socketWrapper('newMessage', message);
     };
 
     const addChannel = (channel) => {
-      if (socket.disconnected) {
-        throw new Error('networkError');
-      }
-      socket.emit('newChannel', channel, _.noop);
+      socketWrapper('newChannel', channel);
     };
 
     const removeChannel = (channel) => {
-      if (socket.disconnected) {
-        throw new Error('networkError');
-      }
-      socket.emit('removeChannel', channel, _.noop);
+      socketWrapper('removeChannel', channel);
     };
 
     const renameChannel = (channel) => {
-      if (socket.disconnected) {
-        throw new Error('networkError');
-      }
-      socket.emit('renameChannel', channel, _.noop);
+      socketWrapper('renameChannel', channel);
     };
 
     return (
