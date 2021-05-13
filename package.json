@@ -18,9 +18,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:hexlet-components/projects-frontend-l4-server.git"
+    "url": "git@github.com:alex-ismailov/frontend-project-lvl4.git"
   },
-  "author": "Kirill Mokevnin",
+  "author": "Alexander Ismailov",
   "license": "ISC",
   "homepage": "",
   "dependencies": {
