@@ -27,5 +27,10 @@ export default {
     userAlreadyExists: 'This user already exists',
     networkError: 'Network error',
     areYouSure: 'Are you sure?',
+    notFound: 'Not found',
+    maybeThisPageMoved: 'Maybe this page moved?',
+    letsGo: 'Let`s go',
+    home: 'HOME',
+    andTryFromThere: 'and try from there',
   },
 };
