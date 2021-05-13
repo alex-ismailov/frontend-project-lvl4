@@ -27,5 +27,10 @@ export default {
     userAlreadyExists: 'Такой пользователь уже существует',
     networkError: 'Ошибка cети',
     areYouSure: 'Уверены?',
+    notFound: 'не найден',
+    maybeThisPageMoved: 'может, эта страница переехала?',
+    letsGo: 'Пройдите на',
+    home: 'Домашняя страница',
+    andTryFromThere: 'и попробуйте оттуда',
   },
 };
