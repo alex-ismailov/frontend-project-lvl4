@@ -4,12 +4,15 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { animateScroll as scroll } from 'react-scroll';
 
-const Message = ({ id, nickname, body }) => (
-  <div key={id} className="text-break">
-    <b>{nickname}</b>
-    {`: ${body}`}
-  </div>
-);
+const Message = ({ message }) => {
+  const { id, nickname, body } = message;
+  return (
+    <div key={id} className="text-break">
+      <b>{nickname}</b>
+      {`: ${body}`}
+    </div>
+  );
+};
 
 const Messages = () => {
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
@@ -31,7 +34,7 @@ const Messages = () => {
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
-      {currentChannelMessages.map(Message)}
+      {currentChannelMessages.map((message) => <Message key={message.id} message={message} />)}
     </div>
   );
 };
