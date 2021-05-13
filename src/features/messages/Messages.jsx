@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { animateScroll as scroll } from 'react-scroll';
 
 const Message = ({ message }) => {
-  const { id, nickname, body } = message;
+  const { nickname, body } = message;
   return (
-    <div key={id} className="text-break">
+    <div className="text-break">
       <b>{nickname}</b>
       {`: ${body}`}
     </div>
