@@ -161,21 +161,10 @@ const AddingPanel = ({ closeModal }) => {
   );
 };
 
-const EmptyPanel = () => null;
-
-const getControllPanel = (type) => {
-  switch (type) {
-    case 'adding':
-      return AddingPanel;
-    case 'removing':
-      return RemovingPanel;
-    case 'renaming':
-      return RenamingPanel;
-    case null:
-      return EmptyPanel;
-    default:
-      throw new Error(`Unknown control panel type: ${type}`);
-  }
+const controllPanels = {
+  adding: AddingPanel,
+  removing: RemovingPanel,
+  renaming: RenamingPanel,
 };
 
 const ModalWindow = () => {
@@ -194,7 +183,7 @@ const ModalWindow = () => {
     removing: 'removeChannel',
   };
 
-  const ControllPanel = getControllPanel(type);
+  const ControllPanel = controllPanels[type];
 
   return (
     <Modal show={isVisible} onHide={closeModal}>
@@ -202,7 +191,8 @@ const ModalWindow = () => {
         <Modal.Title>{t(modalTitleKeysMap[type])}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <ControllPanel closeModal={closeModal} />
+        {ControllPanel
+          && <ControllPanel closeModal={closeModal} />}
       </Modal.Body>
     </Modal>
   );
