@@ -2,20 +2,14 @@
 
 plugins:
   - react
-  - jest
   - functional
-  - testing-library
-  - jest-dom
-  # - import
 
 extends:
   - airbnb
-  - "plugin:jest/recommended"
   - "plugin:functional/external-recommended"
   - "plugin:functional/recommended"
   - "plugin:react/recommended"
   - "plugin:react-hooks/recommended"
-  - "plugin:jest-dom/recommended"
 
 parser: babel-eslint
 
