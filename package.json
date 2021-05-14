@@ -7,8 +7,7 @@
     "node": "14.x"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest __tests__/application.test.js",
-    "test-watch": "npm run test -- --watchAll",
+    "test": "echo 'no tests for this project'",
     "prebuild": "rm -rf dist",
     "build-server": "NODE_ENV=production babel server --out-dir dist/server --source-maps inline && cp -r server/views dist/server/views",
     "build-frontend": "NODE_ENV=production npx webpack --mode production",
