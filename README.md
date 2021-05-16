@@ -7,3 +7,8 @@
 
 
 [Go to communication](https://desolate-sands-09696.herokuapp.com/)
+
+[![desktop](https://github.com/alex-ismailov/git-imgs/blob/master/frontend-l4/desktop.jpg)](https://github.com/alex-ismailov/frontend-project-lvl4)
+[![mobile](https://github.com/alex-ismailov/git-imgs/blob/master/frontend-l4/mobile.jpg)](https://github.com/alex-ismailov/frontend-project-lvl4)
+[![login](https://github.com/alex-ismailov/git-imgs/blob/master/frontend-l4/login.jpg)](https://github.com/alex-ismailov/frontend-project-lvl4)
+[![signup](https://github.com/alex-ismailov/git-imgs/blob/master/frontend-l4/signup.jpg)](https://github.com/alex-ismailov/frontend-project-lvl4)
